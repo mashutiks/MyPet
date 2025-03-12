@@ -774,8 +774,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Dog: {fileID: 981669365}
   ParkButton: {fileID: 925025382}
-  Position: {x: 10, y: 0, z: 10}
-  Rotation: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1133,6 +1131,7 @@ GameObject:
   - component: {fileID: 1539064251}
   - component: {fileID: 1539064250}
   - component: {fileID: 1539064249}
+  - component: {fileID: 1539064252}
   m_Layer: 5
   m_Name: DogPlaygroundButton
   m_TagString: Untagged
@@ -1242,6 +1241,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1539064247}
   m_CullTransparentMesh: 1
+--- !u!114 &1539064252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539064247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a80e3e38f87394a83a3811d42b35ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Dog: {fileID: 981669365}
+  PlaygroundButton: {fileID: 1539064249}
 --- !u!1001 &1542262077
 PrefabInstance:
   m_ObjectHideFlags: 0
