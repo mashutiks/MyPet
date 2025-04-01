@@ -7,7 +7,7 @@ public class SceneLoader : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("DogSelected", 0) == 1)
         {
-            SceneManager.LoadScene("Scene2");
+            SceneManager.LoadScene("Home");
         }
     }
 }
