@@ -1,5 +1,13 @@
 fileFormatVersion: 2
-guid: 4e6dec7f056ed234ea9953c45ffa3c61
+<<<<<<< HEAD
+<<<<<<< HEAD
+guid: 01157deae401ca04ba642d2a2a946031
+=======
+guid: 0735adb1d97fd444db52638720e4577c
+>>>>>>> enemies
+=======
+guid: f63cc615244c51b4d947a0bc4bb6aa4b
+>>>>>>> main_menu
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
