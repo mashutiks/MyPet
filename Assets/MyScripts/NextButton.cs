@@ -45,6 +45,6 @@ public class DogNamePanelController : MonoBehaviour
         Debug.Log($"Сохранено имя собаки: {dogName}, ID: {selectedDogID}");
 
         // Загружаем следующую сцену
-        SceneManager.LoadScene("Scene2"); // Убедитесь, что сцена добавлена в Build Settings
+        SceneManager.LoadScene("Home"); // Убедитесь, что сцена добавлена в Build Settings
     }
 }
