@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -7,75 +7,138 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Walking : MonoBehaviour
 {
-    private NavMeshAgent agent; // наша собака (точнее её компонент для перемещения)
-    private Animator animator; // анимации собаки
-    public float WalkingSpeed = 0.5f; // скорость ходьбы собаки (можно задать в инспекторе в разделе данного скрипта)
-    public float RunningSpeed = 1f; // скорость бега собаки (можно задать в инспекторе в разделе данного скрипта)
+    private NavMeshAgent agent; // РЅР°С€Р° СЃРѕР±Р°РєР° (С‚РѕС‡РЅРµРµ РµС‘ РєРѕРјРїРѕРЅРµРЅС‚ РґР»СЏ РїРµСЂРµРјРµС‰РµРЅРёСЏ)
+    private Animator animator; // Р°РЅРёРјР°С†РёРё СЃРѕР±Р°РєРё
+    public float WalkingSpeed = 0.5f; // СЃРєРѕСЂРѕСЃС‚СЊ С…РѕРґСЊР±С‹ СЃРѕР±Р°РєРё (РјРѕР¶РЅРѕ Р·Р°РґР°С‚СЊ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ РІ СЂР°Р·РґРµР»Рµ РґР°РЅРЅРѕРіРѕ СЃРєСЂРёРїС‚Р°)
+    public float RunningSpeed = 1f; // СЃРєРѕСЂРѕСЃС‚СЊ Р±РµРіР° СЃРѕР±Р°РєРё (РјРѕР¶РЅРѕ Р·Р°РґР°С‚СЊ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ РІ СЂР°Р·РґРµР»Рµ РґР°РЅРЅРѕРіРѕ СЃРєСЂРёРїС‚Р°)
 
-    private float timer; // счётчик времени анимаций
-    private float ChangeTime; // время для смены состояния
-    private bool IsMoving; // параметр движения
+    private float timer; // СЃС‡С‘С‚С‡РёРє РІСЂРµРјРµРЅРё Р°РЅРёРјР°С†РёР№
+    private float ChangeTime; // РІСЂРµРјСЏ РґР»СЏ СЃРјРµРЅС‹ СЃРѕСЃС‚РѕСЏРЅРёСЏ
+    private bool IsMoving; // РїР°СЂР°РјРµС‚СЂ РґРІРёР¶РµРЅРёСЏ
+    private int curState = 0; // for holding stay = 0/walk = 1 state. for more states using enum may be more comfortable
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>(); // получение компонента для перемещения
-        animator = GetComponent<Animator>(); // получение компонента для управления анимациями
+        agent = GetComponent<NavMeshAgent>(); // РїРѕР»СѓС‡РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚Р° РґР»СЏ РїРµСЂРµРјРµС‰РµРЅРёСЏ
+        animator = GetComponent<Animator>(); // РїРѕР»СѓС‡РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚Р° РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ Р°РЅРёРјР°С†РёСЏРјРё
 
-        animator.SetInteger("AnimationID", 0); // анимация дыхания (номер 0)
+        animator.SetInteger("AnimationID", 0); // Р°РЅРёРјР°С†РёСЏ РґС‹С…Р°РЅРёСЏ (РЅРѕРјРµСЂ 0)
         IsMoving = false;
-        ChangeTime = 2f; // длительность состояния анимации
+        ChangeTime = 2f; // РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ СЃРѕСЃС‚РѕСЏРЅРёСЏ Р°РЅРёРјР°С†РёРё
 
     }
     void Update()
     {
-        timer += Time.deltaTime; // повышаем счётчик времени
-        if (timer >= ChangeTime)
+        switch (curState)
         {
-            AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0); // просмотр состояния анимаций
-            if ((state.IsName("SittingStart") || state.IsName("SittingCycle")) && state.normalizedTime >= 1.0f) // если собака сидит в данный момент
-            {
-                animator.SetInteger("AnimationID", 0); // встать
-            }
-            if (!IsMoving) // если собака не двигалась
-            {
-                int RandomAnimation = Random.Range(2, 5); // 2 - walking01, 3 - walking02, 4 - running
-                if (RandomAnimation == 4) // если бег
-                {
-                    agent.speed = RunningSpeed; // присваиваем скорость для бега
-                }
-                else
-                {
-                    agent.speed = WalkingSpeed; // присваиваем скорость для ходьбы
-                }
-                Vector3 RandomDirection = Random.insideUnitSphere * 3f; // задаём случайное направление движения в пределах 5 метров от персонажа
-                RandomDirection += transform.position; // координата финальной точки, в которую прибудет персонаж
-                NavMeshHit point; // конкретная точка на локации
-                NavMesh.SamplePosition(RandomDirection, out point, 3f, NavMesh.AllAreas); // ищем такую точку на NavMesh
-                Vector3 direction = (point.position - transform.position).normalized; // направление к цели
-                Quaternion lookRotation = Quaternion.LookRotation(direction); // поворачиваемся к цели
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f); // выполнение поворота
-                animator.SetInteger("AnimationID", RandomAnimation); // запуск анимации
-                agent.SetDestination(point.position); // задаём агенту цель
-                //agent.transform.Translate(Vector3.forward * agent.speed * Time.deltaTime); // движение персонажа
-                IsMoving = true;
-            }
-            else if (IsMoving) // если собака двигалась
-            {
+            case 1: //walking
                 if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                 {
-                    int RandomAnimation = Random.Range(0, 2); // 0 - breathing, 2 - sitting (для рандомного выбора одного из двух, на самом деле 7 - sitting)
-                    if (RandomAnimation == 0) // дыхание
+                    int RandomAnimation = Random.Range(0, 2); // 0 - breathing, 2 - sitting (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ 7 - sitting)
+                    if (RandomAnimation == 0) // РґС‹С…Р°РЅРёРµ
                     {
                         animator.SetInteger("AnimationID", 0);
                     }
-                    else // сидение
+                    else // СЃРёРґРµРЅРёРµ
                     {
                         animator.SetInteger("AnimationID", 7);
                     }
                     IsMoving = false;
+                    curState = 0;
                 }
-            }
-            timer = 0; // сброс счётчика
-        }
+                break;
+            case 0: //idle
+                timer += Time.deltaTime;
+                if (timer >= ChangeTime)
+                {
+                    AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0); // РїСЂРѕСЃРјРѕС‚СЂ СЃРѕСЃС‚РѕСЏРЅРёСЏ Р°РЅРёРјР°С†РёР№
+                    if (!state.IsName("None")) // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                    {
+                        // changed to -1 so animation can transition to None first
+                        animator.SetInteger("AnimationID", -1); // пїЅпїЅпїЅпїЅпїЅпїЅ
+                        timer = 1.5f;
+                    }
+                    else if (state.IsName("None"))
+                    {
+                        int RandomAnimation = Random.Range(2, 5); // 2 - walking01, 3 - walking02, 4 - running
+                        if (RandomAnimation == 4) // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+                        {
+                            agent.speed = RunningSpeed; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+                        }
+                        else
+                        {
+                            agent.speed = WalkingSpeed; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                        }
+                        Vector3 RandomDirection = Random.insideUnitSphere * 3f; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 5 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                        RandomDirection += transform.position; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                        NavMeshHit point; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                        NavMesh.SamplePosition(RandomDirection, out point, 3f, NavMesh.AllAreas); // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ NavMesh
+                        Vector3 direction = (point.position - transform.position).normalized; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
+                        Quaternion lookRotation = Quaternion.LookRotation(direction); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
+                        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                        animator.SetInteger("AnimationID", RandomAnimation); // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                        agent.SetDestination(point.position); // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+                                                              //agent.transform.Translate(Vector3.forward * agent.speed * Time.deltaTime); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                        IsMoving = true;
+                        timer = 0;
+                        curState = 1;
+                    }
+                }
 
+                break;
+        }
     }
 }
+
+
+
+
+
+//timer += Time.deltaTime; // РїРѕРІС‹С€Р°РµРј СЃС‡С‘С‚С‡РёРє РІСЂРµРјРµРЅРё
+//if (timer >= ChangeTime)
+//{
+//    AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0); // РїСЂРѕСЃРјРѕС‚СЂ СЃРѕСЃС‚РѕСЏРЅРёСЏ Р°РЅРёРјР°С†РёР№
+//    if ((state.IsName("SittingStart") || state.IsName("SittingCycle")) && state.normalizedTime >= 1.0f) // РµСЃР»Рё СЃРѕР±Р°РєР° СЃРёРґРёС‚ РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚
+//    {
+//        animator.SetInteger("AnimationID", 0); // РІСЃС‚Р°С‚СЊ
+//    }
+//    if (!IsMoving) // РµСЃР»Рё СЃРѕР±Р°РєР° РЅРµ РґРІРёРіР°Р»Р°СЃСЊ
+//    {
+//        int RandomAnimation = Random.Range(2, 5); // 2 - walking01, 3 - walking02, 4 - running
+//        if (RandomAnimation == 4) // РµСЃР»Рё Р±РµРі
+//        {
+//            agent.speed = RunningSpeed; // РїСЂРёСЃРІР°РёРІР°РµРј СЃРєРѕСЂРѕСЃС‚СЊ РґР»СЏ Р±РµРіР°
+//        }
+//        else
+//        {
+//            agent.speed = WalkingSpeed; // РїСЂРёСЃРІР°РёРІР°РµРј СЃРєРѕСЂРѕСЃС‚СЊ РґР»СЏ С…РѕРґСЊР±С‹
+//        }
+//        Vector3 RandomDirection = Random.insideUnitSphere * 3f; // Р·Р°РґР°С‘Рј СЃР»СѓС‡Р°Р№РЅРѕРµ РЅР°РїСЂР°РІР»РµРЅРёРµ РґРІРёР¶РµРЅРёСЏ РІ РїСЂРµРґРµР»Р°С… 5 РјРµС‚СЂРѕРІ РѕС‚ РїРµСЂСЃРѕРЅР°Р¶Р°
+//        RandomDirection += transform.position; // РєРѕРѕСЂРґРёРЅР°С‚Р° С„РёРЅР°Р»СЊРЅРѕР№ С‚РѕС‡РєРё, РІ РєРѕС‚РѕСЂСѓСЋ РїСЂРёР±СѓРґРµС‚ РїРµСЂСЃРѕРЅР°Р¶
+//        NavMeshHit point; // РєРѕРЅРєСЂРµС‚РЅР°СЏ С‚РѕС‡РєР° РЅР° Р»РѕРєР°С†РёРё
+//        NavMesh.SamplePosition(RandomDirection, out point, 3f, NavMesh.AllAreas); // РёС‰РµРј С‚Р°РєСѓСЋ С‚РѕС‡РєСѓ РЅР° NavMesh
+//        Vector3 direction = (point.position - transform.position).normalized; // РЅР°РїСЂР°РІР»РµРЅРёРµ Рє С†РµР»Рё
+//        Quaternion lookRotation = Quaternion.LookRotation(direction); // РїРѕРІРѕСЂР°С‡РёРІР°РµРјСЃСЏ Рє С†РµР»Рё
+//        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f); // РІС‹РїРѕР»РЅРµРЅРёРµ РїРѕРІРѕСЂРѕС‚Р°
+//        animator.SetInteger("AnimationID", RandomAnimation); // Р·Р°РїСѓСЃРє Р°РЅРёРјР°С†РёРё
+//        agent.SetDestination(point.position); // Р·Р°РґР°С‘Рј Р°РіРµРЅС‚Сѓ С†РµР»СЊ
+//                                              //agent.transform.Translate(Vector3.forward * agent.speed * Time.deltaTime); // РґРІРёР¶РµРЅРёРµ РїРµСЂСЃРѕРЅР°Р¶Р°
+//        IsMoving = true;
+//    }
+//    else if (IsMoving) // РµСЃР»Рё СЃРѕР±Р°РєР° РґРІРёРіР°Р»Р°СЃСЊ
+//    {
+//        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+//        {
+//            int RandomAnimation = Random.Range(0, 2); // 0 - breathing, 2 - sitting (РґР»СЏ СЂР°РЅРґРѕРјРЅРѕРіРѕ РІС‹Р±РѕСЂР° РѕРґРЅРѕРіРѕ РёР· РґРІСѓС…, РЅР° СЃР°РјРѕРј РґРµР»Рµ 7 - sitting)
+//            if (RandomAnimation == 0) // РґС‹С…Р°РЅРёРµ
+//            {
+//                animator.SetInteger("AnimationID", 0);
+//            }
+//            else // СЃРёРґРµРЅРёРµ
+//            {
+//                animator.SetInteger("AnimationID", 7);
+//            }
+//            IsMoving = false;
+//        }
+//    }
+//    timer = 0; // СЃР±СЂРѕСЃ СЃС‡С‘С‚С‡РёРєР°
+//}
