@@ -22,7 +22,7 @@ public class npc_behavior : MonoBehaviour
         Humanoid = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
-        animator.SetInteger("AnimationID", 0);
+        animator.SetInteger("AnimationID", 0); // дышит
         IsMoving = false;
         ChangeTime = 2f;
     }
@@ -31,12 +31,6 @@ public class npc_behavior : MonoBehaviour
         switch (curState)
         {
             case dog_state.Walk: //walking
-                //if (!agent.isOnNavMesh)
-                //{
-                //    Debug.LogWarning("Пёс не стоит на NavMesh! Ожидаем...");
-                //    return;
-                //}
-
                 if (!Humanoid.pathPending && Humanoid.remainingDistance <= Humanoid.stoppingDistance)
                 {
                     int RandomAnimation = Random.Range(0, 3); // 0 - breathing, 2 - sitting (��� ���������� ������ ������ �� ����, �� ����� ���� 7 - sitting)
@@ -94,7 +88,7 @@ public class npc_behavior : MonoBehaviour
                     }
                     if (RandomAnimation == 5)
                     {
-                        animator.SetInteger("AnimationID", 6); // злой (лай)
+                        animator.SetInteger("AnimationID", 6); // злой
                         curState = dog_state.Angry;
                         timer = 0;
                     }
@@ -115,7 +109,7 @@ public class npc_behavior : MonoBehaviour
 
             case dog_state.Angry:
                 timer += Time.deltaTime;
-                if (timer > 3f) // 3 секунды лай
+                if (timer > 3f) // если позлилась 3 секунды
                 {
                     animator.SetInteger("AnimationID", 0); // снова дыхание
                     curState = dog_state.Idle;
@@ -125,7 +119,7 @@ public class npc_behavior : MonoBehaviour
 
             case dog_state.Wiggle_tail:
                 timer += Time.deltaTime;
-                if (timer > 2f)
+                if (timer > 2f) // повиляла хвостиком 2 секунды
                 {
                     animator.SetInteger("AnimationID", 0); // после виляния — idle
                     curState = dog_state.Idle;
@@ -135,7 +129,7 @@ public class npc_behavior : MonoBehaviour
 
             case dog_state.Sit:
                 timer += Time.deltaTime;
-                if (timer > 5f) // дольше сидит
+                if (timer > 5f) // дольше 5 сек сидит
                 {
                     animator.SetInteger("AnimationID", 0);
                     curState = dog_state.Idle;
