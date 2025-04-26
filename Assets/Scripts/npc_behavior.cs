@@ -9,6 +9,7 @@ public class npc_behavior : MonoBehaviour
 {
     private NavMeshAgent Humanoid;
     private Animator animator;
+    public Transform agent;
     public float WalkingSpeed = 0.5f;
     public float RunningSpeed = 1f;
 
@@ -49,15 +50,6 @@ public class npc_behavior : MonoBehaviour
                             curState = dog_state.Wiggle_tail;
                             break;
                     }
-
-                    //if (RandomAnimation == 0) 
-                    //{
-                    //    animator.SetInteger("AnimationID", 0);
-                    //}
-                    //else 
-                    //{
-                    //    animator.SetInteger("AnimationID", 7);
-                    //}
                     IsMoving = false;
                     timer = 0;
                 }
