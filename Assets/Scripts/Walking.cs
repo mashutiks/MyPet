@@ -13,7 +13,6 @@ public class Walking : MonoBehaviour
     public float WalkingSpeed = 0.5f; // скорость ходьбы собаки (можно задать в инспекторе в разделе данного скрипта)
     public float RunningSpeed = 1f; // скорость бега собаки (можно задать в инспекторе в разделе данного скрипта)
     public float radius = 1f; // радиус до нпс (пса)
-    public bool see_each_other = false; // флажок,видят ли пес и нпс друг друга
 
     private float timer; // счётчик времени анимаций
     private float ChangeTime; // время для смены состояния
@@ -44,7 +43,6 @@ public class Walking : MonoBehaviour
             Debug.Log(distance_dog_npc);
             if (distance_dog_npc <= 2f)
             {
-                see_each_other = true;
                 Vector3 direction_to_npc = npc_pos - dog_pos;
                 Debug.Log(direction_to_npc);
                 Quaternion look_Rotation = Quaternion.LookRotation(direction_to_npc);
