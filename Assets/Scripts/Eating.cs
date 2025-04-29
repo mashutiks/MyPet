@@ -45,6 +45,7 @@ public class Eating : MonoBehaviour
 
     private void Feed()
     {
+        UIBlocker.BlockAllButtons(14f);
         EatingButton.interactable = false; // блокируем нажатие на кнопку во время механики
         small_granules = GameObject.FindGameObjectsWithTag("SmallGranule"); // сохраняем все маленькие гранулы корма
         dog_id = PlayerPrefs.GetString("SelectedDogID", ""); // узнаём, какая у нас собака
@@ -146,6 +147,6 @@ public class Eating : MonoBehaviour
     {
         water.GetComponent<Renderer>().enabled = true; // делаем воду видимой
         dog.position = start_dog_position; // ставим собаку в исходную точку
-        EatingButton.interactable = true; // снова активируем кнопку
+        //EatingButton.interactable = true; // снова активируем кнопку
     }
 }
