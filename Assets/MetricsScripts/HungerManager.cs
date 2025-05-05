@@ -20,6 +20,9 @@ public class HungerManager : MonoBehaviour
 
     private float timeSinceLastDecrease = 0f;
 
+    // Achievement Tracking
+    private bool hasFedFirstTime = false;
+
     void Start()
     {
         feedButton.onClick.AddListener(FeedPet);
@@ -55,6 +58,7 @@ public class HungerManager : MonoBehaviour
             timeSinceLastDecrease = 0f;
 
             UpdateUI();
+            //CheckAchievements(); // ???????? ??????????
         }
     }
 
@@ -92,6 +96,7 @@ public class HungerManager : MonoBehaviour
         if (hunger <= 50f && !isFeeding)
         {
             StartCoroutine(FeedAnimation());
+            hasFedFirstTime = true; // ????????, ??? ?????? ?????????? ? ?????? ???
             Debug.Log("Питомец начал есть!");
         }
     }
