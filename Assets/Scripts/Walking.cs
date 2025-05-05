@@ -17,8 +17,9 @@ public class Walking : MonoBehaviour
     private float timer; // счётчик времени анимаций
     private float ChangeTime; // время для смены состояния
     private bool IsMoving; // параметр движения
-    private int curState = 0; // for holding stay = 0/walk = 1 state. for more states using enum may be more comfortable
+    private int curState = 2; // for holding stay = 0/walk = 1 state. for more states using enum may be more comfortable
     private GameObject npc;
+    private int RandomAnimation;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>(); // получение компонента для перемещения
@@ -27,44 +28,81 @@ public class Walking : MonoBehaviour
         animator.SetInteger("AnimationID", 0); // анимация дыхания (номер 0)
         IsMoving = false;
         ChangeTime = 2f; // длительность состояния анимации
+        npc = GameObject.FindGameObjectWithTag("enemy");
+        RandomAnimation = Random.Range(10, 12);
 
     }
     void Update()
     {
         npc = GameObject.FindGameObjectWithTag("enemy");
-        if (npc != null)
-        {
-            enemy = GameObject.FindGameObjectWithTag("enemy").transform; // сам игровой объект нпс, сохранили в enemy позицию нпс
-            Vector3 npc_pos = enemy.position;
-            Debug.Log(npc_pos);
-            Vector3 dog_pos = transform.position;
-            Debug.Log(dog_pos);
-            float distance_dog_npc = (npc_pos - dog_pos).magnitude;
-            Debug.Log(distance_dog_npc);
-            if (distance_dog_npc <= 2f)
-            {
-                Vector3 direction_to_npc = npc_pos - dog_pos;
-                Debug.Log(direction_to_npc);
-                Quaternion look_Rotation = Quaternion.LookRotation(direction_to_npc);
-                transform.rotation = Quaternion.Slerp(transform.rotation, look_Rotation, Time.deltaTime * 10f);
-                int RandomAnimation = Random.Range(0, 2);
-                if (RandomAnimation == 0)
-                {
-                    animator.SetInteger("AnimationID", 6);
-                }
-                else
-                {
-                    animator.SetInteger("AnimationID", 1);
-                }
-            }
-        }
+        //if (npc != null)
+        //{
+        //    enemy = GameObject.FindGameObjectWithTag("enemy").transform; // сам игровой объект нпс, сохранили в enemy позицию нпс
+        //    Vector3 npc_pos = enemy.position;
+        //    Debug.Log(npc_pos);
+        //    Vector3 dog_pos = transform.position;
+        //    Debug.Log(dog_pos);
+        //    float distance_dog_npc = (npc_pos - dog_pos).magnitude;
+        //    Debug.Log(distance_dog_npc);
+        //    if (distance_dog_npc <= 2f)
+        //    {
+        //        Vector3 direction_to_npc = npc_pos - dog_pos;
+        //        Debug.Log(direction_to_npc);
+        //        Quaternion look_Rotation = Quaternion.LookRotation(direction_to_npc);
+        //        transform.rotation = Quaternion.Slerp(transform.rotation, look_Rotation, Time.deltaTime * 10f);
+        //        int RandomAnimation = Random.Range(0, 2);
+        //        if (RandomAnimation == 0)
+        //        {
+        //            animator.SetInteger("AnimationID", 6);
+        //        }
+        //        else
+        //        {
+        //            animator.SetInteger("AnimationID", 1);
+        //        }
+        //    }
+        //}
 
         switch (curState)
         {
-            case 1: //walking
+            case 2: // agression or wiggling
+                if (npc != null)
+                {
+                    enemy = GameObject.FindGameObjectWithTag("enemy").transform; // сам игровой объект нпс, сохранили в enemy позицию нпс
+                    Vector3 npc_pos = enemy.position;
+                    //Debug.Log(npc_pos);
+                    Vector3 dog_pos = transform.position;
+                    //Debug.Log(dog_pos);
+                    float distance_dog_npc = (npc_pos - dog_pos).magnitude;
+                    //Debug.Log(distance_dog_npc);
+                    if (distance_dog_npc <= 2f)
+                    {
+                        Vector3 direction_to_npc = npc_pos - dog_pos;
+                        //Debug.Log(direction_to_npc);
+                        Quaternion look_Rotation = Quaternion.LookRotation(direction_to_npc);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, look_Rotation, Time.deltaTime * 10f);
+                        if (RandomAnimation == 10)
+                        {
+                            animator.SetInteger("AnimationID", 6);
+                        }
+                        else if (RandomAnimation == 11)
+                        {
+                            animator.SetInteger("AnimationID", 1);
+                        }
+                    }
+                    else
+                    {
+                        curState = 0;
+                    }
+                }
+                else
+                {
+                    curState = 0;
+                }
+                break;
+            case 1: //idle
                 if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                 {
-                    int RandomAnimation = Random.Range(0, 2); // 0 - breathing, 2 - sitting (��� ���������� ������ ������ �� ����, �� ����� ���� 7 - sitting)
+                    RandomAnimation = Random.Range(0, 2); // 0 - breathing, 2 - sitting (originally: animation 7 - sitting)
                     if (RandomAnimation == 0) // дыхание
                     {
                         animator.SetInteger("AnimationID", 0);
@@ -74,10 +112,11 @@ public class Walking : MonoBehaviour
                         animator.SetInteger("AnimationID", 7);
                     }
                     IsMoving = false;
-                    curState = 0;
+                    RandomAnimation = Random.Range(10, 12); // подготовка к лаю или вилянию хвостом
+                    curState = 2;
                 }
                 break;
-            case 0: //idle
+            case 0: //walking
                 timer += Time.deltaTime;
                 if (timer >= ChangeTime)
                 {
@@ -90,7 +129,7 @@ public class Walking : MonoBehaviour
                     }
                     else if (state.IsName("None"))
                     {
-                        int RandomAnimation = Random.Range(2, 5); // 2 - walking01, 3 - walking02, 4 - running
+                        RandomAnimation = Random.Range(2, 5); // 2 - walking01, 3 - walking02, 4 - running
                         if (RandomAnimation == 4) // ���� ���
                         {
                             agent.speed = RunningSpeed; // ����������� �������� ��� ����
@@ -114,23 +153,9 @@ public class Walking : MonoBehaviour
                         curState = 1;
                     }
                 }
-
                 break;
         }
 
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
