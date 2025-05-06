@@ -14,23 +14,17 @@ public class AchievemenetManager : MonoBehaviour
 
     public ScrollRect ScrollRect;
 
+    public GameObject visualAchievement;
+
     public GameObject achievementMenu;
+
+    public Dictionary<string, Achievement> achievements = new Dictionary<string, Achievement>();
 
     // Start is called before the first frame update
     void Start()
     {
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
-        CreateAchievement("general", "Test Title", "Hello", 15, 0);
-        CreateAchievement("general", "Test Title", "Hello", 15, 0);
-        CreateAchievement("general", "Test Title", "Hello", 15, 0);
-        CreateAchievement("general", "Test Title", "Hello", 15, 0);
-        CreateAchievement("general", "Test Title", "Hello", 15, 0);
-
-        CreateAchievement("others", "Test Title", "Hello", 15, 0);
-        CreateAchievement("others", "Test Title", "Hello", 15, 0);
-        CreateAchievement("others", "Test Title", "Hello", 15, 0);
-        CreateAchievement("others", "Test Title", "Hello", 15, 0);
-        CreateAchievement("others", "Test Title", "Hello", 15, 0);
+        CreateAchievement("general", "Press W", "Press W to ulock this", 5, 0);
 
         foreach (GameObject achievementList in GameObject.FindGameObjectsWithTag("AchievementList"))
         {
@@ -44,18 +38,43 @@ public class AchievemenetManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            EarnAchievement("Press W");
+        }
     }
 
-    public void CreateAchievement(string category, string title, string description, int points, int spriteIndex)
+    public void EarnAchievement(string title)
+    {
+        if (achievements[title].EarnAchievement())
+        {
+            //DO SMTH AWESOME
+            GameObject achievement = (GameObject)Instantiate(visualAchievement);
+            SetAchievementInfo("EarnCanvas", achievement, title);
+            StartCoroutine(HideAchievement(achievement));
+        }
+    }
+
+    public IEnumerator HideAchievement(GameObject achievement)
+    {
+        yield return new WaitForSeconds(3);
+        Destroy(achievement);
+    }
+
+    public void CreateAchievement(string parent, string title, string description, int points, int spriteIndex)
     {
         GameObject achievement = (GameObject)Instantiate(achievementPrefab);
-        SetAchievementInfo(category, achievement, title, description, points, spriteIndex);
+
+        Achievement newAchievement = new Achievement(name, description, points, spriteIndex, achievement);
+        
+        achievements.Add(title, newAchievement);
+
+        SetAchievementInfo(parent, achievement, title);
     }
 
-    public void SetAchievementInfo(string category, GameObject achievement, string title, string description, int points, int spriteIndex)
+    public void SetAchievementInfo(string parent, GameObject achievement, string title)
     {
-        achievement.transform.SetParent(GameObject.Find(category).transform, false);
+        achievement.transform.SetParent(GameObject.Find(parent).transform, false);
 
         Transform titleTransform = achievement.transform.Find("title");
         Transform descriptionTransform = achievement.transform.Find("description");
@@ -66,13 +85,13 @@ public class AchievemenetManager : MonoBehaviour
             titleTransform.GetComponent<TextMeshProUGUI>().text = title;
 
         if (descriptionTransform != null)
-            descriptionTransform.GetComponent<TextMeshProUGUI>().text = description;
+            descriptionTransform.GetComponent<TextMeshProUGUI>().text = achievements[title].Description;
 
         if (coinsTransform != null)
-            coinsTransform.GetComponent<TextMeshProUGUI>().text = points.ToString();
+            coinsTransform.GetComponent<TextMeshProUGUI>().text = achievements[title].Points.ToString();
 
         if (pictureTransform != null)
-            pictureTransform.GetComponent<Image>().sprite = sprites[spriteIndex];
+            pictureTransform.GetComponent<Image>().sprite = sprites[achievements[title].SpriteIndex];
 
     }
 
