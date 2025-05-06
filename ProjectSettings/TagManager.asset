@@ -8,6 +8,7 @@ TagManager:
   - enemy
   - NextLevel
   - SmallGranule
+  - AchievementList
   layers:
   - Default
   - TransparentFX

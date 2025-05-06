@@ -10,10 +10,35 @@ public class AchievemenetManager : MonoBehaviour
 
     public Sprite[] sprites;
 
+    private AchievementCategoryButtons activeButton;
+
+    public ScrollRect ScrollRect;
+
+    public GameObject achievementMenu;
+
     // Start is called before the first frame update
     void Start()
     {
+        activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
         CreateAchievement("general", "Test Title", "Hello", 15, 0);
+        CreateAchievement("general", "Test Title", "Hello", 15, 0);
+        CreateAchievement("general", "Test Title", "Hello", 15, 0);
+        CreateAchievement("general", "Test Title", "Hello", 15, 0);
+        CreateAchievement("general", "Test Title", "Hello", 15, 0);
+
+        CreateAchievement("others", "Test Title", "Hello", 15, 0);
+        CreateAchievement("others", "Test Title", "Hello", 15, 0);
+        CreateAchievement("others", "Test Title", "Hello", 15, 0);
+        CreateAchievement("others", "Test Title", "Hello", 15, 0);
+        CreateAchievement("others", "Test Title", "Hello", 15, 0);
+
+        foreach (GameObject achievementList in GameObject.FindGameObjectsWithTag("AchievementList"))
+        {
+            achievementList.SetActive(false);
+        }
+        activeButton.Click();
+
+        achievementMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -49,5 +74,15 @@ public class AchievemenetManager : MonoBehaviour
         if (pictureTransform != null)
             pictureTransform.GetComponent<Image>().sprite = sprites[spriteIndex];
 
+    }
+
+    public void ChangeCategory(GameObject button)
+    {
+        AchievementCategoryButtons achievementCategoryButtons = button.GetComponent<AchievementCategoryButtons>();
+        ScrollRect.content = achievementCategoryButtons.achievementList.GetComponent<RectTransform>();
+
+        achievementCategoryButtons.Click();
+        activeButton.Click();
+        activeButton = achievementCategoryButtons;
     }
 }
