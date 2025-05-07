@@ -43,12 +43,19 @@ public class AchievemenetManager : MonoBehaviour
     void Start()
     {
         //REMEMBERTOREMOVE
+        //PlayerPrefs.DeleteKey("Walking");
+        //PlayerPrefs.DeleteKey("Eating");
+        //PlayerPrefs.Save(); // Сохраняем изменения
+
         //PlayerPrefs.DeleteAll();
+
 
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
         CreateAchievement("general", "Press W", "Press W to ulock this", 5, 0);
 
         CreateAchievement("general", "Eating", "Feed to ulock this", 10, 0);
+        CreateAchievement("general", "Walking", "Walk to ulock this", 15, 0);
+        CreateAchievement("general", "Happy", "Happy dog to ulock this", 15, 0);
 
         foreach (GameObject achievementList in GameObject.FindGameObjectsWithTag("AchievementList"))
         {
@@ -66,6 +73,19 @@ public class AchievemenetManager : MonoBehaviour
         {
             EarnAchievement("Press W");
         }
+        if (PlayerPrefs.GetFloat("Walk") == 100f)
+        {
+            EarnAchievement("Walking");
+        }
+        if (PlayerPrefs.GetFloat("Hunger") == 100f)
+        {
+            EarnAchievement("Eating");
+        }
+        if (PlayerPrefs.GetFloat("Happiness") == 100f)
+        {
+            EarnAchievement("Happy");
+        }
+
     }
 
     public void EarnAchievement(string title)

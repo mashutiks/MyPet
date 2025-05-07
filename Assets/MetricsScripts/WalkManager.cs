@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
@@ -91,7 +91,7 @@ public class WalkManager : MonoBehaviour
         walkValue = maxWalk;
         SaveWalk();
         UpdateUI();
-        Debug.Log("Установлен максимум прогулки (100).");
+        Debug.Log("Г“Г±ГІГ Г­Г®ГўГ«ГҐГ­ Г¬Г ГЄГ±ГЁГ¬ГіГ¬ ГЇГ°Г®ГЈГіГ«ГЄГЁ (100).");
     }
 
     void SetMinWalk()
@@ -99,7 +99,7 @@ public class WalkManager : MonoBehaviour
         walkValue = 0f;
         SaveWalk();
         UpdateUI();
-        Debug.Log("Установлен минимум прогулки (0).");
+        Debug.Log("Г“Г±ГІГ Г­Г®ГўГ«ГҐГ­ Г¬ГЁГ­ГЁГ¬ГіГ¬ ГЇГ°Г®ГЈГіГ«ГЄГЁ (0).");
     }
 
     void OnApplicationQuit()
