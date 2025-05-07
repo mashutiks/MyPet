@@ -1,4 +1,4 @@
-
+Ôªø
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -20,11 +20,12 @@ public class HungerManager : MonoBehaviour
 
     private float timeSinceLastDecrease = 0f;
 
-    // Achievement Tracking
-    private bool hasFedFirstTime = false;
+    // –î–æ–±–∞–≤—å—Ç–µ —Å—Å—ã–ª–∫—É –Ω–∞ AchievementManager
+    public AchievemenetManager achievementManager;
 
     void Start()
     {
+
         feedButton.onClick.AddListener(FeedPet);
         setMaxHungerButton.onClick.AddListener(SetMaxHunger);
         setMinHungerButton.onClick.AddListener(SetMinHunger);
@@ -96,8 +97,7 @@ public class HungerManager : MonoBehaviour
         if (hunger <= 50f && !isFeeding)
         {
             StartCoroutine(FeedAnimation());
-            hasFedFirstTime = true; // ????????, ??? ?????? ?????????? ? ?????? ???
-            Debug.Log("œËÚÓÏÂˆ Ì‡˜‡Î ÂÒÚ¸!");
+            Debug.Log("√è√®√≤√Æ√¨√•√∂ √≠√†√∑√†√´ √•√±√≤√º!");
         }
     }
 
@@ -123,7 +123,12 @@ public class HungerManager : MonoBehaviour
         UpdateUI();
         SaveHunger();
         isFeeding = false;
-        Debug.Log("œËÚÓÏÂˆ Á‡ÍÓÌ˜ËÎ ÂÒÚ¸!");
+        Debug.Log("√è√®√≤√Æ√¨√•√∂ √ß√†√™√Æ√≠√∑√®√´ √•√±√≤√º!");
+
+        if (achievementManager != null)
+        {
+            achievementManager.EarnAchievement("Eating");
+        }
     }
 
     void SetMaxHunger()
@@ -131,7 +136,7 @@ public class HungerManager : MonoBehaviour
         hunger = maxHunger;
         SaveHunger();
         UpdateUI();
-        Debug.Log("”ÒÚ‡ÌÓ‚ÎÂÌ Ï‡ÍÒËÏ‡Î¸Ì˚È „ÓÎÓ‰ (100).");
+        Debug.Log("√ì√±√≤√†√≠√Æ√¢√´√•√≠ √¨√†√™√±√®√¨√†√´√º√≠√ª√© √£√Æ√´√Æ√§ (100).");
     }
 
     void SetMinHunger()
@@ -139,7 +144,7 @@ public class HungerManager : MonoBehaviour
         hunger = 0f;
         SaveHunger();
         UpdateUI();
-        Debug.Log("”ÒÚ‡ÌÓ‚ÎÂÌ ÏËÌËÏ‡Î¸Ì˚È „ÓÎÓ‰ (0).");
+        Debug.Log("√ì√±√≤√†√≠√Æ√¢√´√•√≠ √¨√®√≠√®√¨√†√´√º√≠√ª√© √£√Æ√´√Æ√§ (0).");
     }
 
     void OnApplicationQuit()

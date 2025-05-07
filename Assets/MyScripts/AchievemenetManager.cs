@@ -48,6 +48,8 @@ public class AchievemenetManager : MonoBehaviour
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
         CreateAchievement("general", "Press W", "Press W to ulock this", 5, 0);
 
+        CreateAchievement("general", "Eating", "Feed to ulock this", 10, 0);
+
         foreach (GameObject achievementList in GameObject.FindGameObjectsWithTag("AchievementList"))
         {
             achievementList.SetActive(false);
