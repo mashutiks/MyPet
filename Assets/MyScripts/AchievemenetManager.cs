@@ -43,11 +43,13 @@ public class AchievemenetManager : MonoBehaviour
     void Start()
     {
         //REMEMBERTOREMOVE
-        //PlayerPrefs.DeleteKey("Walking");
-        //PlayerPrefs.DeleteKey("Eating");
-        //PlayerPrefs.Save(); // Сохраняем изменения
+        PlayerPrefs.DeleteKey("Walking");
+        PlayerPrefs.DeleteKey("Eating");
+        PlayerPrefs.DeleteKey("Happy");
+        PlayerPrefs.DeleteKey("Points");
 
         //PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save(); // Сохраняем изменения
 
 
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
@@ -110,7 +112,7 @@ public class AchievemenetManager : MonoBehaviour
     {
         GameObject achievement = (GameObject)Instantiate(achievementPrefab);
 
-        Achievement newAchievement = new Achievement(name, description, points, spriteIndex, achievement);
+        Achievement newAchievement = new Achievement(title, description, points, spriteIndex, achievement);
         
         achievements.Add(title, newAchievement);
 

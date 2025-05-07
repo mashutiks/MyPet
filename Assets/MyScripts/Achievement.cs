@@ -71,6 +71,8 @@ public class Achievement
 
         PlayerPrefs.SetInt(name, value ? 1 : 0);
 
+        Debug.Log($"{name}: {value}");
+
         PlayerPrefs.Save();
     }
 
