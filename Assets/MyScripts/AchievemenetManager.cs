@@ -22,17 +22,19 @@ public class AchievemenetManager : MonoBehaviour
 
     public Sprite unlockedSprite;
 
-    private static AchievemenetManager instanse;
+    public TextMeshProUGUI textPoints;
 
-    public static AchievemenetManager Instanse 
+    private static AchievemenetManager instance;
+
+    public static AchievemenetManager Instance 
     {
         get
         {
-            if (instanse == null)
+            if (instance == null)
             {
-                instanse = GameObject.FindAnyObjectByType<AchievemenetManager>();
+                instance = GameObject.FindAnyObjectByType<AchievemenetManager>();
             }
-            return AchievemenetManager.instanse;
+            return AchievemenetManager.instance;
         }
     }
 
@@ -40,6 +42,9 @@ public class AchievemenetManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //REMEMBERTOREMOVE
+        //PlayerPrefs.DeleteAll();
+
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
         CreateAchievement("general", "Press W", "Press W to ulock this", 5, 0);
 
@@ -68,6 +73,7 @@ public class AchievemenetManager : MonoBehaviour
             //DO SMTH AWESOME
             GameObject achievement = (GameObject)Instantiate(visualAchievement);
             SetAchievementInfo("EarnCanvas", achievement, title);
+            textPoints.text = "Points: " + PlayerPrefs.GetInt("Points");
             StartCoroutine(HideAchievement(achievement));
         }
     }

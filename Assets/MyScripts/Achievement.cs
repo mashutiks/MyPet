@@ -25,6 +25,8 @@ public class Achievement
         this.Points = points;
         this.SpriteIndex = spriteIndex;
         this.achievementRef = achievementRef;
+
+        LoadAchievement();
     }
 
     public string Name { get => name; set => name = value; }
@@ -37,7 +39,7 @@ public class Achievement
     {
         if (!Unlocked)
         {
-            achievementRef.GetComponent<Image>().sprite = AchievemenetManager.Instanse.unlockedSprite;
+            achievementRef.GetComponent<Image>().sprite = AchievemenetManager.Instance.unlockedSprite;
             achievementRef.GetComponent<Image>().color = Color.black;
 
             // Убираем изображение с названием "coin"
@@ -54,10 +56,50 @@ public class Achievement
                 pointsTransform.gameObject.SetActive(false);
             }
 
-            Unlocked = true;
+            SaveAchievement(true);
             return true;
         }
         return false;
     }
+
+    public void SaveAchievement(bool value)
+    {
+        Unlocked = true;
+
+        int tmpPoints = PlayerPrefs.GetInt("Points");
+        PlayerPrefs.SetInt("Points", tmpPoints += points);
+
+        PlayerPrefs.SetInt(name, value ? 1 : 0);
+
+        PlayerPrefs.Save();
+    }
+
+    public void LoadAchievement()
+    {
+        unlocked = PlayerPrefs.GetInt(name) == 1 ? true : false;
+
+        if (unlocked)
+        {
+            AchievemenetManager.Instance.textPoints.text = "Points: " + PlayerPrefs.GetInt("Points");
+
+            achievementRef.GetComponent<Image>().sprite = AchievemenetManager.Instance.unlockedSprite;
+            achievementRef.GetComponent<Image>().color = Color.black;
+
+            // Убираем изображение с названием "coin"
+            Transform coinTransform = achievementRef.transform.Find("coins");
+            if (coinTransform != null)
+            {
+                coinTransform.gameObject.SetActive(false);
+            }
+
+            // Убираем текст с названием "points"
+            Transform pointsTransform = achievementRef.transform.Find("points");
+            if (pointsTransform != null)
+            {
+                pointsTransform.gameObject.SetActive(false);
+            }
+        }
+    }
+
 
 }
