@@ -1,6 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Achievement
 {
@@ -36,9 +37,27 @@ public class Achievement
     {
         if (!Unlocked)
         {
+            achievementRef.GetComponent<Image>().sprite = AchievemenetManager.Instanse.unlockedSprite;
+            achievementRef.GetComponent<Image>().color = Color.black;
+
+            // Убираем изображение с названием "coin"
+            Transform coinTransform = achievementRef.transform.Find("coins");
+            if (coinTransform != null)
+            {
+                coinTransform.gameObject.SetActive(false);
+            }
+
+            // Убираем текст с названием "points"
+            Transform pointsTransform = achievementRef.transform.Find("points");
+            if (pointsTransform != null)
+            {
+                pointsTransform.gameObject.SetActive(false);
+            }
+
             Unlocked = true;
             return true;
         }
         return false;
     }
+
 }

@@ -20,6 +20,23 @@ public class AchievemenetManager : MonoBehaviour
 
     public Dictionary<string, Achievement> achievements = new Dictionary<string, Achievement>();
 
+    public Sprite unlockedSprite;
+
+    private static AchievemenetManager instanse;
+
+    public static AchievemenetManager Instanse 
+    {
+        get
+        {
+            if (instanse == null)
+            {
+                instanse = GameObject.FindAnyObjectByType<AchievemenetManager>();
+            }
+            return AchievemenetManager.instanse;
+        }
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
