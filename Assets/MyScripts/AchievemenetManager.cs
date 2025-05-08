@@ -26,6 +26,9 @@ public class AchievemenetManager : MonoBehaviour
 
     private static AchievemenetManager instance;
 
+    private int fadeTime = 2;
+
+
     public static AchievemenetManager Instance 
     {
         get
@@ -53,11 +56,11 @@ public class AchievemenetManager : MonoBehaviour
 
 
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
-        CreateAchievement("general", "Press W", "Press W to ulock this", 5, 0);
+        //CreateAchievement("general", "Press W", "Press W to ulock this", 5, 0);
 
         CreateAchievement("general", "Eating", "Feed to ulock this", 10, 0);
-        CreateAchievement("general", "Walking", "Walk to ulock this", 15, 0);
-        CreateAchievement("general", "Happy", "Happy dog to ulock this", 15, 0);
+        CreateAchievement("general", "Walking", "Walk to ulock this", 15, 1);
+        CreateAchievement("general", "Happy", "Happy dog to ulock this", 15, 2);
 
         foreach (GameObject achievementList in GameObject.FindGameObjectsWithTag("AchievementList"))
         {
@@ -71,10 +74,10 @@ public class AchievemenetManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            EarnAchievement("Press W");
-        }
+        //if (Input.GetKeyDown(KeyCode.W))
+        //{
+        //    EarnAchievement("Press W");
+        //}
         if (PlayerPrefs.GetFloat("Walk") == 100f)
         {
             EarnAchievement("Walking");
@@ -98,7 +101,7 @@ public class AchievemenetManager : MonoBehaviour
             GameObject achievement = (GameObject)Instantiate(visualAchievement);
             SetAchievementInfo("EarnCanvas", achievement, title);
             textPoints.text = "Points: " + PlayerPrefs.GetInt("Points");
-            StartCoroutine(HideAchievement(achievement));
+            StartCoroutine(FadeAchievement(achievement));
         }
     }
 
@@ -150,5 +153,37 @@ public class AchievemenetManager : MonoBehaviour
         achievementCategoryButtons.Click();
         activeButton.Click();
         activeButton = achievementCategoryButtons;
+    }
+
+    private IEnumerator FadeAchievement(GameObject achievement)
+    {
+        CanvasGroup canvasGroup = achievement.GetComponent<CanvasGroup>();
+
+        float rate = 1.0f / fadeTime;
+
+        int startAlpha = 0;
+        int endAlpha = 1;
+
+
+        for (int i = 0; i<2; i++)
+        {
+            float progress = 0.0f;
+
+            while (progress < 1.0f)
+            {
+                canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, progress);
+
+                progress += rate * Time.deltaTime;
+
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(2);
+            startAlpha = 1;
+            endAlpha = 0;
+        }
+
+        Destroy(achievement);
+
     }
 }

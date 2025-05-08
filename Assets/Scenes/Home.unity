@@ -8154,9 +8154,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   achievementPrefab: {fileID: 4895508276969582823, guid: f109ca10ba36adc4994755713d3e89fe, type: 3}
   sprites:
-  - {fileID: -6367837219966448765, guid: 375a132719b8f114aadcfda6bf62f8b1, type: 3}
-  - {fileID: 4214149858688995037, guid: 4879c28807ad63542b6f1c0842b574b2, type: 3}
-  - {fileID: -2205863333093305225, guid: 7f080337138fccf41983b1dfefed52f6, type: 3}
+  - {fileID: -2844531463381759980, guid: f2846ec1658c8534d8487b998ae89b4b, type: 3}
+  - {fileID: 645411862609229670, guid: fc6a4cf79ce3ce447b1b7865eecfc942, type: 3}
+  - {fileID: 4606908045521496030, guid: 2b8558b645a07d74582677fd0bf9dfa9, type: 3}
   - {fileID: -4566190091907096745, guid: 83392a0c45d009b4ca9b8bc8ec04cc55, type: 3}
   - {fileID: -3017979480325208809, guid: 4373b5a1916f3a8468bc2b0fdefa655e, type: 3}
   ScrollRect: {fileID: 1445099439}
