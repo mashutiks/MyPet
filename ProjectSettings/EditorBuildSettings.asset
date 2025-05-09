@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Playground.unity
     guid: 7b14e0505b005c34f8ed70ce64c07cf7
+  - enabled: 1
+    path: Assets/Scenes/Training_zone.unity
+    guid: 7ab6584ebb6ade14a90dbbca456dc928
   m_configObjects: {}
