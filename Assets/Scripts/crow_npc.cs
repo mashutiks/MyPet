@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
- 
+//using UnityEngine.Events;
+
 public class crow_npc : MonoBehaviour
 {
     private Transform dog; // позиция пса (пока только гг)
@@ -10,32 +10,32 @@ public class crow_npc : MonoBehaviour
     [Range(0, 100)] private float hunger = 50f; // голод
     [Range(0, 100)] private float danger = 0f; // опасность (растёт по мере приближения пса)
     [Range(0, 100)] private float dirtyness = 50f; // чистота 
-    private float danger_decrease = 90f; // насколько уменьшается опасность после того как птица улетит
+    //private float danger_decrease = 90f; // насколько уменьшается опасность после того как птица улетит
     private float hunger_decrease = 30f; // насколько уменьшаяется голод, после того как поест
     private float dirtyness_decrease = 30f; // насколько уменьшается грязь с тела когда птица чистится 
     private float hunger_increase = 5f; // в спокойном состоянии голод растёт на 5
     private float dirtyness_increase = 5f; // в спокойном состоянии грязь растёт на 5
-    public float speed = 4f; // скорость полёта
-    public float height = 3f; // максимальная высота полёта
-    public float distance = 5f; // радиус на который птица может отлететь
-    public float duration_fly = 2f; // время полёта
-    public float max_distance_to_dog = 3f; // максимальное расстояние до собаки
+    public float height = 1f; // максимальная высота полёта
     public float danger_distance_to_dog = 2f; // опасное расстояние до собаки 
-    private Vector3 start_pos; // начальное положение птицы
-    private Vector3 finish_pos; // конечное положение птицы
-    private float fly_time; // счётчик времени 
     private bool is_moving = false; // флажок
+    private GameObject npc;
+    private Transform enemy; // позиция нпс псов
     private enum Action { Eat, Clean, Idle, Fly } // состояния 
     void Start()
     {
         dog = GameObject.FindGameObjectWithTag("Player").transform; // игровой объект пса
+        //startPos = transform.position;
+
         animator = GetComponent<Animator>();
+        animator.SetBool("flying", false); // изначально птица не летит
+        animator.SetBool("landing", false); // изначально птица не летит
         is_moving = false;
+        //npc = GameObject.FindGameObjectWithTag("crow_enemy");
     }
 
     void Update()
     {
-        animator.SetBool("flying", false); // изначально птица не летит
+        //npc = GameObject.FindGameObjectWithTag("crow_enemy");
         if (!is_moving)
         {
             Action best_action = choose_best_action(); // выбор лучшего действия 
@@ -52,7 +52,7 @@ public class crow_npc : MonoBehaviour
         float eat_score = hunger / 100f * 2f; // важность поесть
         float clean_score = dirtyness / 100f; // важность почиститься (меньше,чем поесть)
         float idle_score = 0.1f; // изначально маленькое  
-        if (distance_to_dog <= 2f) 
+        if (distance_to_dog <= danger_distance_to_dog)
         {
             danger = 100f; // если собака ближе чем на 2 метра, то приоритет взлёта поднимается до 100
         }
@@ -61,11 +61,11 @@ public class crow_npc : MonoBehaviour
         {
             return Action.Fly;
         }
-        else if (eat_score >= clean_score && eat_score > danger_score && eat_score > idle_score)
+        else if (eat_score >= clean_score && eat_score > idle_score)
         {
             return Action.Eat;
         }
-        else if (clean_score > eat_score && clean_score > danger_score && clean_score > idle_score)
+        else if (clean_score >= eat_score && clean_score > idle_score)
         {
             return Action.Clean;
         }
@@ -81,19 +81,27 @@ public class crow_npc : MonoBehaviour
         switch (action)
         {
             case Action.Fly:
-                //animator.SetBool("flying", true);
-                fly_time = 0f;
-                // тут птица поворачивается в рандомную сторону чтобы улететь туда
-                Vector3 random_direction = Random.insideUnitSphere * 3f; // выбираетяс рандомная точка в сфере радиуса 3
+                //enemy = npc.transform;
+                Vector3 random_direction = Random.insideUnitSphere * 4f; // выбираетяс рандомная точка в сфере радиуса 4
                 random_direction += transform.position;
                 UnityEngine.AI.NavMeshHit point;
-                UnityEngine.AI.NavMesh.SamplePosition(random_direction, out point, 3f, UnityEngine.AI.NavMesh.AllAreas); 
+                UnityEngine.AI.NavMesh.SamplePosition(random_direction, out point, 5f, UnityEngine.AI.NavMesh.AllAreas);
+                Vector3 start_pos = transform.position;
+                //Vector3 direction = (point.position - start_pos).normalized; // расстояние до той точки
+                float random_circle = Random.Range(3f, 5f);
+                if (Vector3.Distance(start_pos, point.position) < 3f)
+                {
+                    point.position = transform.position + (point.position - transform.position).normalized * random_circle;
+                }
+
                 Vector3 direction = (point.position - transform.position).normalized; // расстояние до той точки
-                Quaternion look_rotation = Quaternion.LookRotation(direction); // поворот в эту сторону 
-                transform.rotation = Quaternion.Slerp(transform.rotation, look_rotation, Time.deltaTime * 10f);
-                //transform.position = point.position;
-                
-                danger = Mathf.Max(0, danger - danger_decrease);
+                animator.SetBool("flying", true);
+                yield return jumping(point);
+                animator.SetBool("flying", false);
+                animator.SetBool("landing", true);
+                //Debug.Log($"{point.position}");
+                danger = 0f;
+                animator.SetBool("landing", false);
                 break;
             case Action.Eat:
                 animator.SetTrigger("peck");
@@ -115,12 +123,57 @@ public class crow_npc : MonoBehaviour
                 dirtyness = Mathf.Max(0, dirtyness - dirtyness_decrease);
                 break;
             case Action.Idle:
-                yield return new WaitForSeconds(1.5f);
+                int random_animation_in_idle = Random.Range(0, 2);
+                if (random_animation_in_idle == 0 /*&& danger == 0*/)
+                {
+                    animator.SetTrigger("sing");
+                    yield return new WaitForSeconds(1.5f);
+                }
+                else /*if (random_animation_in_idle == 1)*/
+                {
+                    animator.SetInteger("hop", 0);
+                    yield return new WaitForSeconds(1.5f);
+                }
+                // todo: добавить взаимодействие + прыжки в сторону
+                //else if (random_animation_in_idle == 2)
+                //{
+                //    animator.SetInteger("hop", 1);
+                //    yield return new WaitForSeconds(1.5f);
+                //}
+                //else if (random_animation_in_idle == 3)
+                //{
+                //    animator.SetInteger("hop", -1);
+                //    yield return new WaitForSeconds(1.5f);
+                //}
+                //else
+                //{
+                //    animator.SetInteger("hop", -2);
+                //    yield return new WaitForSeconds(1.5f);
+                //}
                 hunger = Mathf.Min(100, hunger + hunger_increase);
                 dirtyness = Mathf.Min(100, dirtyness + dirtyness_increase);
                 break;
         }
         is_moving = false;
     }
-   
+
+    private IEnumerator jumping(UnityEngine.AI.NavMeshHit finish_point)
+    {
+        transform.LookAt(finish_point.position);
+        Vector3 start_pos = transform.position;
+        float jumping_time = 0f;
+        while (jumping_time < 2f)
+        {
+            float t = jumping_time / 2f;
+            Vector3 x_z_direction = Vector3.Lerp(start_pos, finish_point.position, t);
+            float y_direction = 1f * (-4 * t * t + 4 * t);
+            transform.position = x_z_direction + Vector3.up * y_direction;
+            //Vector3 direction = (finish_point - start_pos).normalized;
+            jumping_time += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = finish_point.position;
+        //animator.SetBool("flying", false);
+    }
+
 }
