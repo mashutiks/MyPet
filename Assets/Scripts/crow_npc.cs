@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class crow_npc : MonoBehaviour
 {
-    private Transform dog; // позиция пса (пока только гг)
+    //private Transform dog; // позиция пса (пока только гг)
+    private GameObject dogs;
+    private Transform enemy; // позиция нпс псов
     private Animator animator;
     [Range(0, 100)] private float hunger = 50f; // голод
     [Range(0, 100)] private float danger = 0f; // опасность (растёт по мере приближения пса)
@@ -18,44 +20,50 @@ public class crow_npc : MonoBehaviour
     public float height = 1f; // максимальная высота полёта
     public float danger_distance_to_dog = 2f; // опасное расстояние до собаки 
     private bool is_moving = false; // флажок
-    private GameObject npc;
-    private Transform enemy; // позиция нпс псов
+    
     private enum Action { Eat, Clean, Idle, Fly } // состояния 
     void Start()
     {
-        dog = GameObject.FindGameObjectWithTag("Player").transform; // игровой объект пса
+        //dog = GameObject.FindGameObjectWithTag("Player").transform; // игровой объект пса
         //startPos = transform.position;
 
         animator = GetComponent<Animator>();
         animator.SetBool("flying", false); // изначально птица не летит
         animator.SetBool("landing", false); // изначально птица не летит
         is_moving = false;
+        dogs = GameObject.FindGameObjectWithTag("crow_enemy");
         //npc = GameObject.FindGameObjectWithTag("crow_enemy");
     }
 
     void Update()
     {
-        //npc = GameObject.FindGameObjectWithTag("crow_enemy");
+        dogs = GameObject.FindGameObjectWithTag("crow_enemy");
         if (!is_moving)
         {
             Action best_action = choose_best_action(); // выбор лучшего действия 
             Debug.Log($"{best_action} | Опасность: {danger} | Голод: {hunger} | Грязь: {dirtyness}"); // логи
-            StartCoroutine(calculations(best_action)); // корутин нужен для того, чтобы анимации успевали проигрываться  
+            StartCoroutine(calculations(best_action)); // корутин нужен для того, чтобы анимации успевали проигрываться
         }
     }
 
     private Action choose_best_action()
     {
-        Vector3 crow_pos = transform.position; // позиция птицы
-        Vector3 dog_pos = dog.position; // позиция пса
-        float distance_to_dog = (crow_pos - dog_pos).magnitude; // расстояние между псом и птицей 
+        if (dogs != null)
+        {
+            enemy = dogs.transform;
+            Vector3 crow_pos = transform.position; // позиция птицы
+            Vector3 dog_pos = enemy.position; // позиция пса
+            float distance_to_dog = (crow_pos - dog_pos).magnitude; // расстояние между псом и птицей
+            if (distance_to_dog <= danger_distance_to_dog)
+            {
+                danger = 100f; // если собака ближе чем на 2 метра, то приоритет взлёта поднимается до 100
+            }
+        }
+        
         float eat_score = hunger / 100f * 2f; // важность поесть
         float clean_score = dirtyness / 100f; // важность почиститься (меньше,чем поесть)
         float idle_score = 0.1f; // изначально маленькое  
-        if (distance_to_dog <= danger_distance_to_dog)
-        {
-            danger = 100f; // если собака ближе чем на 2 метра, то приоритет взлёта поднимается до 100
-        }
+        
         float danger_score = danger / 100f; // аналогично с опасностью
         if (danger_score >= eat_score && danger_score > clean_score && danger_score > idle_score)
         {
@@ -81,7 +89,7 @@ public class crow_npc : MonoBehaviour
         switch (action)
         {
             case Action.Fly:
-                //enemy = npc.transform;
+                //enemy = GameObject.FindGameObjectWithTag("enemy").transform;
                 Vector3 random_direction = Random.insideUnitSphere * 4f; // выбираетяс рандомная точка в сфере радиуса 4
                 random_direction += transform.position;
                 UnityEngine.AI.NavMeshHit point;
@@ -134,7 +142,7 @@ public class crow_npc : MonoBehaviour
                     animator.SetInteger("hop", 0);
                     yield return new WaitForSeconds(1.5f);
                 }
-                // todo: добавить взаимодействие + прыжки в сторону
+                // todo: добавить прыжки в сторону
                 //else if (random_animation_in_idle == 2)
                 //{
                 //    animator.SetInteger("hop", 1);

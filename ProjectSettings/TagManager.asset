@@ -9,6 +9,8 @@ TagManager:
   - NextLevel
   - SmallGranule
   - AchievementList
+  - lb_bird
+  - crow_enemy
   layers:
   - Default
   - TransparentFX
