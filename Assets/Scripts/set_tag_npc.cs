@@ -20,7 +20,7 @@ public class set_tag_npc : MonoBehaviour
         }
         else if (distance_dog_npc > 2f && gameObject.CompareTag("enemy"))
         {
-            gameObject.tag = "Untagged";
+            gameObject.tag = "dog";
         }
     }
 }

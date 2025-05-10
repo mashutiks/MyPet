@@ -11,6 +11,8 @@ TagManager:
   - AchievementList
   - lb_bird
   - crow_enemy
+  - dog
+  - fly_away
   layers:
   - Default
   - TransparentFX
