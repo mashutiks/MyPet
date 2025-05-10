@@ -49,7 +49,8 @@ public class AchievemenetManager : MonoBehaviour
         PlayerPrefs.DeleteKey("Walking");
         PlayerPrefs.DeleteKey("Eating");
         PlayerPrefs.DeleteKey("Happy");
-        PlayerPrefs.DeleteKey("Points");
+        //PlayerPrefs.DeleteKey("Points");
+        textPoints.text = "Points: " + PlayerPrefs.GetInt("Points");
 
         //PlayerPrefs.DeleteAll();
         PlayerPrefs.Save(); // Сохраняем изменения
