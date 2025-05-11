@@ -25,6 +25,7 @@ public class PlayingStart : MonoBehaviour
 
     void SetStickPosition()
     {
+        stick.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
         stick_position = new Vector3(-6.69999981f, 2.55999994f, 40f);
         stick.transform.position = stick_position; // устанавливаем палку перед камерой
     }

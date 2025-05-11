@@ -26,6 +26,7 @@ public class LineController : MonoBehaviour
 
     private bool is_mouse_moving = false; // флаг, отвечающий за ведение левой кнопки мыши
     private Vector3 current_floor_point; // текущая точка на полу (одна из тех, в которую может приземлиться палка)
+    private Vector3[] points; // точки, из которых строится парабола
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>(); // получаем компонент из инспектора
@@ -42,7 +43,7 @@ public class LineController : MonoBehaviour
         }
         else if (is_flying)
         {
-            //UpdateFlight();
+            UpdateFlight();
         }
     }
 
@@ -61,10 +62,14 @@ public class LineController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0)) // отпустили левую кнопку мыши
+        if (Input.GetMouseButtonUp(0) && is_mouse_moving) // отпустили левую кнопку мыши
         {
             is_mouse_moving = false;
             lineRenderer.enabled = false; // скрываем траекторию
+            if (points != null && points.Length > 1)
+            {
+                StartFlying(); // летим
+            }
         }
     }
 
@@ -90,7 +95,7 @@ public class LineController : MonoBehaviour
 
     void DrawLine(Vector3 start, Vector3 end)
     {
-        Vector3[] points = new Vector3[count_points]; // вектор точек для рисования линии (по скольки точкам будет построена линия)
+        points = new Vector3[count_points]; // вектор точек для рисования линии (по скольки точкам будет построена линия)
 
         for (int i = 0; i < count_points; i++)
         {
@@ -112,6 +117,60 @@ public class LineController : MonoBehaviour
             Vector3.Lerp(midPoint, end, time), // ветвь параболы от середины до целевой точки
             time
         );
+    }
+
+    void StartFlying()
+    {
+        is_flying = true;
+        flight_start_time = Time.time;
+        flight_start_position = stick.position;
+        stick_rb.isKinematic = false; // включаем физику
+
+        // Начальная скорость для параболы
+        Vector3 end_point = points[points.Length - 1]; // точка приземления последняя в массиве точек построения траектории
+        float distance = Vector3.Distance(flight_start_position, end_point);
+        float speed = distance / flying_time; // V = S/t
+
+        Vector3 direction = (end_point - flight_start_position).normalized;
+        float angle = Mathf.Atan2(trajectory_height, distance / 2f) * Mathf.Rad2Deg;
+
+        stick_rb.velocity = CalculateSpeed(flight_start_position, end_point, trajectory_height);
+    }
+
+    Vector3 CalculateSpeed(Vector3 start, Vector3 end, float height)
+    {
+        float gravity = Physics.gravity.y;
+        float displacementY = end.y - start.y;
+        Vector3 displacementXZ = new Vector3(end.x - start.x, 0, end.z - start.z);
+
+        float time = Mathf.Sqrt(-2 * height / gravity) + Mathf.Sqrt(2 * (displacementY - height) / gravity);
+        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * height);
+        Vector3 velocityXZ = displacementXZ / time;
+
+        return velocityXZ + velocityY * -Mathf.Sign(gravity);
+    }
+
+    void UpdateFlight()
+    {
+        float elapsedTime = Time.time - flight_start_time;
+        float t = elapsedTime / flying_time;
+
+        if (t >= 1f)
+        {
+            EndFlight();
+            return;
+        }
+
+        // поворот палки по направлению движения
+        if (stick_rb.velocity != Vector3.zero)
+        {
+            stick.rotation = Quaternion.LookRotation(stick_rb.velocity);
+        }
+    }
+
+    void EndFlight()
+    {
+        is_flying = false;
     }
     //public void DrawLine(Vector3 start_point, Vector3 speed) // рисовать траекторию
     //{
