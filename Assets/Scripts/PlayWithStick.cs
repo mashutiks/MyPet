@@ -1,47 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
-//public class PlayWithStick : MonoBehaviour
-//{
-//    private NavMeshAgent agent; // наша собака (точнее её компонент для перемещения)
-//    private Animator animator; // анимации собаки
-
-//    public Transform stick; // ссылка на объект палки
-//    public LineController line_controller; // подключаем скрипт управления броском, чтобы контролировать, упала ли палка
-
-//    private int dog_state = 0;
-//    void Start()
-//    {
-//        agent = GetComponent<NavMeshAgent>(); // получение компонента для перемещения
-//        animator = GetComponent<Animator>(); // получение компонента для управления анимациями
-//    }
-//    void Update()
-//    {
-//        switch (dog_state)
-//        {
-//            case 0:
-//                if (line_controller.is_stick_fall)
-//                {
-//                    Vector3 stop_position = new Vector3(stick.position.x - 1, stick.position.y, stick.position.z - 1);
-//                    Vector3 direction = (stop_position - transform.position).normalized; // поворот в направлении палки
-//                    Quaternion lookRotation = Quaternion.LookRotation(direction); // поворот в направлении палки
-//                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
-//                    animator.SetInteger("AnimationID", 4); // включаем бег
-//                    agent.SetDestination(stop_position); // до палкки
-//                }
-//                dog_state = 1;
-//                break;
-//            case 1:
-//                animator.SetInteger("AnimationID", 0);
-//                dog_state = 0;
-//                break;
-//        }
-
-
-//    }
-//}
 
 public class PlayWithStick : MonoBehaviour
 {
@@ -50,114 +9,160 @@ public class PlayWithStick : MonoBehaviour
     public Transform stick;
     public LineController line_controller;
 
-    private enum DogState { Idle, Running, Rotating, Sitting }
-    private DogState currentState = DogState.Idle;
-    private Vector3 targetPosition;
-    private Quaternion targetRotation;
-    public float rotationSpeed = 5f;
-    public float stoppingDistance = 1f;
+    private enum DogState { Idle, RunningToStick, PickingStick, ReturningHome }
+    private DogState current_state = DogState.Idle;
+
+    public float stopping_distance = 0.1f;
+    public Transform teeth_bone;
+
+    private Vector3 start_position;
+    private Quaternion start_rotation;
+    private bool stick_attached = false;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        agent.stoppingDistance = stoppingDistance;
-        agent.updateRotation = false; // Отключаем встроенный поворот
+        agent.stoppingDistance = stopping_distance;
+        start_position = transform.position;
+        start_rotation = transform.rotation;
     }
 
     void Update()
     {
-        switch (currentState)
+        switch (current_state)
         {
             case DogState.Idle:
-                if (line_controller.is_stick_fall)
+                if (line_controller.is_stick_fall && !stick_attached)
                 {
-                    StartRunning();
+                    StartRunningToStick();
                 }
                 break;
 
-            case DogState.Running:
-                UpdateRunning();
+            case DogState.RunningToStick:
+                if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    PickUpStick();
+                }
                 break;
 
-            case DogState.Rotating:
-                UpdateRotating();
+            case DogState.PickingStick:
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f &&
+                    animator.GetCurrentAnimatorStateInfo(0).IsName("EatingStart"))
+                {
+                    ReturnHome();
+                }
                 break;
 
-            case DogState.Sitting:
-                // Ничего не делаем, собака сидит
+            case DogState.ReturningHome:
+                if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    FinishReturn();
+                }
                 break;
         }
     }
 
-    void StartRunning()
+    void StartRunningToStick()
     {
-        // Точка остановки в 1 метре от палки
-        Vector3 toStick = stick.position - transform.position;
-        targetPosition = stick.position - toStick.normalized * stoppingDistance;
+        current_state = DogState.RunningToStick;
 
-        agent.SetDestination(targetPosition);
-        animator.SetInteger("AnimationID", 4); // Анимация бега
-        currentState = DogState.Running;
-    }
-
-    void UpdateRunning()
-    {
-        // Плавный поворот во время бега
-        if (agent.velocity != Vector3.zero)
-        {
-            Vector3 direction = (targetPosition - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                lookRotation,
-                Time.deltaTime * rotationSpeed
-            );
-        }
-
-        // Проверка достижения точки остановки
-        if (!agent.pathPending &&
-            agent.remainingDistance <= agent.stoppingDistance)
-        {
-            StartRotatingToStick();
-        }
-    }
-
-    void StartRotatingToStick()
-    {
-        agent.isStopped = true;
-        Vector3 toStick = stick.position - transform.position;
-        targetRotation = Quaternion.LookRotation(toStick.normalized);
-        currentState = DogState.Rotating;
-    }
-
-    void UpdateRotating()
-    {
-        // Плавный поворот к палке
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRotation,
-            Time.deltaTime * rotationSpeed
+        Vector3 stop_position = new Vector3(
+            stick.position.x - 0.5f,
+            stick.position.y,
+            stick.position.z - 0.5f
         );
 
-        // Если поворот почти завершен
-        if (Quaternion.Angle(transform.rotation, targetRotation) < 2f)
-        {
-            SitDown();
-        }
-    }
+        
+        Vector3 direction = (stop_position - transform.position).normalized;
+        transform.rotation = Quaternion.LookRotation(direction); // поворот перед началом движения
 
-    void SitDown()
-    {
-        transform.rotation = targetRotation; // Точный поворот
-        animator.SetInteger("AnimationID", 0); // Анимация сидения
-        currentState = DogState.Sitting;
-    }
-
-    // Для сброса состояния при новом броске
-    public void ResetToIdle()
-    {
-        currentState = DogState.Idle;
+        animator.SetInteger("AnimationID", 4); // анимация бега
         agent.isStopped = false;
+        agent.SetDestination(stop_position);
+    }
+
+    void PickUpStick()
+    {
+        current_state = DogState.PickingStick;
+        agent.isStopped = true;
+
+        Vector3 stick_direction = (stick.position - transform.position).normalized;
+        transform.rotation = Quaternion.LookRotation(stick_direction);
+
+        AttachStick();
+        animator.Play("EatingStart");
+    }
+
+    void AttachStick()
+    {
+        stick.SetParent(teeth_bone);
+        stick.localPosition = Vector3.zero;
+        stick.localRotation = Quaternion.Euler(0f, 0f, 90f);
+        stick_attached = true;
+    }
+
+    void ReturnHome()
+    {
+        current_state = DogState.ReturningHome;
+
+        Vector3 homeDirection = (start_position - transform.position).normalized;
+        transform.rotation = Quaternion.LookRotation(homeDirection);
+
+        agent.isStopped = false;
+        animator.SetInteger("AnimationID", 4); // анимация бега
+        agent.SetDestination(start_position);
+    }
+
+    void FinishReturn()
+    {
+        current_state = DogState.Idle;
+        agent.isStopped = true;
+
+        
+        StartCoroutine(CompleteReturnSequence()); // завершаем все анимации и повороты
+    }
+
+    IEnumerator CompleteReturnSequence()
+    {
+        
+        yield return StartCoroutine(SmoothRotateToInitial()); // завершение поворота в исходное положение
+
+        stick_attached = false;
+
+        animator.SetInteger("AnimationID", 0); // анимация дыхания
+
+        
+        line_controller.ResetThrow(); // сбрасываем флаги траектории броска
+    }
+
+    IEnumerator SmoothRotateToInitial()
+    {
+        float duration = 0.5f;
+        float elapsed = 0f;
+        Quaternion startRot = transform.rotation;
+
+        while (elapsed < duration)
+        {
+            transform.rotation = Quaternion.Slerp(startRot, start_rotation, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.rotation = start_rotation;
+
+        yield return new WaitForSeconds(0.2f);
+    }
+
+    public void ResetDog()
+    {
+        if (current_state != DogState.Idle)
+        {
+            current_state = DogState.Idle;
+            agent.isStopped = true;
+            stick_attached = false;
+            animator.SetInteger("AnimationID", 0);
+            transform.rotation = start_rotation;
+        }
     }
 }

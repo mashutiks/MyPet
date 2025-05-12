@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LineController : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class LineController : MonoBehaviour
     private Vector3[] points; // точки, из которых строится парабола
 
     public bool is_stick_fall = false; // флаг упала ли палка
+    public Button PlayingButton; // кнопка "Играть"
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>(); // получаем компонент из инспектора
@@ -127,27 +129,6 @@ public class LineController : MonoBehaviour
         flight_start_position = stick.position;
     }
 
-    Vector3 CalculateSpeed(Vector3 start, Vector3 end, float height)
-    {
-        float gravity = Physics.gravity.y; // гравитационная постоянная
-        Vector3 direction = end - start; // вектор направления от стартовой точки полёта до финальной
-        Vector3 horizontal_direction = new Vector3(direction.x, 0, direction.z); // направление от стартовой точки полёта до финальной в горизонтальной плоскости
-        float horizontal_distance = horizontal_direction.magnitude; // 
-
-        float time = Mathf.Sqrt(-2 * height / gravity) + Mathf.Sqrt(2 * (direction.y - height) / gravity); // время полёта (рассчитывается на основе высоты)
-
-        Vector3 velocityXZ = horizontal_direction.normalized * (horizontal_distance / time); // горизонтальная скорость (Vx = S / t)
-
-        float velocityY = Mathf.Sqrt(-2 * gravity * height); // вертикальная скорость (Vy = sqrt(-2 * g * h))
-
-        if (direction.y < 0)
-        {
-            velocityY *= -1; // если начальная точка ниже конечной, корректируем скорость
-        }
-
-        return velocityXZ + Vector3.up * velocityY;
-    }
-
     void UpdateFlight()
     {
         float elapsed_time = Time.time - flight_start_time; // сколько времени прошло от начала полёта
@@ -177,6 +158,7 @@ public class LineController : MonoBehaviour
     {
         Vector3 start = flight_start_position;
         Vector3 end = points[points.Length - 1];
+        Debug.Log(end);
         Vector3 mid = (start + end) * 0.5f + Vector3.up * trajectory_height;
 
         return Vector3.Lerp(Vector3.Lerp(start, mid, t), Vector3.Lerp(mid, end, t), t);
@@ -186,5 +168,21 @@ public class LineController : MonoBehaviour
         is_flying = false;
         is_stick_fall = true;
     }
-    
+
+    public void ResetThrow()
+    {
+        // сбрасываем все флаги, связанные с броском
+        is_stick_fall = false;
+        is_flying = false;
+        is_mouse_moving = false;
+
+        
+        lineRenderer.enabled = false;// отключаем визуализацию траектории
+
+        // очищаем точки траектории
+        points = null;
+        lineRenderer.positionCount = 0;
+        PlayingButton.interactable = true; // разблокируем кнопку
+    }
+
 }
