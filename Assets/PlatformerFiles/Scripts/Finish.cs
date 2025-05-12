@@ -16,6 +16,7 @@ public class Finish : MonoBehaviour
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             // загружаем следующую сцену, использу€ индекс текущей сцены + 1
             SceneManager.LoadScene(currentSceneIndex + 1);
+            AchievemenetManager.Instance.EarnAchievement($"Level {currentSceneIndex}");
         }
     }
 }

@@ -41,14 +41,33 @@ public class AchievemenetManager : MonoBehaviour
         }
     }
 
+    //private void Awake()
+    //{
+    //    // Проверяем, существует ли уже экземпляр
+    //    if (instance == null)
+    //    {
+    //        instance = this;
+    //        DontDestroyOnLoad(gameObject); // Не уничтожаем при загрузке новой сцены
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject); // Уничтожаем дубликат
+    //    }
+    //}
 
-    // Start is called before the first frame update
-    void Start()
+
+// Start is called before the first frame update
+void Start()
     {
         //REMEMBERTOREMOVE
-        PlayerPrefs.DeleteKey("Walking");
-        PlayerPrefs.DeleteKey("Eating");
-        PlayerPrefs.DeleteKey("Happy");
+        //PlayerPrefs.DeleteKey("Walking");
+        //PlayerPrefs.DeleteKey("Eating");
+        //PlayerPrefs.DeleteKey("Happy");
+
+        //PlayerPrefs.DeleteKey("Level 1");
+        //PlayerPrefs.DeleteKey("Level 2");
+        //PlayerPrefs.DeleteKey("Level 3");
+
         //PlayerPrefs.DeleteKey("Points");
         textPoints.text = "Points: " + PlayerPrefs.GetInt("Points");
 
@@ -62,6 +81,12 @@ public class AchievemenetManager : MonoBehaviour
         CreateAchievement("general", "Eating", "Feed to ulock this", 10, 0);
         CreateAchievement("general", "Walking", "Walk to ulock this", 15, 1);
         CreateAchievement("general", "Happy", "Happy dog to ulock this", 15, 2);
+
+        CreateAchievement("miniGames", "Level 1", "Win level 1 to ulock this", 15, 2);
+        CreateAchievement("miniGames", "Level 2", "Win level 2 to ulock this", 15, 2);
+        CreateAchievement("miniGames", "Level 3", "Win level 3 to ulock this", 15, 2);
+        CreateAchievement("miniGames", "Level 4", "Win level 4 to ulock this", 15, 2);
+        CreateAchievement("miniGames", "Level 5", "Win level 5 to ulock this", 15, 2);
 
         foreach (GameObject achievementList in GameObject.FindGameObjectsWithTag("AchievementList"))
         {
