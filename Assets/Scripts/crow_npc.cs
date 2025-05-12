@@ -13,9 +13,9 @@ public class crow_npc : MonoBehaviour
     [Range(0, 100)] private float danger = 0f; // опасность (растёт по мере приближения пса)
     [Range(0, 100)] private float dirtyness = 50f; // чистота 
     //private float danger_decrease = 90f; // насколько уменьшается опасность после того как птица улетит
-    private float hunger_decrease = 30f; // насколько уменьшаяется голод, после того как поест
+    private float hunger_decrease = 25f; // насколько уменьшаяется голод, после того как поест
     private float dirtyness_decrease = 30f; // насколько уменьшается грязь с тела когда птица чистится 
-    private float hunger_increase = 5f; // в спокойном состоянии голод растёт на 5
+    private float hunger_increase = 7f; // в спокойном состоянии голод растёт на 5
     private float dirtyness_increase = 5f; // в спокойном состоянии грязь растёт на 5
     public float height = 1f; // максимальная высота полёта
     public float danger_distance_to_dog = 2f; // опасное расстояние до собаки 
@@ -43,14 +43,14 @@ public class crow_npc : MonoBehaviour
         {
             Action best_action = choose_best_action(); // выбор лучшего действия 
             Debug.Log($"{best_action} | Опасность: {danger} | Голод: {hunger} | Грязь: {dirtyness}"); // логи
-            StartCoroutine(calculations(best_action)); // корутин нужен для того, чтобы анимации успевали проигрываться
+            StartCoroutine(do_action(best_action)); // корутин нужен для того, чтобы анимации успевали проигрываться
         }
     }
 
     private Action choose_best_action()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("dog");
-        foreach (GameObject enemy in enemies)
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("dog"); // все кто имеют тег enemy
+        foreach (GameObject enemy in enemies) 
         {
             float distance_to_dog = Vector3.Distance(transform.position, enemy.transform.position);
             if (distance_to_dog <= danger_distance_to_dog)
@@ -70,17 +70,6 @@ public class crow_npc : MonoBehaviour
                 //break;
             }
         }
-        //enemy = dogs.transform;
-        //Vector3 crow_pos = transform.position; // позиция птицы
-        //Vector3 dog_pos = enemy.position; // позиция пса
-        //float distance_to_dog = (crow_pos - dog_pos).magnitude; // расстояние между псом и птицей
-        //Debug.Log($"{distance_to_dog}");
-        //if (distance_to_dog <= danger_distance_to_dog)
-        //{
-        //    gameObject.tag = "fly_away";
-        //    danger = 100f; // если собака ближе чем на 2 метра, то приоритет взлёта поднимается до 100
-        //}
-        
 
         float eat_score = hunger / 100f * 2f; // важность поесть
         float clean_score = dirtyness / 100f; // важность почиститься (меньше,чем поесть)
@@ -91,11 +80,11 @@ public class crow_npc : MonoBehaviour
         {
             return Action.Fly;
         }
-        else if (eat_score >= clean_score && eat_score > idle_score)
+        else if (eat_score >= clean_score && eat_score > idle_score && eat_score > 0.5f)
         {
             return Action.Eat;
         }
-        else if (clean_score >= eat_score && clean_score > idle_score)
+        else if (clean_score >= eat_score && clean_score > idle_score && clean_score > 0.7f)
         {
             return Action.Clean;
         }
@@ -105,7 +94,7 @@ public class crow_npc : MonoBehaviour
         }
     }
 
-    private IEnumerator calculations(Action action)
+    private IEnumerator do_action(Action action)
     {
         is_moving = true;
         switch (action)
@@ -135,7 +124,9 @@ public class crow_npc : MonoBehaviour
                 break;
             case Action.Eat:
                 animator.SetTrigger("peck");
-                yield return new WaitForSeconds(1.5f);
+                //yield return new WaitForSeconds(0.5f);
+                animator.SetTrigger("peck");
+                yield return new WaitForSeconds(3.5f);
                 hunger = Mathf.Max(0, hunger - hunger_decrease);
                 break;
             case Action.Clean:
@@ -143,43 +134,22 @@ public class crow_npc : MonoBehaviour
                 if (random_animation == 0)
                 {
                     animator.SetTrigger("preen");
-                    yield return new WaitForSeconds(1.5f);
+                    yield return new WaitForSeconds(3.5f);
                 }
                 else if (random_animation == 1)
                 {
                     animator.SetTrigger("ruffle");
-                    yield return new WaitForSeconds(1.5f);
+                    yield return new WaitForSeconds(3.5f);
                 }
                 dirtyness = Mathf.Max(0, dirtyness - dirtyness_decrease);
                 break;
             case Action.Idle:
-                int random_animation_in_idle = Random.Range(0, 2);
-                if (random_animation_in_idle == 0 /*&& danger == 0*/)
+                int random_animation_in_idle = Random.Range(0, 10);
+                if (random_animation_in_idle == 0)
                 {
                     animator.SetTrigger("sing");
-                    yield return new WaitForSeconds(1.5f);
+                    yield return new WaitForSeconds(3.5f);
                 }
-                else /*if (random_animation_in_idle == 1)*/
-                {
-                    animator.SetInteger("hop", 0);
-                    yield return new WaitForSeconds(1.5f);
-                }
-                // todo: добавить прыжки в сторону
-                //else if (random_animation_in_idle == 2)
-                //{
-                //    animator.SetInteger("hop", 1);
-                //    yield return new WaitForSeconds(1.5f);
-                //}
-                //else if (random_animation_in_idle == 3)
-                //{
-                //    animator.SetInteger("hop", -1);
-                //    yield return new WaitForSeconds(1.5f);
-                //}
-                //else
-                //{
-                //    animator.SetInteger("hop", -2);
-                //    yield return new WaitForSeconds(1.5f);
-                //}
                 hunger = Mathf.Min(100, hunger + hunger_increase);
                 dirtyness = Mathf.Min(100, dirtyness + dirtyness_increase);
                 break;
