@@ -352,6 +352,7 @@ GameObject:
   - component: {fileID: 45866910}
   - component: {fileID: 45866909}
   - component: {fileID: 45866908}
+  - component: {fileID: 45866911}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -461,6 +462,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45866906}
   m_CullTransparentMesh: 1
+--- !u!114 &45866911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45866906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.14117648, g: 0.3882353, b: 0.003921569, a: 0.5}
+  m_EffectDistance: {x: 4, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &48257660
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,6 +773,7 @@ GameObject:
   - component: {fileID: 89360578}
   - component: {fileID: 89360577}
   - component: {fileID: 89360576}
+  - component: {fileID: 89360579}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -866,6 +883,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 89360574}
   m_CullTransparentMesh: 1
+--- !u!114 &89360579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89360574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.14117648, g: 0.3882353, b: 0.003921569, a: 0.5}
+  m_EffectDistance: {x: 4, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &91008420
 GameObject:
   m_ObjectHideFlags: 0
@@ -2261,7 +2293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &376499214
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3455,6 +3487,7 @@ GameObject:
   - component: {fileID: 531654301}
   - component: {fileID: 531654300}
   - component: {fileID: 531654299}
+  - component: {fileID: 531654302}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -3564,6 +3597,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 531654297}
   m_CullTransparentMesh: 1
+--- !u!114 &531654302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531654297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.14117648, g: 0.3882353, b: 0.003921569, a: 0.5}
+  m_EffectDistance: {x: 4, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &532053950
 GameObject:
   m_ObjectHideFlags: 0
@@ -4029,6 +4077,7 @@ GameObject:
   - component: {fileID: 557526428}
   - component: {fileID: 557526427}
   - component: {fileID: 557526426}
+  - component: {fileID: 557526429}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -4138,6 +4187,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 557526424}
   m_CullTransparentMesh: 1
+--- !u!114 &557526429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557526424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.14117648, g: 0.3882353, b: 0.003921569, a: 0.5}
+  m_EffectDistance: {x: 4, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &573916049
 GameObject:
   m_ObjectHideFlags: 0
@@ -4569,6 +4633,7 @@ GameObject:
   - component: {fileID: 627957304}
   - component: {fileID: 627957303}
   - component: {fileID: 627957302}
+  - component: {fileID: 627957305}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -4678,6 +4743,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 627957300}
   m_CullTransparentMesh: 1
+--- !u!114 &627957305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627957300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.14117648, g: 0.3882353, b: 0.003921569, a: 0.5}
+  m_EffectDistance: {x: 4, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &650957853
 GameObject:
   m_ObjectHideFlags: 0
@@ -5116,6 +5196,7 @@ GameObject:
   - component: {fileID: 763511643}
   - component: {fileID: 763511642}
   - component: {fileID: 763511641}
+  - component: {fileID: 763511644}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -5225,6 +5306,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 763511639}
   m_CullTransparentMesh: 1
+--- !u!114 &763511644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763511639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.14117648, g: 0.3882353, b: 0.003921569, a: 0.5}
+  m_EffectDistance: {x: 4, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &799303839
 GameObject:
   m_ObjectHideFlags: 0
@@ -6042,6 +6138,7 @@ GameObject:
   - component: {fileID: 953886871}
   - component: {fileID: 953886870}
   - component: {fileID: 953886869}
+  - component: {fileID: 953886872}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -6151,6 +6248,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953886867}
   m_CullTransparentMesh: 1
+--- !u!114 &953886872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953886867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.14117648, g: 0.3882353, b: 0.003921569, a: 0.5}
+  m_EffectDistance: {x: 4, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &958789084
 GameObject:
   m_ObjectHideFlags: 0
@@ -7168,6 +7280,7 @@ GameObject:
   - component: {fileID: 1288325355}
   - component: {fileID: 1288325354}
   - component: {fileID: 1288325353}
+  - component: {fileID: 1288325356}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -7277,6 +7390,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288325351}
   m_CullTransparentMesh: 1
+--- !u!114 &1288325356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288325351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.14117648, g: 0.3882353, b: 0.003921569, a: 0.5}
+  m_EffectDistance: {x: 4, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1310709504
 GameObject:
   m_ObjectHideFlags: 0
@@ -9068,7 +9196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1644730636
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10071,6 +10199,7 @@ GameObject:
   - component: {fileID: 1777991817}
   - component: {fileID: 1777991816}
   - component: {fileID: 1777991815}
+  - component: {fileID: 1777991818}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -10180,6 +10309,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1777991813}
   m_CullTransparentMesh: 1
+--- !u!114 &1777991818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777991813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.14117648, g: 0.3882353, b: 0.003921569, a: 0.5}
+  m_EffectDistance: {x: 4, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1792290864
 GameObject:
   m_ObjectHideFlags: 0
@@ -10197,7 +10341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1792290865
 RectTransform:
   m_ObjectHideFlags: 0

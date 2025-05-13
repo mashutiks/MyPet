@@ -23,7 +23,10 @@ public class PlayingStart : MonoBehaviour
         {
             Debug.LogWarning(" нопка '»грать' не назначена!");
         }
+
+        CheckItemAvailability();
     }
+
 
     void SetStickPosition()
     {
@@ -39,4 +42,20 @@ public class PlayingStart : MonoBehaviour
         stick.transform.position = stick_position; // устанавливаем палку перед камерой
         PlayingButton.interactable = false; // блокируем кнопку
     }
+    void CheckItemAvailability()
+    {
+        int stick = PlayerPrefs.GetInt("Item_Stick", 0);
+        int bone = PlayerPrefs.GetInt("Item_Bone", 0);
+        int fish = PlayerPrefs.GetInt("Item_Fish", 0);
+
+        bool hasItem = (stick == 1 || bone == 1 || fish == 1);
+
+        if (PlayingButton != null)
+        {
+            PlayingButton.interactable = hasItem;
+        }
+    }
 }
+
+
+

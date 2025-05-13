@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
 {
@@ -26,7 +27,6 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
-        // Установка начального состояния
         SetupItem("Item_Food1", 5, food1Button, food1Text);
         SetupItem("Item_Food2", 10, food2Button, food2Text);
         SetupItem("Item_Food3", 15, food3Button, food3Text);
@@ -37,50 +37,107 @@ public class ShopManager : MonoBehaviour
         SetupItem("Item_Bed", 25, bedButton, bedText);
         SetupItem("Item_Mat2", 20, mat2Button, mat2Text);
 
-        // Привязка кнопок к функциям покупки
-        food1Button.onClick.AddListener(() => BuyItem("Item_Food1", 5, food1Button, food1Text));
-        food2Button.onClick.AddListener(() => BuyItem("Item_Food2", 10, food2Button, food2Text));
-        food3Button.onClick.AddListener(() => BuyItem("Item_Food3", 15, food3Button, food3Text));
-        stickButton.onClick.AddListener(() => BuyItem("Item_Stick", 0, stickButton, stickText));
-        fishButton.onClick.AddListener(() => BuyItem("Item_Fish", 10, fishButton, fishText));
-        boneButton.onClick.AddListener(() => BuyItem("Item_Bone", 5, boneButton, boneText));
-        mat1Button.onClick.AddListener(() => BuyItem("Item_Mat1", 20, mat1Button, mat1Text));
-        bedButton.onClick.AddListener(() => BuyItem("Item_Bed", 25, bedButton, bedText));
-        mat2Button.onClick.AddListener(() => BuyItem("Item_Mat2", 20, mat2Button, mat2Text));
+        food1Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food1", 5, food1Text));
+        food2Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food2", 10, food2Text));
+        food3Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food3", 15, food3Text));
+        stickButton.onClick.AddListener(() => BuyOrSelectItem("Item_Stick", 0, stickText));
+        fishButton.onClick.AddListener(() => BuyOrSelectItem("Item_Fish", 10, fishText));
+        boneButton.onClick.AddListener(() => BuyOrSelectItem("Item_Bone", 5, boneText));
+        mat1Button.onClick.AddListener(() => BuyOrSelectItem("Item_Mat1", 20, mat1Text));
+        bedButton.onClick.AddListener(() => BuyOrSelectItem("Item_Bed", 25, bedText));
+        mat2Button.onClick.AddListener(() => BuyOrSelectItem("Item_Mat2", 20, mat2Text));
     }
 
     void SetupItem(string key, int price, Button button, TextMeshProUGUI text)
     {
-        if (PlayerPrefs.GetInt(key, 0) == 1)
+        bool isBought = PlayerPrefs.GetInt(key, 0) == 1;
+        bool isSelected = PlayerPrefs.GetInt(key + "_Selected", 0) == 1;
+
+        button.interactable = true;
+
+        if (!isBought)
         {
-            button.interactable = false;
-            text.text = "Куплено";
+            text.text = price > 0 ? "Купить" : "Получить";
         }
         else
         {
-            button.interactable = true;
-            text.text = price > 0 ? $"Купить" : "Получить";
+            text.text = isSelected ? "Выбран" : "Выбрать";
         }
     }
 
-    void BuyItem(string key, int price, Button button, TextMeshProUGUI text)
+    void BuyOrSelectItem(string key, int price, TextMeshProUGUI text)
     {
         int points = PlayerPrefs.GetInt("Points", 0);
+        bool isBought = PlayerPrefs.GetInt(key, 0) == 1;
 
-        if (PlayerPrefs.GetInt(key, 0) == 1)
+        if (isBought)
+        {
+            string category = GetCategoryFromKey(key);
+            SelectItem(key, category);
+            UpdateAllButtons();
             return;
+        }
 
         if (points >= price)
         {
             points -= price;
             PlayerPrefs.SetInt("Points", points);
             PlayerPrefs.SetInt(key, 1);
-            button.interactable = false;
-            text.text = "Куплено";
+
+            string category = GetCategoryFromKey(key);
+            SelectItem(key, category);
+            UpdateAllButtons();
         }
         else
         {
             Debug.Log("Недостаточно монет!");
+        }
+    }
+
+    void SelectItem(string key, string category)
+    {
+        foreach (string itemKey in GetItemsInCategory(category))
+        {
+            PlayerPrefs.SetInt(itemKey + "_Selected", 0);
+        }
+
+        PlayerPrefs.SetInt(key + "_Selected", 1);
+        Debug.Log("Выбран предмет: " + key);
+    }
+
+    void UpdateAllButtons()
+    {
+        SetupItem("Item_Food1", 5, food1Button, food1Text);
+        SetupItem("Item_Food2", 10, food2Button, food2Text);
+        SetupItem("Item_Food3", 15, food3Button, food3Text);
+        SetupItem("Item_Stick", 0, stickButton, stickText);
+        SetupItem("Item_Fish", 10, fishButton, fishText);
+        SetupItem("Item_Bone", 5, boneButton, boneText);
+        SetupItem("Item_Mat1", 20, mat1Button, mat1Text);
+        SetupItem("Item_Bed", 25, bedButton, bedText);
+        SetupItem("Item_Mat2", 20, mat2Button, mat2Text);
+    }
+
+    string GetCategoryFromKey(string key)
+    {
+        if (key.StartsWith("Item_Food")) return "Food";
+        if (key == "Item_Stick" || key == "Item_Fish" || key == "Item_Bone") return "Toy";
+        if (key.StartsWith("Item_Mat") || key == "Item_Bed") return "Interior";
+        return "";
+    }
+
+    List<string> GetItemsInCategory(string category)
+    {
+        switch (category)
+        {
+            case "Food":
+                return new List<string> { "Item_Food1", "Item_Food2", "Item_Food3" };
+            case "Toy":
+                return new List<string> { "Item_Stick", "Item_Fish", "Item_Bone" };
+            case "Interior":
+                return new List<string> { "Item_Mat1", "Item_Bed", "Item_Mat2" };
+            default:
+                return new List<string>();
         }
     }
 }

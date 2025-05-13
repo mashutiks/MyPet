@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+using UnityEngine.SceneManagement;
+ 
+
 public class HappinessManager : MonoBehaviour
 {
     public Slider happinessSlider;
@@ -36,13 +39,22 @@ public class HappinessManager : MonoBehaviour
             float hunger = PlayerPrefs.GetFloat("Hunger", 0f);
             float walk = PlayerPrefs.GetFloat("Walk", 0f);
 
-            if (hunger > 70f && walk > 70f)
+            string currentScene = SceneManager.GetActiveScene().name;
+
+            if (currentScene == "Training_zone")
             {
-                happiness += happinessChangePerSecond * timeSinceLastUpdate;
+                happiness += 5f / 60f * timeSinceLastUpdate;
             }
-            else if (hunger < 20f || walk < 20f)
+            else
             {
-                happiness -= happinessChangePerSecond * timeSinceLastUpdate;
+                if (hunger > 70f && walk > 70f)
+                {
+                    happiness += happinessChangePerSecond * timeSinceLastUpdate;
+                }
+                else if (hunger < 20f || walk < 20f)
+                {
+                    happiness -= happinessChangePerSecond * timeSinceLastUpdate;
+                }
             }
 
             happiness = Mathf.Clamp(happiness, 0f, maxHappiness);
@@ -52,6 +64,7 @@ public class HappinessManager : MonoBehaviour
             UpdateUI();
         }
     }
+
 
     void LoadHappiness()
     {
