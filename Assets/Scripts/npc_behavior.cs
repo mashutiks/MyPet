@@ -7,25 +7,25 @@ using static UnityEngine.GraphicsBuffer;
 
 public class npc_behavior : MonoBehaviour
 {
-    private NavMeshAgent Humanoid;
-    private Animator animator;
-    public Transform agent;
-    public float WalkingSpeed = 0.5f;
-    public float RunningSpeed = 1f;
-
-    private float timer;
-    private float ChangeTime;
-    private bool IsMoving;
-    private enum dog_state { Idle, Walk, Breath, Angry, Wiggle_tail, Run, Sit }
+    private NavMeshAgent Humanoid; // компонент нпс для перемещения 
+    private Animator animator; // анимации нпс собаки
+    public Transform agent; // позиция игрового пса
+    public float WalkingSpeed = 0.5f; // скорость ходьбы
+    public float RunningSpeed = 1f; // скорость бега
+     
+    private float timer; // счётчик времени для анимаций нпс
+    private float ChangeTime; // в какой момент мы будем менять анимацию
+    private bool IsMoving; // флаг двигается ли
+    private enum dog_state { Idle, Walk, Breath, Angry, Wiggle_tail, Run, Sit } // состояния
     private dog_state curState = dog_state.Idle; // for holding stay = 0/walk = 1 state. for more states using enum may be more comfortable
     void Start()
     {
-        Humanoid = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        Humanoid = GetComponent<NavMeshAgent>(); // получение компонента для перемещения
+        animator = GetComponent<Animator>(); // получения компонентя для управления анимайиями
 
         animator.SetInteger("AnimationID", 0); // дышит
-        IsMoving = false;
-        ChangeTime = 2f;
+        IsMoving = false; // изначально нпс не двиается
+        ChangeTime = 2f; // установка времения для смены анимаций - 2 секунды
     }
     void Update()
     {
@@ -38,36 +38,36 @@ public class npc_behavior : MonoBehaviour
                     switch (RandomAnimation)
                     {
                         case 0:
-                            animator.SetInteger("AnimationID", 0);
-                            curState = dog_state.Breath;
+                            animator.SetInteger("AnimationID", 0); // по рандому выбирает анимацию дыхания
+                            curState = dog_state.Breath; // переходим в состояние дыхания
                             break;
                         case 1:
-                            animator.SetInteger("AnimationID", 7);
-                            curState = dog_state.Sit;
+                            animator.SetInteger("AnimationID", 7); // по рандому может выбрать анимацию сидения
+                            curState = dog_state.Sit; // выбирается состояние сидения
                             break;
                         case 2:
-                            animator.SetInteger("AnimationID", 1);
-                            curState = dog_state.Wiggle_tail;
+                            animator.SetInteger("AnimationID", 1); // по рандому выбирает вилянием хвостом
+                            curState = dog_state.Wiggle_tail; // переходим в состояние виляния хвостом
                             break;
                     }
-                    IsMoving = false;
-                    timer = 0;
+                    IsMoving = false; // перестаёт двигаться
+                    timer = 0; // таймер обнуляется
                 }
                 break;
 
             case dog_state.Idle: //idle
-                timer += Time.deltaTime;
+                timer += Time.deltaTime; // считывается время для состояния покоя
                 if (timer >= ChangeTime)
                 {
-                    animator.SetInteger("AnimationID", -1);
-                    timer = 2f;
-                    curState = dog_state.Breath;
+                    animator.SetInteger("AnimationID", -1); // переход в None
+                    timer = 2f; 
+                    curState = dog_state.Breath; // обратно в дыхание
                 }
                 break;
 
             case dog_state.Breath:
-                AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
-                if (state.IsName("None"))
+                AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0); // просмотр состояния анимаций
+                if (state.IsName("None")) // их none можем переходить далее
                 {
                     int RandomAnimation = Random.Range(2, 6); // 2 - walking01, 3 - walking02, 4 - running, 6 - angry
                     if (RandomAnimation == 4)
@@ -86,6 +86,7 @@ public class npc_behavior : MonoBehaviour
                     }
                     else
                     {
+                        // реализация поворота
                         Vector3 RandomDirection = Random.insideUnitSphere * 3f + transform.position;
                         NavMeshHit point;
                         NavMesh.SamplePosition(RandomDirection, out point, 3f, NavMesh.AllAreas);
