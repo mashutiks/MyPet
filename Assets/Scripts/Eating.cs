@@ -30,17 +30,23 @@ public class Eating : MonoBehaviour
     public GameObject big_granule; // большая гранула корма
     public GameObject[] small_granules; // маленькие гранулы корма
     public GameObject water; // вода
+
+    public Material material_1; // материал для 1-го вида корма
+    public Material material_2; // материал для 2-го вида корма
+    public Material material_3; // материал для 3-го вида корма
     void Start()
     {
         if (EatingButton != null)
         {
-            EatingButton.interactable = true; // кнопка активна
+            CheckItemAvailability();
+            //EatingButton.interactable = true; // кнопка активна
             EatingButton.onClick.AddListener(Feed);
         }
         else
         {
             Debug.LogWarning("Кнопка 'Покормить' не назначена!");
         }
+        
     }
 
     private void Feed()
@@ -148,5 +154,45 @@ public class Eating : MonoBehaviour
         water.GetComponent<Renderer>().enabled = true; // делаем воду видимой
         dog.position = start_dog_position; // ставим собаку в исходную точку
         //EatingButton.interactable = true; // снова активируем кнопку
+    }
+
+    void CheckItemAvailability()
+    {
+        int food_1 = PlayerPrefs.GetInt("Item_Food1_Selected", 0);
+        int food_2 = PlayerPrefs.GetInt("Item_Food2_Selected", 0);
+        int food_3 = PlayerPrefs.GetInt("Item_Food3_Selected", 0);
+
+        bool hasItem = (food_1 == 1 || food_2 == 1 || food_3 == 1);
+
+        if (EatingButton != null)
+        {
+            EatingButton.interactable = hasItem;
+        }
+
+        if (food_1 == 1)
+        {
+            SetMaterial(material_1);
+        }
+        else if (food_2 == 1)
+        {
+            SetMaterial(material_2);
+        }
+        else if (food_3 == 1)
+        {
+            SetMaterial(material_3);
+        }
+    }
+
+    void SetMaterial(Material material)
+    {
+        // меняем материал в зависимости от купленного корма
+        Renderer[] child_renderers = EatingBowl.GetComponentsInChildren<Renderer>(true);
+
+        foreach (Renderer renderer in child_renderers)
+        {
+            if (renderer.transform == EatingBowl.transform) // пропуск миски
+                continue;
+            renderer.material = material;
+        }
     }
 }
