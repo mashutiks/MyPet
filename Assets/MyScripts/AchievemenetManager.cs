@@ -75,16 +75,16 @@ public class AchievemenetManager : MonoBehaviour
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
 
         CreateAchievement("general", "Всё, кроме голодовки", "Накормить питомца", 10, 0, 1, 3, 5);
-        CreateAchievement("general", "Лучше 100 друзей", "Познакомиться с другом", 10, 0, 1, 3, 5);
+        CreateAchievement("general", "Лучше 100 друзей", "Познакомиться с другом", 10, 4, 1, 3, 5);
 
         CreateAchievement("general", "На свежем воздухе", "Прогулять питомца вдоволь", 15, 1, 0);
         CreateAchievement("general", "Счастливое детство", "Достичь максимального счастья питомца", 15, 2, 0);
 
-        CreateAchievement("miniGames", "Прыжок в небеса", "Прошли первый уровень", 15, 2, 0);
-        CreateAchievement("miniGames", "Уклонение от пернатых", "Допрыгали второй", 15, 2, 0);
-        CreateAchievement("miniGames", "Кошачьи ловушки", "Преодолели три уровня", 15, 2, 0);
-        CreateAchievement("miniGames", "На волоске от победы", "Справились с четыремя", 15, 2, 0);
-        CreateAchievement("miniGames", "Победитель птиц и кошек", "Ура! Все пять уровней пройдены!", 15, 2, 0);
+        CreateAchievement("miniGames", "Прыжок в небеса", "Прошли первый уровень", 15, 3, 0);
+        CreateAchievement("miniGames", "Уклонение от пернатых", "Допрыгали второй", 15, 3, 0);
+        CreateAchievement("miniGames", "Кошачьи ловушки", "Преодолели три уровня", 15, 3, 0);
+        CreateAchievement("miniGames", "На волоске от победы", "Справились с четыремя", 15, 3, 0);
+        CreateAchievement("miniGames", "Победитель птиц и кошек", "Ура! Все пять уровней пройдены!", 15, 3, 0);
 
         CreateAchievement("others", "Заботливый хозяин", "Зашел в игру дней подряд", 10, 0, 3, 5, 10);
 
