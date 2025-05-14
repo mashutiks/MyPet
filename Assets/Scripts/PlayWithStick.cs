@@ -6,7 +6,10 @@ public class PlayWithStick : MonoBehaviour
 {
     private NavMeshAgent agent;
     private Animator animator;
+    private Transform current_toy; // текущая игрушка
     public Transform stick;
+    public Transform bone;
+    public Transform fish;
     public LineController line_controller;
 
     private enum DogState { Idle, RunningToStick, PickingStick, ReturningHome }
@@ -21,6 +24,7 @@ public class PlayWithStick : MonoBehaviour
 
     void Start()
     {
+        CheckItemAvailability();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         agent.stoppingDistance = stopping_distance;
@@ -68,12 +72,12 @@ public class PlayWithStick : MonoBehaviour
         current_state = DogState.RunningToStick;
 
         Vector3 stop_position = new Vector3(
-            stick.position.x - 0.5f,
-            stick.position.y,
-            stick.position.z - 0.5f
+            current_toy.position.x - 0.5f,
+            current_toy.position.y,
+            current_toy.position.z - 0.5f
         );
 
-        
+
         Vector3 direction = (stop_position - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(direction); // поворот перед началом движения
 
@@ -87,7 +91,7 @@ public class PlayWithStick : MonoBehaviour
         current_state = DogState.PickingStick;
         agent.isStopped = true;
 
-        Vector3 stick_direction = (stick.position - transform.position).normalized;
+        Vector3 stick_direction = (current_toy.position - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(stick_direction);
 
         AttachStick();
@@ -96,9 +100,9 @@ public class PlayWithStick : MonoBehaviour
 
     void AttachStick()
     {
-        stick.SetParent(teeth_bone);
-        stick.localPosition = Vector3.zero;
-        stick.localRotation = Quaternion.Euler(0f, 0f, 90f);
+        current_toy.SetParent(teeth_bone);
+        current_toy.localPosition = Vector3.zero;
+        current_toy.localRotation = Quaternion.Euler(0f, 0f, 90f);
         stick_attached = true;
     }
 
@@ -119,20 +123,20 @@ public class PlayWithStick : MonoBehaviour
         current_state = DogState.Idle;
         agent.isStopped = true;
 
-        
+
         StartCoroutine(CompleteReturnSequence()); // завершаем все анимации и повороты
     }
 
     IEnumerator CompleteReturnSequence()
     {
-        
+
         yield return StartCoroutine(SmoothRotateToInitial()); // завершение поворота в исходное положение
 
         stick_attached = false;
 
         animator.SetInteger("AnimationID", 0); // анимация дыхания
 
-        
+
         line_controller.ResetThrow(); // сбрасываем флаги траектории броска
     }
 
@@ -163,6 +167,26 @@ public class PlayWithStick : MonoBehaviour
             stick_attached = false;
             animator.SetInteger("AnimationID", 0);
             transform.rotation = start_rotation;
+        }
+    }
+
+    void CheckItemAvailability()
+    {
+        int object_1 = PlayerPrefs.GetInt("Item_Stick_Selected", 0);
+        int object_2 = PlayerPrefs.GetInt("Item_Bone_Selected", 0);
+        int object_3 = PlayerPrefs.GetInt("Item_Fish_Selected", 0);
+
+        if (object_1 == 1)
+        {
+            current_toy = stick;
+        }
+        else if (object_2 == 1)
+        {
+            current_toy = bone;
+        }
+        else if (object_3 == 1)
+        {
+            current_toy = fish;
         }
     }
 }

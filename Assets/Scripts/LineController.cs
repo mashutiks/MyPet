@@ -9,8 +9,11 @@ using UnityEngine.UI;
 public class LineController : MonoBehaviour
 {
     private LineRenderer lineRenderer; // компонент из инспектора, отвечающий за рисование линии
+    private Transform current_toy; // текущая активная игрушка
 
     public Transform stick; // ссылка на объект палки
+    public Transform bone;
+    public Transform fish;
 
     public LayerMask floor_layer; // ссылка на созданный слой пола, чтобы палку можно было кидать только на пол
 
@@ -34,6 +37,7 @@ public class LineController : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>(); // получаем компонент из инспектора
         is_stick_fall = false;
+        SetActiveToy();
     }
 
     void Update()
@@ -58,7 +62,7 @@ public class LineController : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // создаём луч из той точки, где кликнули
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit) && hit.transform == stick) // проверяем, что именно на объекте палки оказалась точка клика
+            if (Physics.Raycast(ray, out hit) && (hit.transform == stick || hit.transform == bone || hit.transform == fish)) // проверяем, что именно на объекте палки/кости/рыбки оказалась точка клика
             {
                 is_mouse_moving = true;
                 lineRenderer.enabled = true; // проявляем траекторию на экране
@@ -86,13 +90,13 @@ public class LineController : MonoBehaviour
             current_floor_point = floor_point.point; // текущая точка = целевая
             current_floor_point.y = 0; // придаём нулевую координату
 
-            Vector3 direction = current_floor_point - stick.position; // проверяем расстояние между точками старта и цели
+            Vector3 direction = current_floor_point - current_toy.position; // проверяем расстояние между точками старта и цели
             if (direction.magnitude > max_distance) // чтобы нельзя было за сцену кидать палку
             {
-                current_floor_point = stick.position + direction.normalized * max_distance;
+                current_floor_point = current_toy.position + direction.normalized * max_distance;
             }
 
-            DrawLine(stick.position, current_floor_point); // рисуем параболу от палки до точки на полу
+            DrawLine(current_toy.position, current_floor_point); // рисуем параболу от палки до точки на полу
         }
     }
 
@@ -126,7 +130,7 @@ public class LineController : MonoBehaviour
     {
         is_flying = true;
         flight_start_time = Time.time;
-        flight_start_position = stick.position;
+        flight_start_position = current_toy.position;
     }
 
     void UpdateFlight()
@@ -139,20 +143,20 @@ public class LineController : MonoBehaviour
             EndFlight();
             return;
         }
-        
-        Vector3 new_position = GetPointOnTrajectory(t); // повторяем начерченную траекторию, каждый раз, изменяя текущую позицию
-        stick.position = new_position;
 
-      
+        Vector3 new_position = GetPointOnTrajectory(t); // повторяем начерченную траекторию, каждый раз, изменяя текущую позицию
+        current_toy.position = new_position;
+
+
         if (t > 0.01f && t < 0.99f) // чтобы не было рывков в начале/конце
         {
             Vector3 next_point = GetPointOnTrajectory(t + 0.01f);
             Vector3 move_direction = (next_point - new_position).normalized;
 
             if (move_direction != Vector3.zero)
-                stick.rotation = Quaternion.LookRotation(move_direction); // поворот палки по направлению движения
+                current_toy.rotation = Quaternion.LookRotation(move_direction); // поворот палки по направлению движения
         }
-        
+
     }
     Vector3 GetPointOnTrajectory(float t)
     {
@@ -176,13 +180,36 @@ public class LineController : MonoBehaviour
         is_flying = false;
         is_mouse_moving = false;
 
-        
+
         lineRenderer.enabled = false;// отключаем визуализацию траектории
 
         // очищаем точки траектории
         points = null;
         lineRenderer.positionCount = 0;
         PlayingButton.interactable = true; // разблокируем кнопку
+    }
+
+    void SetActiveToy()
+    {
+        // определяем текущую активную игрушку
+        if (PlayerPrefs.GetInt("Item_Stick_Selected", 0) == 1 && stick != null)
+        {
+            current_toy = stick;
+            bone.gameObject.SetActive(false);
+            fish.gameObject.SetActive(false);
+        }
+        else if (PlayerPrefs.GetInt("Item_Bone_Selected", 0) == 1 && bone != null)
+        {
+            current_toy = bone;
+            stick.gameObject.SetActive(false);
+            fish.gameObject.SetActive(false);
+        }
+        else if (PlayerPrefs.GetInt("Item_Fish_Selected", 0) == 1 && fish != null)
+        {
+            current_toy = fish;
+            stick.gameObject.SetActive(false);
+            bone.gameObject.SetActive(false);
+        }
     }
 
 }
