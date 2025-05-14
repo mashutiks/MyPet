@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,17 +6,27 @@ using UnityEngine.SceneManagement;
 
 public class Finish : MonoBehaviour
 {
-    // метод вызывается, когда объект входит в триггер (коллайдер с включённым IsTrigger)
+    // Г¬ГҐГІГ®Г¤ ГўГ»Г§Г»ГўГ ГҐГІГ±Гї, ГЄГ®ГЈГ¤Г  Г®ГЎГєГҐГЄГІ ГўГµГ®Г¤ГЁГІ Гў ГІГ°ГЁГЈГЈГҐГ° (ГЄГ®Г«Г«Г Г©Г¤ГҐГ° Г± ГўГЄГ«ГѕГ·ВёГ­Г­Г»Г¬ IsTrigger)
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // проверка, что в триггер попал объект с тегом "Player"
+        // ГЇГ°Г®ГўГҐГ°ГЄГ , Г·ГІГ® Гў ГІГ°ГЁГЈГЈГҐГ° ГЇГ®ГЇГ Г« Г®ГЎГєГҐГЄГІ Г± ГІГҐГЈГ®Г¬ "Player"
         if (other.CompareTag("Player"))
         {
-            // получили индекс текущей сцены и загружаем следующую
+            // ГЇГ®Г«ГіГ·ГЁГ«ГЁ ГЁГ­Г¤ГҐГЄГ± ГІГҐГЄГіГ№ГҐГ© Г±Г¶ГҐГ­Г» ГЁ Г§Г ГЈГ°ГіГ¦Г ГҐГ¬ Г±Г«ГҐГ¤ГіГѕГ№ГіГѕ
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            // загружаем следующую сцену, используя индекс текущей сцены + 1
+            // Г§Г ГЈГ°ГіГ¦Г ГҐГ¬ Г±Г«ГҐГ¤ГіГѕГ№ГіГѕ Г±Г¶ГҐГ­Гі, ГЁГ±ГЇГ®Г«ГјГ§ГіГї ГЁГ­Г¤ГҐГЄГ± ГІГҐГЄГіГ№ГҐГ© Г±Г¶ГҐГ­Г» + 1
             SceneManager.LoadScene(currentSceneIndex + 1);
-            AchievemenetManager.Instance.EarnAchievement($"Level {currentSceneIndex}");
+            if (currentSceneIndex == 1)
+                AchievemenetManager.Instance.EarnAchievement("РџСЂС‹Р¶РѕРє РІ РЅРµР±РµСЃР°");
+            if (currentSceneIndex == 2)
+                AchievemenetManager.Instance.EarnAchievement("РЈРєР»РѕРЅРµРЅРёРµ РѕС‚ РїРµСЂРЅР°С‚С‹С…");
+            if (currentSceneIndex == 3)
+                AchievemenetManager.Instance.EarnAchievement("РљРѕС€Р°С‡СЊРё Р»РѕРІСѓС€РєРё");
+            if (currentSceneIndex == 4)
+                AchievemenetManager.Instance.EarnAchievement("РџР»Р°С‚С„РѕСЂРјРµРЅРЅС‹Р№ РјР°СЃС‚РµСЂ");
+            if (currentSceneIndex == 5)
+                AchievemenetManager.Instance.EarnAchievement("РџРѕР±РµРґРёС‚РµР»СЊ РїС‚РёС† Рё РєРѕС€РµРє");
+
         }
     }
 }
