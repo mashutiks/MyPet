@@ -66,15 +66,15 @@ public class AchievemenetManager : MonoBehaviour
         //PlayerPrefs.DeleteKey("MaxProgressionВсё, кроме голодовки");
 
         //PlayerPrefs.DeleteKey("Points");
-        textPoints.text = "Points: " + PlayerPrefs.GetInt("Points");
+        textPoints.text = "";
 
-        //PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll(); //ПОТОМ ЗАКОММЕНТИТЬ!!!!!!
         PlayerPrefs.Save(); // Сохраняем изменения
 
 
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
 
-        CreateAchievement("general", "Всё, кроме голодовки", "Накормить питомца", 10, 0, 1, 3, 5);
+        CreateAchievement("general", "Все, кроме голодовки", "Накормить питомца", 10, 0, 1, 3, 5);
         CreateAchievement("general", "Лучше 100 друзей", "Познакомиться с другом", 10, 4, 1, 3, 5);
 
         CreateAchievement("general", "На свежем воздухе", "Прогулять питомца вдоволь", 15, 1, 0);
@@ -124,7 +124,7 @@ public class AchievemenetManager : MonoBehaviour
             //DO SMTH AWESOME
             GameObject achievement = (GameObject)Instantiate(visualAchievement);
             SetAchievementInfo("EarnCanvas", achievement, title);
-            textPoints.text = "Points: " + PlayerPrefs.GetInt("Points");
+            textPoints.text = "";
             StartCoroutine(FadeAchievement(achievement));
 
             if (achievements[title].BronzeProgression != 0)

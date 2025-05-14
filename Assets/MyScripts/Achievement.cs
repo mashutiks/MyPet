@@ -120,7 +120,7 @@ public class Achievement
 
         if (unlocked)
         {
-            AchievemenetManager.Instance.textPoints.text = "Points: " + PlayerPrefs.GetInt("Points");
+            AchievemenetManager.Instance.textPoints.text = "";
 
             achievementRef.GetComponent<Image>().sprite = AchievemenetManager.Instance.unlockedSprite;
             achievementRef.GetComponent<Image>().color = Color.black;

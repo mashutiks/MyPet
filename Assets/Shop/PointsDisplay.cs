@@ -17,7 +17,7 @@ public class PointsDisplay : MonoBehaviour
         while (true)
         {
             int points = PlayerPrefs.GetInt("Points", 0);
-            pointsText.text = "Points: " + points.ToString();
+            pointsText.text = "" + points.ToString();
             yield return new WaitForSeconds(1f);
         }
     }

@@ -92,7 +92,7 @@ public class dialogue_npc : MonoBehaviour
         Dialogue.SetActive(false);
         Advice_for_dog.SetActive(true);
         int utility_ai_node = choose_best_action();
-        int node_for_dog;
+        int node_for_dog = 0;
         if (utility_ai_node == 1)
         {
             node_for_dog = choose_node_for_dog()[0];
@@ -101,15 +101,23 @@ public class dialogue_npc : MonoBehaviour
         {
             node_for_dog = choose_node_for_dog()[1];
         }
-        else
+        else if (utility_ai_node == 3)
         {
             node_for_dog = choose_node_for_dog()[2];
+        }
+        else if (utility_ai_node == 4)
+        {
+            Answer_1.onClick.AddListener(exit_dialogue_function);
+            exit_advice_function();
+            //Answer_2.onClick.AddListener(exit_dialogue_function);
         }
         //int node_for_dog = choose_node_for_dog()[0];
         curr_node = node_for_dog;
         advice_text.text = nodes[curr_node].npc_text; // текст слов нпс - его текущая реплика 
         advice.GetComponentInChildren<TextMeshProUGUI>().text = nodes[curr_node].answer_variant;
     }
+
+
 
     void exit_dialogue_function()
     {

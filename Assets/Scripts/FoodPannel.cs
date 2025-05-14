@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System.Collections;
+
 
 public class FoodPannel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -9,6 +11,11 @@ public class FoodPannel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public TextMeshProUGUI tooltipText;
     public string message;
 
+    void Start()
+    {
+        StartCoroutine(LogFoodStatusEverySecond());
+    }
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         int food_1 = PlayerPrefs.GetInt("Item_Food1_Selected", 0);
@@ -26,4 +33,24 @@ public class FoodPannel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         tooltipPanel.SetActive(false);
     }
+
+    IEnumerator LogFoodStatusEverySecond()
+    {
+        while (true)
+        {
+            int food_1 = PlayerPrefs.GetInt("Item_Food1_Selected", 0);
+            int food_2 = PlayerPrefs.GetInt("Item_Food2_Selected", 0);
+            int food_3 = PlayerPrefs.GetInt("Item_Food3_Selected", 0);
+
+            Debug.Log($"Food status -> Food1: {food_1}, Food2: {food_2}, Food3: {food_3}");
+
+            yield return new WaitForSeconds(1f); // ждать 1 секунду
+        }
+    }
+
+
+
+
+
+
 }

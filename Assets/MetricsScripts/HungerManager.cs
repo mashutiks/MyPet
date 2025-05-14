@@ -84,9 +84,14 @@ public class HungerManager : MonoBehaviour
 
     void UpdateUI()
     {
+        bool allFlagsZero = PlayerPrefs.GetInt("Item_Food1_Selected", 0) == 0 &&
+                            PlayerPrefs.GetInt("Item_Food2_Selected", 0) == 0 &&
+                            PlayerPrefs.GetInt("Item_Food3_Selected", 0) == 0;
+
         hungerSlider.value = hunger;
-        feedButton.interactable = hunger <= 50f && !isFeeding;
+        feedButton.interactable = hunger <= 50f && !isFeeding && !allFlagsZero;
     }
+
 
     void FeedPet()
     {

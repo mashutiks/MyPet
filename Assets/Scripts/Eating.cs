@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Dependencies.Sqlite;
+//using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +34,7 @@ public class Eating : MonoBehaviour
     public Material material_1; // материал для 1-го вида корма
     public Material material_2; // материал для 2-го вида корма
     public Material material_3; // материал для 3-го вида корма
+
     void Start()
     {
         if (EatingButton != null)
@@ -41,11 +42,13 @@ public class Eating : MonoBehaviour
             CheckItemAvailability();
             //EatingButton.interactable = true; // кнопка активна
             EatingButton.onClick.AddListener(Feed);
+  
         }
         else
         {
             Debug.LogWarning("Кнопка 'Покормить' не назначена!");
         }
+        
 
     }
 
@@ -154,6 +157,7 @@ public class Eating : MonoBehaviour
         water.GetComponent<Renderer>().enabled = true; // делаем воду видимой
         dog.position = start_dog_position; // ставим собаку в исходную точку
         //EatingButton.interactable = true; // снова активируем кнопку
+        ResetFoodFlags();
     }
 
     void CheckItemAvailability()
@@ -161,12 +165,21 @@ public class Eating : MonoBehaviour
         int food_1 = PlayerPrefs.GetInt("Item_Food1_Selected", 0);
         int food_2 = PlayerPrefs.GetInt("Item_Food2_Selected", 0);
         int food_3 = PlayerPrefs.GetInt("Item_Food3_Selected", 0);
+        int food_1_choose = PlayerPrefs.GetInt("Item_Food1", 0);
+        int food_2_choose = PlayerPrefs.GetInt("Item_Food2", 0);
+        int food_3_choose = PlayerPrefs.GetInt("Item_Food3", 0);
 
         bool hasItem = (food_1 == 1 || food_2 == 1 || food_3 == 1);
 
         if (EatingButton != null)
         {
-            EatingButton.interactable = hasItem;
+            if (!hasItem)
+            {
+                EatingButton.interactable = false;
+                return;
+            }
+
+            EatingButton.interactable = true;
         }
 
         if (food_1 == 1)
@@ -183,6 +196,7 @@ public class Eating : MonoBehaviour
         }
     }
 
+
     void SetMaterial(Material material)
     {
         // меняем материал в зависимости от купленного корма
@@ -195,4 +209,17 @@ public class Eating : MonoBehaviour
             renderer.material = material;
         }
     }
+    void ResetFoodFlags()
+    {
+        PlayerPrefs.SetInt("Item_Food1", 0);
+        PlayerPrefs.SetInt("Item_Food1_Selected", 0);
+
+        PlayerPrefs.SetInt("Item_Food2", 0);
+        PlayerPrefs.SetInt("Item_Food2_Selected", 0);
+
+        PlayerPrefs.SetInt("Item_Food3", 0);
+        PlayerPrefs.SetInt("Item_Food3_Selected", 0);
+    }
 }
+
+
