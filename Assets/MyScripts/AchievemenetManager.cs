@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,11 @@ using UnityEngine.UI;
 public class AchievemenetManager : MonoBehaviour
 {
     public GameObject achievementPrefab;
+
+    public Sprite bronzeMedal; // Ссылка на бронзовую медаль
+    public Sprite silverMedal; // Ссылка на серебряную медаль
+    public Sprite goldMedal; // Ссылка на золотую медаль
+
 
     public Sprite[] sprites;
 
@@ -29,7 +35,7 @@ public class AchievemenetManager : MonoBehaviour
     private int fadeTime = 2;
 
 
-    public static AchievemenetManager Instance 
+    public static AchievemenetManager Instance
     {
         get
         {
@@ -41,32 +47,23 @@ public class AchievemenetManager : MonoBehaviour
         }
     }
 
-    //private void Awake()
-    //{
-    //    // Проверяем, существует ли уже экземпляр
-    //    if (instance == null)
-    //    {
-    //        instance = this;
-    //        DontDestroyOnLoad(gameObject); // Не уничтожаем при загрузке новой сцены
-    //    }
-    //    else
-    //    {
-    //        Destroy(gameObject); // Уничтожаем дубликат
-    //    }
-    //}
 
-
-// Start is called before the first frame update
-void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        //REMEMBERTOREMOVE
-        //PlayerPrefs.DeleteKey("Walking");
-        //PlayerPrefs.DeleteKey("Eating");
-        //PlayerPrefs.DeleteKey("Happy");
+        ////REMEMBERTOREMOVE
+        //PlayerPrefs.DeleteKey("На свежем воздухе");
+        //PlayerPrefs.DeleteKey("Всё, кроме голодовки");
+        //PlayerPrefs.DeleteKey("Счастливое детство");
 
-        //PlayerPrefs.DeleteKey("Level 1");
-        //PlayerPrefs.DeleteKey("Level 2");
-        //PlayerPrefs.DeleteKey("Level 3");
+        //PlayerPrefs.DeleteKey("Прыжок в небеса");
+        //PlayerPrefs.DeleteKey("Уклонение от пернатых");
+        //PlayerPrefs.DeleteKey("Кошачьи ловушки");
+        //PlayerPrefs.DeleteKey("На волоске от победы");
+        //PlayerPrefs.DeleteKey("Победитель птиц и кошек");
+
+        //PlayerPrefs.DeleteKey("ProgressionВсё, кроме голодовки");
+        //PlayerPrefs.DeleteKey("MaxProgressionВсё, кроме голодовки");
 
         //PlayerPrefs.DeleteKey("Points");
         textPoints.text = "Points: " + PlayerPrefs.GetInt("Points");
@@ -76,17 +73,22 @@ void Start()
 
 
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
-        //CreateAchievement("general", "Press W", "Press W to ulock this", 5, 0);
 
-        CreateAchievement("general", "Eating", "Feed to ulock this", 10, 0);
-        CreateAchievement("general", "Walking", "Walk to ulock this", 15, 1);
-        CreateAchievement("general", "Happy", "Happy dog to ulock this", 15, 2);
+        CreateAchievement("general", "Всё, кроме голодовки", "Накормить питомца", 10, 0, 1, 3, 5);
+        CreateAchievement("general", "Лучше 100 друзей", "Познакомиться с другом", 10, 0, 1, 3, 5);
 
-        CreateAchievement("miniGames", "Level 1", "Win level 1 to ulock this", 15, 2);
-        CreateAchievement("miniGames", "Level 2", "Win level 2 to ulock this", 15, 2);
-        CreateAchievement("miniGames", "Level 3", "Win level 3 to ulock this", 15, 2);
-        CreateAchievement("miniGames", "Level 4", "Win level 4 to ulock this", 15, 2);
-        CreateAchievement("miniGames", "Level 5", "Win level 5 to ulock this", 15, 2);
+        CreateAchievement("general", "На свежем воздухе", "Прогулять питомца вдоволь", 15, 1, 0);
+        CreateAchievement("general", "Счастливое детство", "Достичь максимального счастья питомца", 15, 2, 0);
+
+        CreateAchievement("miniGames", "Прыжок в небеса", "Прошли первый уровень", 15, 2, 0);
+        CreateAchievement("miniGames", "Уклонение от пернатых", "Допрыгали второй", 15, 2, 0);
+        CreateAchievement("miniGames", "Кошачьи ловушки", "Преодолели три уровня", 15, 2, 0);
+        CreateAchievement("miniGames", "На волоске от победы", "Справились с четыремя", 15, 2, 0);
+        CreateAchievement("miniGames", "Победитель птиц и кошек", "Ура! Все пять уровней пройдены!", 15, 2, 0);
+
+        CreateAchievement("others", "Заботливый хозяин", "Зашел в игру дней подряд", 10, 0, 3, 5, 10);
+
+
 
         foreach (GameObject achievementList in GameObject.FindGameObjectsWithTag("AchievementList"))
         {
@@ -100,21 +102,17 @@ void Start()
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.W))
-        //{
-        //    EarnAchievement("Press W");
-        //}
         if (PlayerPrefs.GetFloat("Walk") == 100f)
         {
-            EarnAchievement("Walking");
+            EarnAchievement("На свежем воздухе");
         }
-        if (PlayerPrefs.GetFloat("Hunger") == 100f)
-        {
-            EarnAchievement("Eating");
-        }
+        //if (PlayerPrefs.GetFloat("Hunger") == 100f)
+        //{
+        //    EarnAchievement("Eating");
+        //}
         if (PlayerPrefs.GetFloat("Happiness") == 100f)
         {
-            EarnAchievement("Happy");
+            EarnAchievement("Счастливое детство");
         }
 
     }
@@ -128,6 +126,37 @@ void Start()
             SetAchievementInfo("EarnCanvas", achievement, title);
             textPoints.text = "Points: " + PlayerPrefs.GetInt("Points");
             StartCoroutine(FadeAchievement(achievement));
+
+            if (achievements[title].BronzeProgression != 0)
+            {
+
+                if (achievements[title].MaxProgression == achievements[title].BronzeProgression)
+                {
+                    PlayerPrefs.DeleteKey(title);
+                    achievements[title].Unlocked = false;
+                    achievements[title].MaxProgression = achievements[title].SilverProgression;
+                    PlayerPrefs.SetInt("MaxProgression" + title, achievements[title].MaxProgression);
+
+                    SetAchievementMaxProgression(achievements[title]);
+                }
+
+                else if (achievements[title].MaxProgression == achievements[title].SilverProgression)
+                {
+                    PlayerPrefs.DeleteKey(title);
+                    achievements[title].Unlocked = false;
+                    achievements[title].MaxProgression = achievements[title].GoldProgression;
+                    PlayerPrefs.SetInt("MaxProgression" + title, achievements[title].MaxProgression);
+
+                    SetAchievementMaxProgression(achievements[title]);
+                }
+
+                else if (achievements[title].MaxProgression == achievements[title].GoldProgression)
+                {
+                    SetAchievementMaxProgression(achievements[title]);
+                }
+
+            }
+
         }
     }
 
@@ -137,28 +166,32 @@ void Start()
         Destroy(achievement);
     }
 
-    public void CreateAchievement(string parent, string title, string description, int points, int spriteIndex)
+    public void CreateAchievement(string parent, string title, string description, int points, int spriteIndex, int bronzeProgression, int silverProgression = 0, int goldProgression = 0)
     {
         GameObject achievement = (GameObject)Instantiate(achievementPrefab);
 
-        Achievement newAchievement = new Achievement(title, description, points, spriteIndex, achievement);
-        
+        Achievement newAchievement = new Achievement(title, description, points, spriteIndex, achievement, bronzeProgression, silverProgression, goldProgression);
+
         achievements.Add(title, newAchievement);
 
-        SetAchievementInfo(parent, achievement, title);
+        SetAchievementInfo(parent, achievement, title, newAchievement.MaxProgression);
     }
 
-    public void SetAchievementInfo(string parent, GameObject achievement, string title)
+    public void SetAchievementInfo(string parent, GameObject achievement, string title, int progression = 0)
     {
         achievement.transform.SetParent(GameObject.Find(parent).transform, false);
+
+        string progress = progression > 0 ? " " + PlayerPrefs.GetInt("Progression" + title) + "/" + progression : string.Empty;
 
         Transform titleTransform = achievement.transform.Find("title");
         Transform descriptionTransform = achievement.transform.Find("description");
         Transform coinsTransform = achievement.transform.Find("points");
         Transform pictureTransform = achievement.transform.Find("picture");
+        Transform medalTransform = achievement.transform.Find("medal"); 
+
 
         if (titleTransform != null)
-            titleTransform.GetComponent<TextMeshProUGUI>().text = title;
+            titleTransform.GetComponent<TextMeshProUGUI>().text = title + progress;
 
         if (descriptionTransform != null)
             descriptionTransform.GetComponent<TextMeshProUGUI>().text = achievements[title].Description;
@@ -169,6 +202,44 @@ void Start()
         if (pictureTransform != null)
             pictureTransform.GetComponent<Image>().sprite = sprites[achievements[title].SpriteIndex];
 
+        // Установка медали
+
+        
+        if (medalTransform!= null && achievements[title].BronzeProgression != 0)
+        {
+            Image medalImage = medalTransform.GetComponent<Image>();
+            if (achievements[title].CurrentProgression == achievements[title].GoldProgression)
+            {
+                medalImage.color = new Color(1, 1, 1, 1);
+                medalImage.sprite = goldMedal;
+            }
+            else if (achievements[title].CurrentProgression == achievements[title].SilverProgression)
+            {
+                medalImage.color = new Color(1, 1, 1, 1);
+                medalImage.sprite = silverMedal;
+            }
+            else if (achievements[title].CurrentProgression == achievements[title].BronzeProgression)
+            {
+                medalImage.color = new Color(1, 1, 1, 1);
+                medalImage.sprite = bronzeMedal;
+            }
+            else
+            {
+                medalImage.color = new Color(1, 1, 1, 0);
+            }
+            
+        }
+        else if (medalTransform != null)
+        {
+            Image medalImage = medalTransform.GetComponent<Image>();
+            medalImage.color = new Color(1, 1, 1, 0); // Установить прозрачный цвет
+        }
+
+    }
+
+    public void SetAchievementMaxProgression(Achievement achievement)
+    {
+        achievement.TransformMaxProgression();
     }
 
     public void ChangeCategory(GameObject button)
@@ -191,7 +262,7 @@ void Start()
         int endAlpha = 1;
 
 
-        for (int i = 0; i<2; i++)
+        for (int i = 0; i < 2; i++)
         {
             float progress = 0.0f;
 

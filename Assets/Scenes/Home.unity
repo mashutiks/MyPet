@@ -6486,7 +6486,6 @@ MonoBehaviour:
   feedButton: {fileID: 1639657438}
   setMaxHungerButton: {fileID: 2056473908}
   setMinHungerButton: {fileID: 1940141966}
-  achievementManager: {fileID: 1765593095}
 --- !u!1001 &1008519025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9866,7 +9865,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e76f2b5b3f4d90f4490316be76289872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievementPrefab: {fileID: 4895508276969582823, guid: f109ca10ba36adc4994755713d3e89fe, type: 3}
+  achievementPrefab: {fileID: 4504580036209181988, guid: 165acbb622d03994d8227952055cd586, type: 3}
+  bronzeMedal: {fileID: 21300012, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  silverMedal: {fileID: 21300010, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  goldMedal: {fileID: 21300008, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
   sprites:
   - {fileID: -2844531463381759980, guid: f2846ec1658c8534d8487b998ae89b4b, type: 3}
   - {fileID: 645411862609229670, guid: fc6a4cf79ce3ce447b1b7865eecfc942, type: 3}

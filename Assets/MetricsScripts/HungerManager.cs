@@ -20,9 +20,6 @@ public class HungerManager : MonoBehaviour
 
     private float timeSinceLastDecrease = 0f;
 
-    // Добавьте ссылку на AchievementManager
-    public AchievemenetManager achievementManager;
-
     void Start()
     {
 
@@ -59,7 +56,6 @@ public class HungerManager : MonoBehaviour
             timeSinceLastDecrease = 0f;
 
             UpdateUI();
-            //CheckAchievements(); // ???????? ??????????
         }
     }
 
@@ -125,10 +121,7 @@ public class HungerManager : MonoBehaviour
         isFeeding = false;
         Debug.Log("Ïèòîìåö çàêîí÷èë åñòü!");
 
-        if (achievementManager != null)
-        {
-            achievementManager.EarnAchievement("Eating");
-        }
+        AchievemenetManager.Instance.EarnAchievement("Всё, кроме голодовки");
     }
 
     void SetMaxHunger()
