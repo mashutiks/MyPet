@@ -30,13 +30,13 @@ public class dialogue_npc : MonoBehaviour
     public int curr_node; // текущая нода для диалога
     public int curr_node_from_advice; // текущая нода для совета
     public TextMeshProUGUI npc_text; // ссылка на текст продавца
+    public TextMeshProUGUI advice_text;
     public Button start_dialogue; // кнопка начала, "получить совет"
     public Button exit_dialogue; // кнопка выхода на панели начала игры
     public Button Answer_1; // кнопка - ответ для диалога
     public Button Answer_2; // кнпка выход из диалога
     public Button advice; // кнопка принятия совета
     public Button exit_advice; // кнопка выхода из панели советов
-    
 
     private enum Action { Eat, Walk, Happy, Idle } // состояния 
     void Start()
@@ -49,7 +49,7 @@ public class dialogue_npc : MonoBehaviour
         hunger = PlayerPrefs.GetFloat("Hunger", 0f); // вывод текущего гоолода
         energy = PlayerPrefs.GetFloat("Walk", 0f); // вывод текущего желания погулять
         mood = PlayerPrefs.GetFloat("Happiness", 0f); // вывод текущего счастья
-        
+
         //foreach (int num in curr_nodes_for_dog)
         //{
         //    Debug.Log(num);
@@ -63,11 +63,14 @@ public class dialogue_npc : MonoBehaviour
         //Button start_button = Hello_panel.transform.Find("start_dialogue").GetComponent<Button>();
         //Button exit_button = Hello_panel.transform.Find("exit_dialogue").GetComponent<Button>();
         start_dialogue.onClick.AddListener(start_dialogue_function); // кнопка старта диалога выполняет функцию начала диалога
-        exit_dialogue.onClick.AddListener(exit_dialogue_function); // кнопка выхода из приветственной панели выполняет функцию закрытия панели
-        advice.onClick.AddListener(select_answer_from_advice); // кнопка отвечает за выполнение функции (смена нод далее по диалогу)
-        exit_advice.onClick.AddListener(exit_dialogue_function); // кнопка выхода из панели советов выполняет функцию закрытия панели
-        Answer_1.onClick.AddListener(select_answer); // выбор диалога дальше после совета
+        exit_dialogue.onClick.AddListener(exit_hello_function); // кнопка выхода из приветственной панели выполняет функцию закрытия панели
+
+        Answer_1.onClick.AddListener(start_advice_function); // выбор диалога дальше после совета
         Answer_2.onClick.AddListener(exit_dialogue_function); // кнопка выхода из диалоговой панели выполняет функцию закрытия панели
+
+        advice.onClick.AddListener(select_answer_from_advice); // кнопка отвечает за выполнение функции (смена нод далее по диалогу)
+        exit_advice.onClick.AddListener(exit_advice_function); // кнопка выхода из панели советов выполняет функцию закрытия панели
+
         //show_dialogue();
     }
 
@@ -79,12 +82,48 @@ public class dialogue_npc : MonoBehaviour
         int utility_ai_node = choose_best_action(); // берём ноду которая назначается с помощью utility ai в зависимости от того
                                                     // что хочет собака
         curr_node = utility_ai_node; // она становистя текущей
-        show_dialogue(); 
+        //show_dialogue(); 
+        npc_text.text = nodes[curr_node].npc_text; // текст слов нпс - его текущая реплика 
+        Answer_1.GetComponentInChildren<TextMeshProUGUI>().text = nodes[curr_node].answer_variant;
+    }
+
+    void start_advice_function()
+    {
+        Dialogue.SetActive(false);
+        Advice_for_dog.SetActive(true);
+        int utility_ai_node = choose_best_action();
+        int node_for_dog;
+        if (utility_ai_node == 1)
+        {
+            node_for_dog = choose_node_for_dog()[0];
+        }
+        else if (utility_ai_node == 2)
+        {
+            node_for_dog = choose_node_for_dog()[1];
+        }
+        else
+        {
+            node_for_dog = choose_node_for_dog()[2];
+        }
+        //int node_for_dog = choose_node_for_dog()[0];
+        curr_node = node_for_dog;
+        advice_text.text = nodes[curr_node].npc_text; // текст слов нпс - его текущая реплика 
+        advice.GetComponentInChildren<TextMeshProUGUI>().text = nodes[curr_node].answer_variant;
     }
 
     void exit_dialogue_function()
     {
         Dialogue.SetActive(false); // закрытие диалогового окна
+    }
+
+    void exit_advice_function()
+    {
+        Advice_for_dog.SetActive(false); // закрытие окна советов
+    }
+
+    void exit_hello_function()
+    {
+        Hello_panel.SetActive(false); // закрытие приветственного окна
     }
 
     void select_answer()
@@ -95,32 +134,25 @@ public class dialogue_npc : MonoBehaviour
             return;
         }
         curr_node = nodes[curr_node].next_node; // следующая нода
-        show_dialogue(); 
+        show_dialogue();
     }
 
     void select_answer_from_advice() // для советов
     {
         if (nodes[curr_node].next_node == -1 || nodes[curr_node].next_node == 0)
         {
-            Dialogue.SetActive(false);
-            Advice_for_dog.SetActive(false);
+            exit_dialogue_function();
+            exit_advice_function();
             return;
         }
         curr_node = nodes[curr_node_from_advice].next_node;
         show_dialogue();
     }
-    //void select_node_for_certain_dog()
-    //{
-    //    List<int> list_for_certain_dog = choose_node_for_dog();
-    //    int first_node_for_certain_dog = list_for_certain_dog[0];
-    //    curr_node = first_node_for_certain_dog;
-    //    show_dialogue();
-    //}
 
     void show_dialogue()
     {
         npc_text.text = nodes[curr_node].npc_text; // текст слов нпс - его текущая реплика 
-        Answer_1.GetComponentInChildren<TextMeshProUGUI>().text = nodes[curr_node].answer_variant; // назначение текста кнопке, меняется со сменой ноды
+        advice.GetComponentInChildren<TextMeshProUGUI>().text = nodes[curr_node].answer_variant; // назначение текста кнопке, меняется со сменой ноды
     }
 
     List<int> choose_node_for_dog()
@@ -142,7 +174,7 @@ public class dialogue_npc : MonoBehaviour
             return nodes_for_average_dog;
         }
         else // пополняем лист нод для большой собаки
-        { 
+        {
             nodes_for_big_dog.Add(9);
             nodes_for_big_dog.Add(6);
             nodes_for_big_dog.Add(11);
