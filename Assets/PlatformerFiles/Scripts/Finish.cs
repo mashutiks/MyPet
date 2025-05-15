@@ -23,7 +23,7 @@ public class Finish : MonoBehaviour
             if (currentSceneIndex == 3)
                 AchievemenetManager.Instance.EarnAchievement("Кошачьи ловушки");
             if (currentSceneIndex == 4)
-                AchievemenetManager.Instance.EarnAchievement("Платформенный мастер");
+                AchievemenetManager.Instance.EarnAchievement("На волоске от победы");
             if (currentSceneIndex == 5)
                 AchievemenetManager.Instance.EarnAchievement("Победитель птиц и кошек");
 
