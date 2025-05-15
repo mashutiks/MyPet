@@ -61,7 +61,7 @@ public class Eating : MonoBehaviour
         // В зависимости от вида собаки устанавливаем расстояние до миски
         if (dog_id == "germanshepherd")
         {
-            bowl_distance = 0.4f;
+            bowl_distance = 0.41f;
         }
         else if (dog_id == "cur" || dog_id == "corgi")
         {
@@ -69,7 +69,7 @@ public class Eating : MonoBehaviour
         }
         else if (dog_id == "pug")
         {
-            bowl_distance = 0.2f;
+            bowl_distance = 0.22f;
         }
 
         player = GameObject.FindGameObjectWithTag("Player"); // получили объект собаки по тегу

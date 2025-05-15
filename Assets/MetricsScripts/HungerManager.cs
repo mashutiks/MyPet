@@ -126,7 +126,7 @@ public class HungerManager : MonoBehaviour
         isFeeding = false;
         Debug.Log("Ïèòîìåö çàêîí÷èë åñòü!");
 
-        AchievemenetManager.Instance.EarnAchievement("Всё, кроме голодовки");
+        AchievemenetManager.Instance.EarnAchievement("Все, кроме голодовки");
     }
 
     void SetMaxHunger()
