@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using System.Collections;
+
 
 public class ShopManager : MonoBehaviour
 {
@@ -24,6 +26,9 @@ public class ShopManager : MonoBehaviour
     public TextMeshProUGUI mat1Text;
     public TextMeshProUGUI bedText;
     public TextMeshProUGUI mat2Text;
+
+    public GameObject insufficientFundsPanel;
+
 
     void Start()
     {
@@ -91,6 +96,7 @@ public class ShopManager : MonoBehaviour
         else
         {
             Debug.Log("Недостаточно монет!");
+            StartCoroutine(ShowInsufficientFundsMessage());
         }
     }
 
@@ -140,4 +146,11 @@ public class ShopManager : MonoBehaviour
                 return new List<string>();
         }
     }
+    IEnumerator ShowInsufficientFundsMessage()
+    {
+        insufficientFundsPanel.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        insufficientFundsPanel.SetActive(false);
+    }
+
 }
