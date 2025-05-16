@@ -20,6 +20,7 @@ public class Walking : MonoBehaviour
     private int curState = 2; // for holding stay = 0/walk = 1 state. for more states using enum may be more comfortable
     private GameObject npc;
     private int RandomAnimation;
+    public AudioSource source;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>(); // получение компонента для перемещения
@@ -83,6 +84,8 @@ public class Walking : MonoBehaviour
                         if (RandomAnimation == 10)
                         {
                             animator.SetInteger("AnimationID", 6);
+                            source.Play();
+                            
                         }
                         else if (RandomAnimation == 11)
                         {
