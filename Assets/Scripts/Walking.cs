@@ -21,6 +21,10 @@ public class Walking : MonoBehaviour
     private GameObject npc;
     private int RandomAnimation;
     public AudioSource source;
+
+    private bool achievementFriendEarned = false; // Для отслеживания достижения "нашел друга"
+    private bool achievementEnemyEarned = false; // Для отслеживания достижения "нашел врага"
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>(); // получение компонента для перемещения
@@ -68,6 +72,7 @@ public class Walking : MonoBehaviour
             case 2: // agression or wiggling
                 if (npc != null)
                 {
+
                     enemy = GameObject.FindGameObjectWithTag("enemy").transform; // сам игровой объект нпс, сохранили в enemy позицию нпс
                     Vector3 npc_pos = enemy.position;
                     //Debug.Log(npc_pos);
@@ -85,11 +90,20 @@ public class Walking : MonoBehaviour
                         {
                             animator.SetInteger("AnimationID", 6);
                             source.Play();
-                            
+                            if (!achievementEnemyEarned)
+                            {
+                                AchievemenetManager.Instance.EarnAchievement("Лучше 0 врагов");
+                                achievementEnemyEarned = true;
+                            }
                         }
                         else if (RandomAnimation == 11)
                         {
                             animator.SetInteger("AnimationID", 1);
+                            if (!achievementFriendEarned)
+                            {
+                                AchievemenetManager.Instance.EarnAchievement("Лучше 100 друзей");
+                                achievementFriendEarned = true;
+                            }
                         }
                     }
                     else
@@ -103,6 +117,9 @@ public class Walking : MonoBehaviour
                 }
                 break;
             case 1: //idle
+                achievementFriendEarned = false; // Сброс флага
+                achievementEnemyEarned = false; // Сброс флага
+
                 if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                 {
                     RandomAnimation = Random.Range(0, 2); // 0 - breathing, 2 - sitting (originally: animation 7 - sitting)

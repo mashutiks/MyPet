@@ -53,7 +53,6 @@ public class AchievemenetManager : MonoBehaviour
     {
         ////REMEMBERTOREMOVE
         //PlayerPrefs.DeleteKey("На свежем воздухе");
-        PlayerPrefs.DeleteKey("Делу - время");
         //PlayerPrefs.DeleteKey("Счастливое детство");
 
         //PlayerPrefs.DeleteKey("Прыжок в небеса");
@@ -62,8 +61,14 @@ public class AchievemenetManager : MonoBehaviour
         //PlayerPrefs.DeleteKey("На волоске от победы");
         //PlayerPrefs.DeleteKey("Победитель птиц и кошек");
 
-        PlayerPrefs.DeleteKey("ProgressionДелу - время");
-        PlayerPrefs.DeleteKey("MaxProgressionДелу - время");
+        //PlayerPrefs.DeleteKey("Нашел друга");
+        //PlayerPrefs.DeleteKey("ProgressionНашел друга");
+        //PlayerPrefs.DeleteKey("MaxProgressionНашел друга");
+
+
+        //PlayerPrefs.DeleteKey("Нашел врага");
+        //PlayerPrefs.DeleteKey("ProgressionНашел врага");
+        //PlayerPrefs.DeleteKey("MaxProgressionНашел врага");
 
 
         //PlayerPrefs.DeleteKey("Points");
@@ -75,13 +80,14 @@ public class AchievemenetManager : MonoBehaviour
 
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
 
-        CreateAchievement("general", "Все, кроме голодовки", "Накормить питомца", 10, 0, 1, 3, 5);
-        CreateAchievement("general", "Лучше 100 друзей", "Познакомиться с другом", 10, 4, 1, 3, 5);
-        CreateAchievement("general", "Делу - время", "Заняться дрессировкой", 10, 5, 1, 7, 20);
-
-
         CreateAchievement("general", "На свежем воздухе", "Прогулять питомца вдоволь", 15, 1, 0);
         CreateAchievement("general", "Счастливое детство", "Достичь максимального счастья питомца", 15, 2, 0);
+        CreateAchievement("general", "Все, кроме голодовки", "Накормить питомца", 10, 0, 1, 3, 5);
+        CreateAchievement("general", "Делу - время", "Заняться дрессировкой", 10, 5, 1, 7, 20);
+
+        CreateAchievement("general", "Лучше 100 друзей", "Познакомиться с другом", 10, 4, 1, 5, 10);
+        CreateAchievement("general", "Лучше 0 врагов", "Облаять недруга", 10, 6, 1, 5, 10);
+
 
         CreateAchievement("miniGames", "Прыжок в небеса", "Прошли первый уровень", 15, 3, 0);
         CreateAchievement("miniGames", "Уклонение от пернатых", "Допрыгали второй", 15, 3, 0);
