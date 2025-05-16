@@ -11257,7 +11257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipPanel: {fileID: 1569522658}
-  tooltipText: {fileID: 0}
+  tooltipText: {fileID: 1820428048}
   message: "\u0423 \u0432\u0430\u0441 \u0437\u0430\u043A\u043E\u043D\u0447\u0438\u043B\u0441\u044F
     \u0441\u043E\u0431\u0430\u0447\u0438\u0439 \u043A\u043E\u0440\u043C. \u041F\u0435\u0440\u0435\u0439\u0434\u0438\u0442\u0435
     \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D, \u0447\u0442\u043E\u0431\u044B
