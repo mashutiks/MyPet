@@ -53,7 +53,7 @@ public class AchievemenetManager : MonoBehaviour
     {
         ////REMEMBERTOREMOVE
         //PlayerPrefs.DeleteKey("На свежем воздухе");
-        //PlayerPrefs.DeleteKey("Всё, кроме голодовки");
+        PlayerPrefs.DeleteKey("Делу - время");
         //PlayerPrefs.DeleteKey("Счастливое детство");
 
         //PlayerPrefs.DeleteKey("Прыжок в небеса");
@@ -62,8 +62,9 @@ public class AchievemenetManager : MonoBehaviour
         //PlayerPrefs.DeleteKey("На волоске от победы");
         //PlayerPrefs.DeleteKey("Победитель птиц и кошек");
 
-        //PlayerPrefs.DeleteKey("ProgressionВсё, кроме голодовки");
-        //PlayerPrefs.DeleteKey("MaxProgressionВсё, кроме голодовки");
+        PlayerPrefs.DeleteKey("ProgressionДелу - время");
+        PlayerPrefs.DeleteKey("MaxProgressionДелу - время");
+
 
         //PlayerPrefs.DeleteKey("Points");
         textPoints.text = "";
@@ -76,6 +77,8 @@ public class AchievemenetManager : MonoBehaviour
 
         CreateAchievement("general", "Все, кроме голодовки", "Накормить питомца", 10, 0, 1, 3, 5);
         CreateAchievement("general", "Лучше 100 друзей", "Познакомиться с другом", 10, 4, 1, 3, 5);
+        CreateAchievement("general", "Делу - время", "Заняться дрессировкой", 10, 5, 1, 7, 20);
+
 
         CreateAchievement("general", "На свежем воздухе", "Прогулять питомца вдоволь", 15, 1, 0);
         CreateAchievement("general", "Счастливое детство", "Достичь максимального счастья питомца", 15, 2, 0);

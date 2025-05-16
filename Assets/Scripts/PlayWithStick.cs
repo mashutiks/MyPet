@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,7 +6,7 @@ public class PlayWithStick : MonoBehaviour
 {
     private NavMeshAgent agent;
     private Animator animator;
-    private Transform current_toy; // текущая игрушка
+    private Transform current_toy; // ГІГҐГЄГіГ№Г Гї ГЁГЈГ°ГіГёГЄГ 
     public Transform stick;
     public Transform bone;
     public Transform fish;
@@ -62,6 +62,7 @@ public class PlayWithStick : MonoBehaviour
                 if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                 {
                     FinishReturn();
+                    AchievemenetManager.Instance.EarnAchievement("Р”РµР»Сѓ - РІСЂРµРјСЏ");
                 }
                 break;
         }
@@ -79,9 +80,9 @@ public class PlayWithStick : MonoBehaviour
 
 
         Vector3 direction = (stop_position - transform.position).normalized;
-        transform.rotation = Quaternion.LookRotation(direction); // поворот перед началом движения
+        transform.rotation = Quaternion.LookRotation(direction); // ГЇГ®ГўГ®Г°Г®ГІ ГЇГҐГ°ГҐГ¤ Г­Г Г·Г Г«Г®Г¬ Г¤ГўГЁГ¦ГҐГ­ГЁГї
 
-        animator.SetInteger("AnimationID", 4); // анимация бега
+        animator.SetInteger("AnimationID", 4); // Г Г­ГЁГ¬Г Г¶ГЁГї ГЎГҐГЈГ 
         agent.isStopped = false;
         agent.SetDestination(stop_position);
     }
@@ -114,7 +115,7 @@ public class PlayWithStick : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(homeDirection);
 
         agent.isStopped = false;
-        animator.SetInteger("AnimationID", 4); // анимация бега
+        animator.SetInteger("AnimationID", 4); // Г Г­ГЁГ¬Г Г¶ГЁГї ГЎГҐГЈГ 
         agent.SetDestination(start_position);
     }
 
@@ -124,20 +125,20 @@ public class PlayWithStick : MonoBehaviour
         agent.isStopped = true;
 
 
-        StartCoroutine(CompleteReturnSequence()); // завершаем все анимации и повороты
+        StartCoroutine(CompleteReturnSequence()); // Г§Г ГўГҐГ°ГёГ ГҐГ¬ ГўГ±ГҐ Г Г­ГЁГ¬Г Г¶ГЁГЁ ГЁ ГЇГ®ГўГ®Г°Г®ГІГ»
     }
 
     IEnumerator CompleteReturnSequence()
     {
 
-        yield return StartCoroutine(SmoothRotateToInitial()); // завершение поворота в исходное положение
+        yield return StartCoroutine(SmoothRotateToInitial()); // Г§Г ГўГҐГ°ГёГҐГ­ГЁГҐ ГЇГ®ГўГ®Г°Г®ГІГ  Гў ГЁГ±ГµГ®Г¤Г­Г®ГҐ ГЇГ®Г«Г®Г¦ГҐГ­ГЁГҐ
 
         stick_attached = false;
 
-        animator.SetInteger("AnimationID", 0); // анимация дыхания
+        animator.SetInteger("AnimationID", 0); // Г Г­ГЁГ¬Г Г¶ГЁГї Г¤Г»ГµГ Г­ГЁГї
 
 
-        line_controller.ResetThrow(); // сбрасываем флаги траектории броска
+        line_controller.ResetThrow(); // Г±ГЎГ°Г Г±Г»ГўГ ГҐГ¬ ГґГ«Г ГЈГЁ ГІГ°Г ГҐГЄГІГ®Г°ГЁГЁ ГЎГ°Г®Г±ГЄГ 
     }
 
     IEnumerator SmoothRotateToInitial()
