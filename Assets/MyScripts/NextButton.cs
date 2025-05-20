@@ -1,18 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; // Для перехода между сценами
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class DogNamePanelController : MonoBehaviour
 {
-    public TMP_InputField dogNameInput; // Поле ввода имени собаки
-    public Button nextButton; // Кнопка "Далее"
+    public TMP_InputField dogNameInput;
+    public Button nextButton;
 
-    private string selectedDogID; // Хранит ID собаки
+    private string selectedDogID;
 
     void Start()
     {
-        gameObject.SetActive(false); // Скрываем панель при старте
+        gameObject.SetActive(false);
 
         if (nextButton != null)
         {
@@ -20,14 +20,12 @@ public class DogNamePanelController : MonoBehaviour
         }
     }
 
-    // Метод для показа панели и сохранения ID собаки
     public void ShowPanel(string dogID)
     {
-        selectedDogID = dogID; // Сохраняем переданный ID собаки
+        selectedDogID = dogID; 
         gameObject.SetActive(true);
     }
 
-    // Метод обработки нажатия кнопки "Далее"
     void OnNextButtonClick()
     {
         string dogName = dogNameInput.text;
@@ -39,12 +37,10 @@ public class DogNamePanelController : MonoBehaviour
         }
 
         PlayerPrefs.SetString("SelectedDogName", dogName);
-        PlayerPrefs.SetString("SelectedDogID", selectedDogID); // Теперь сохраняем ID собаки
+        PlayerPrefs.SetString("SelectedDogID", selectedDogID);
         PlayerPrefs.Save();
-
         Debug.Log($"Сохранено имя собаки: {dogName}, ID: {selectedDogID}");
 
-        // Загружаем следующую сцену
-        SceneManager.LoadScene("Home"); // Убедитесь, что сцена добавлена в Build Settings
+        SceneManager.LoadScene("Home");
     }
 }

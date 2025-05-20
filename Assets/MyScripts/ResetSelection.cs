@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ResetSelection : MonoBehaviour
 {
-    public Button resetButton; // Кнопка "Выбрать другую собаку"
+    public Button resetButton;
 
     void Start()
     {
@@ -20,11 +20,11 @@ public class ResetSelection : MonoBehaviour
 
     void ResetAndReturnToScene1()
     {
-        PlayerPrefs.DeleteKey("DogSelected"); // Удаляем информацию о выборе собаки
-        PlayerPrefs.DeleteKey("DogID"); // Удаляем ID собаки
-        PlayerPrefs.DeleteKey("DogName"); // Удаляем имя собаки
-        PlayerPrefs.Save(); // Сохраняем изменения
+        PlayerPrefs.DeleteKey("DogSelected"); 
+        PlayerPrefs.DeleteKey("SelectedDogID"); 
+        PlayerPrefs.DeleteKey("SelectedDogName"); 
+        PlayerPrefs.Save(); 
 
-        SceneManager.LoadScene("Pick_a_pet"); // Возвращаемся на сцену выбора
+        SceneManager.LoadScene("Pick_a_pet");
     }
 }
