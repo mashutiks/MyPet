@@ -276,6 +276,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &173059264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 173059266}
+  - component: {fileID: 173059265}
+  m_Layer: 0
+  m_Name: LocationTimeTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &173059265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173059264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99df95a010f2f5740b37c21de1461110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &173059266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173059264}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.0000000013493883, y: 0.9870875, z: -0.16018227, w: 0.000000016946133}
+  m_LocalPosition: {x: 14.816, y: 0.3051, z: -0.40600002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &198813396
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,3 +1677,4 @@ SceneRoots:
   - {fileID: 2101115697}
   - {fileID: 527106161}
   - {fileID: 140324977}
+  - {fileID: 173059266}

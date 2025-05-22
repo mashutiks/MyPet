@@ -51,6 +51,7 @@ public class ShopManager : MonoBehaviour
         mat1Button.onClick.AddListener(() => BuyOrSelectItem("Item_Mat1", 20, mat1Text));
         bedButton.onClick.AddListener(() => BuyOrSelectItem("Item_Bed", 25, bedText));
         mat2Button.onClick.AddListener(() => BuyOrSelectItem("Item_Mat2", 20, mat2Text));
+
     }
 
     void SetupItem(string key, int price, Button button, TextMeshProUGUI text)
@@ -72,8 +73,16 @@ public class ShopManager : MonoBehaviour
 
     void BuyOrSelectItem(string key, int price, TextMeshProUGUI text)
     {
+        string statKey = GetClickStatKey(key); //сборка логов
+        if (!string.IsNullOrEmpty(statKey))
+        {
+            int currentCount = PlayerPrefs.GetInt(statKey, 0);
+            PlayerPrefs.SetInt(statKey, currentCount + 1);
+        }
+
         int points = PlayerPrefs.GetInt("Points", 0);
         bool isBought = PlayerPrefs.GetInt(key, 0) == 1;
+
 
         if (isBought)
         {
@@ -152,5 +161,25 @@ public class ShopManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         insufficientFundsPanel.SetActive(false);
     }
+
+    string GetClickStatKey(string itemKey)
+    {
+        switch (itemKey)
+        {
+            case "Item_Stick": return "Toy_Stick_Bought";
+            case "Item_Bone": return "Toy_Bone_Bought";
+            case "Item_Fish": return "Toy_Fish_Bought";
+            case "Item_Mat1": return "Furniture_RugA_Bought";
+            case "Item_Mat2": return "Furniture_RugB_Bought";
+            case "Item_Bed": return "Furniture_Bed_Bought";
+            case "Item_Food1": return "Food_Red_Bought";
+            case "Item_Food2": return "Food_Green_Bought";
+            case "Item_Food3": return "Food_Blue_Bought";
+            default: return null;
+        }
+    }
+
+
+
 
 }

@@ -38,6 +38,10 @@ public class DogNamePanelController : MonoBehaviour
 
         PlayerPrefs.SetString("SelectedDogName", dogName);
         PlayerPrefs.SetString("SelectedDogID", selectedDogID);
+
+        PlayerPrefs.SetInt("Dog_Choice_Logged", 0); // сброс флага чтобы снова засчитался выбор
+
+
         PlayerPrefs.Save();
         Debug.Log($"Сохранено имя собаки: {dogName}, ID: {selectedDogID}");
 

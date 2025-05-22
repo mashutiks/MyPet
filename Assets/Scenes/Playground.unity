@@ -17898,6 +17898,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 494b22d20795e3e4f80313650fefc21c, type: 3}
   m_PrefabInstance: {fileID: 176395675}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1193796312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1193796314}
+  - component: {fileID: 1193796313}
+  m_Layer: 0
+  m_Name: LocationTimeTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1193796313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193796312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99df95a010f2f5740b37c21de1461110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1193796314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193796312}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.0000000013493883, y: 0.9870875, z: -0.16018227, w: 0.000000016946133}
+  m_LocalPosition: {x: 14.816, y: 0.3051, z: -0.40600002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1197198330 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: af68f6de6ee33a841b3b0572f41ddcad, type: 3}
@@ -20605,8 +20649,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hungerSlider: {fileID: 637271857}
   feedButton: {fileID: 1392368250}
-  setMaxHungerButton: {fileID: 2006733811}
-  setMinHungerButton: {fileID: 1110919126}
 --- !u!1001 &1400196943
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24397,8 +24439,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   happinessSlider: {fileID: 1290951221}
-  setMaxHappinessButton: {fileID: 1470246199}
-  setMinHappinessButton: {fileID: 757366963}
 --- !u!4 &1543637776 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9813ed0b3eddc834a8202f421870eeb2, type: 3}
@@ -27136,8 +27176,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSlider: {fileID: 1690543665}
-  setMaxWalkButton: {fileID: 745740914}
-  setMinWalkButton: {fileID: 190310149}
 --- !u!1 &1736008886 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: af68f6de6ee33a841b3b0572f41ddcad, type: 3}
@@ -30760,6 +30798,7 @@ GameObject:
   - component: {fileID: 1981178044}
   - component: {fileID: 1981178043}
   - component: {fileID: 1981178042}
+  - component: {fileID: 1981178046}
   m_Layer: 5
   m_Name: House
   m_TagString: Untagged
@@ -30882,6 +30921,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1981178040}
   m_CullTransparentMesh: 1
+--- !u!114 &1981178046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981178040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be810ce6536a29a42bdd0b2467ce6351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefsKey: Location_Home_Clicks
 --- !u!1 &1984696200 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 39c31a6817c7f32448f89956fbdfde69, type: 3}
@@ -34846,5 +34898,6 @@ SceneRoots:
   - {fileID: 1879528506}
   - {fileID: 1344202663}
   - {fileID: 689964374}
+  - {fileID: 1193796314}
   - {fileID: 2022577386}
   - {fileID: 1976612149}

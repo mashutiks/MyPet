@@ -8,8 +8,6 @@ using UnityEngine.SceneManagement;
 public class HappinessManager : MonoBehaviour
 {
     public Slider happinessSlider;
-    public Button setMaxHappinessButton;
-    public Button setMinHappinessButton;
 
     private float happiness;
     private const float maxHappiness = 100f;
@@ -26,8 +24,6 @@ public class HappinessManager : MonoBehaviour
         LoadHappiness();
         UpdateUI();
 
-        setMaxHappinessButton.onClick.AddListener(SetMaxHappiness);
-        setMinHappinessButton.onClick.AddListener(SetMinHappiness);
     }
 
     void Update()
@@ -99,22 +95,6 @@ public class HappinessManager : MonoBehaviour
     void UpdateUI()
     {
         happinessSlider.value = happiness;
-    }
-
-    void SetMaxHappiness()
-    {
-        happiness = maxHappiness;
-        SaveHappiness();
-        UpdateUI();
-        Debug.Log("—частье установлено на максимум (100).");
-    }
-
-    void SetMinHappiness()
-    {
-        happiness = 0f;
-        SaveHappiness();
-        UpdateUI();
-        Debug.Log("—частье установлено на минимум (0).");
     }
 
     void OnApplicationQuit()

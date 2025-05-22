@@ -8,8 +8,7 @@ public class HungerManager : MonoBehaviour
 {
     public Slider hungerSlider;
     public Button feedButton;
-    public Button setMaxHungerButton;
-    public Button setMinHungerButton;
+
 
     private float hunger;
     private const float maxHunger = 100f;
@@ -24,8 +23,7 @@ public class HungerManager : MonoBehaviour
     {
 
         feedButton.onClick.AddListener(FeedPet);
-        setMaxHungerButton.onClick.AddListener(SetMaxHunger);
-        setMinHungerButton.onClick.AddListener(SetMinHunger);
+
     }
 
     void Awake()
@@ -129,21 +127,6 @@ public class HungerManager : MonoBehaviour
         AchievemenetManager.Instance.EarnAchievement("Все, кроме голодовки");
     }
 
-    void SetMaxHunger()
-    {
-        hunger = maxHunger;
-        SaveHunger();
-        UpdateUI();
-        Debug.Log("Óñòàíîâëåí ìàêñèìàëüíûé ãîëîä (100).");
-    }
-
-    void SetMinHunger()
-    {
-        hunger = 0f;
-        SaveHunger();
-        UpdateUI();
-        Debug.Log("Óñòàíîâëåí ìèíèìàëüíûé ãîëîä (0).");
-    }
 
     void OnApplicationQuit()
     {

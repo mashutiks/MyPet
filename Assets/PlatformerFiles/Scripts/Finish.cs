@@ -6,16 +6,22 @@ using UnityEngine.SceneManagement;
 
 public class Finish : MonoBehaviour
 {
-    // ìåòîä âûçûâàåòñÿ, êîãäà îáúåêò âõîäèò â òðèããåð (êîëëàéäåð ñ âêëþ÷¸ííûì IsTrigger)
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // ïðîâåðêà, ÷òî â òðèããåð ïîïàë îáúåêò ñ òåãîì "Player"
         if (other.CompareTag("Player"))
         {
-            // ïîëó÷èëè èíäåêñ òåêóùåé ñöåíû è çàãðóæàåì ñëåäóþùóþ
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            // çàãðóæàåì ñëåäóþùóþ ñöåíó, èñïîëüçóÿ èíäåêñ òåêóùåé ñöåíû + 1
+
+            string levelKey = $"MiniGame_Level{currentSceneIndex}_Completed";
+            int currentCount = PlayerPrefs.GetInt(levelKey, 0);
+            currentCount++;
+            PlayerPrefs.SetInt(levelKey, currentCount);
+            PlayerPrefs.Save();
+
+            Debug.Log($"Уровень {currentSceneIndex} пройден {currentCount} раз.");
+
             SceneManager.LoadScene(currentSceneIndex + 1);
+
             if (currentSceneIndex == 1)
                 AchievemenetManager.Instance.EarnAchievement("Прыжок в небеса");
             if (currentSceneIndex == 2)
@@ -26,7 +32,7 @@ public class Finish : MonoBehaviour
                 AchievemenetManager.Instance.EarnAchievement("На волоске от победы");
             if (currentSceneIndex == 5)
                 AchievemenetManager.Instance.EarnAchievement("Победитель птиц и кошек");
-
         }
     }
+
 }

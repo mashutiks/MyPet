@@ -1102,6 +1102,7 @@ GameObject:
   - component: {fileID: 44446464}
   - component: {fileID: 44446463}
   - component: {fileID: 44446466}
+  - component: {fileID: 44446467}
   m_Layer: 5
   m_Name: House
   m_TagString: Untagged
@@ -1224,6 +1225,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resetButton: {fileID: 44446463}
+--- !u!114 &44446467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44446460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be810ce6536a29a42bdd0b2467ce6351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefsKey: Location_Home_Clicks
 --- !u!1001 &45581679
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17150,6 +17164,50 @@ MonoBehaviour:
     \u043A\u043E\u0441\u0442\u043E\u0447\u043A\u0430). \u041F\u0435\u0440\u0435\u0439\u0434\u0438\u0442\u0435
     \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D, \u0447\u0442\u043E\u0431\u044B
     \u043F\u0440\u0435\u043E\u0431\u0440\u0435\u0441\u0442\u0438 \u0438\u0445"
+--- !u!1 &1211894059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1211894061}
+  - component: {fileID: 1211894060}
+  m_Layer: 0
+  m_Name: LocationTimeTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1211894060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211894059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99df95a010f2f5740b37c21de1461110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1211894061
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211894059}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.0000000013493883, y: 0.9870875, z: -0.16018227, w: 0.000000016946133}
+  m_LocalPosition: {x: 14.816, y: 0.3051, z: -0.40600002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1218681119 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5316609513351239561, guid: 4db940c31d61ac149801c850fc645d68, type: 3}
@@ -23001,8 +23059,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   happinessSlider: {fileID: 43036978}
-  setMaxHappinessButton: {fileID: 1323981990}
-  setMinHappinessButton: {fileID: 434498038}
 --- !u!4 &1550959802 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5316609513351239561, guid: 4db940c31d61ac149801c850fc645d68, type: 3}
@@ -24890,8 +24946,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSlider: {fileID: 700829085}
-  setMaxWalkButton: {fileID: 805618866}
-  setMinWalkButton: {fileID: 939331085}
 --- !u!1 &1657250620
 GameObject:
   m_ObjectHideFlags: 0
@@ -30352,8 +30406,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hungerSlider: {fileID: 1651281317}
   feedButton: {fileID: 1862548174}
-  setMaxHungerButton: {fileID: 1264136425}
-  setMinHungerButton: {fileID: 1641393820}
 --- !u!4 &2143535882 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5316609513351239561, guid: 4db940c31d61ac149801c850fc645d68, type: 3}
@@ -30385,6 +30437,7 @@ SceneRoots:
   - {fileID: 1124085522}
   - {fileID: 1529871165}
   - {fileID: 705282273}
+  - {fileID: 1211894061}
   - {fileID: 838725072}
   - {fileID: 1332994136}
   - {fileID: 1702247137}

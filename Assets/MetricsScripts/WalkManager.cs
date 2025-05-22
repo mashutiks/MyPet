@@ -6,8 +6,7 @@ using System;
 public class WalkManager : MonoBehaviour
 {
     public Slider walkSlider;
-    public Button setMaxWalkButton;
-    public Button setMinWalkButton;
+
 
     private float walkValue;
     private const float maxWalk = 100f;
@@ -24,8 +23,6 @@ public class WalkManager : MonoBehaviour
         LoadWalk();
         UpdateUI();
 
-        setMaxWalkButton.onClick.AddListener(SetMaxWalk);
-        setMinWalkButton.onClick.AddListener(SetMinWalk);
     }
 
     void Update()
@@ -86,21 +83,6 @@ public class WalkManager : MonoBehaviour
         walkSlider.value = walkValue;
     }
 
-    void SetMaxWalk()
-    {
-        walkValue = maxWalk;
-        SaveWalk();
-        UpdateUI();
-        Debug.Log("Óñòàíîâëåí ìàêñèìóì ïðîãóëêè (100).");
-    }
-
-    void SetMinWalk()
-    {
-        walkValue = 0f;
-        SaveWalk();
-        UpdateUI();
-        Debug.Log("Óñòàíîâëåí ìèíèìóì ïðîãóëêè (0).");
-    }
 
     void OnApplicationQuit()
     {
