@@ -34,6 +34,8 @@ public class AchievemenetManager : MonoBehaviour
 
     private int fadeTime = 2;
 
+    private AudioSource notificationSound;
+
 
     public static AchievemenetManager Instance
     {
@@ -47,8 +49,11 @@ public class AchievemenetManager : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        notificationSound = GetComponent<AudioSource>();
+    }
 
-    // Start is called before the first frame update
     void Start()
     {
         textPoints.text = "";
@@ -112,6 +117,7 @@ public class AchievemenetManager : MonoBehaviour
             SetAchievementInfo("EarnCanvas", achievement, title);
             textPoints.text = "";
             StartCoroutine(FadeAchievement(achievement));
+
 
             if (achievements[title].BronzeProgression != 0)
             {
@@ -247,6 +253,7 @@ public class AchievemenetManager : MonoBehaviour
         int startAlpha = 0;
         int endAlpha = 1;
 
+        notificationSound.Play();
 
         for (int i = 0; i < 2; i++)
         {
@@ -269,4 +276,5 @@ public class AchievemenetManager : MonoBehaviour
         Destroy(achievement);
 
     }
+
 }
