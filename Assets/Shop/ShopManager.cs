@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
@@ -63,17 +63,17 @@ public class ShopManager : MonoBehaviour
 
         if (!isBought)
         {
-            text.text = price > 0 ? "������" : "��������";
+            text.text = price > 0 ? "Êóïèòü" : "Ïîëó÷èòü";
         }
         else
         {
-            text.text = isSelected ? "������" : "�������";
+            text.text = isSelected ? "Âûáðàí" : "Âûáðàòü";
         }
     }
 
     void BuyOrSelectItem(string key, int price, TextMeshProUGUI text)
     {
-        string statKey = GetClickStatKey(key); //������ �����
+        string statKey = GetClickStatKey(key); //ñáîðêà ëîãîâ
         if (!string.IsNullOrEmpty(statKey))
         {
             int currentCount = PlayerPrefs.GetInt(statKey, 0);
@@ -98,13 +98,60 @@ public class ShopManager : MonoBehaviour
             PlayerPrefs.SetInt("Points", points);
             PlayerPrefs.SetInt(key, 1);
 
+            AchievemenetManager.Instance.EarnAchievement("Шопинг - наше все");
+
+            if (!PlayerPrefs.HasKey(key + "already"))
+            {
+                if (key == "Item_Food1")
+                {
+                    AchievemenetManager.Instance.EarnAchievement("Ммм... Вкуснятина");
+                    PlayerPrefs.SetInt(key + "already", 1);
+                }
+                else if (key == "Item_Food2")
+                {
+                    AchievemenetManager.Instance.EarnAchievement("Ммм... Вкуснятина");
+                    PlayerPrefs.SetInt(key + "already", 1);
+                }
+                else if (key == "Item_Food3")
+                {
+                    AchievemenetManager.Instance.EarnAchievement("Ммм... Вкуснятина");
+                    PlayerPrefs.SetInt(key + "already", 1);
+                }
+            }
+
+            if (key == "Item_Stick")
+            {
+                AchievemenetManager.Instance.EarnAchievement("Ура! У нас новая игрушка");
+            }
+            else if (key == "Item_Fish")
+            {
+                AchievemenetManager.Instance.EarnAchievement("Ура! У нас новая игрушка");
+            }
+            else if (key == "Item_Bone")
+            {
+                AchievemenetManager.Instance.EarnAchievement("Ура! У нас новая игрушка");
+            }
+
+            if (key == "Item_Mat1")
+            {
+                AchievemenetManager.Instance.EarnAchievement("Тепло и уютно");
+            }
+            else if (key == "Item_Bed")
+            {
+                AchievemenetManager.Instance.EarnAchievement("Тепло и уютно");
+            }
+            else if (key == "Item_Mat2")
+            {
+                AchievemenetManager.Instance.EarnAchievement("Тепло и уютно");
+            }
+
             string category = GetCategoryFromKey(key);
             SelectItem(key, category);
             UpdateAllButtons();
         }
         else
         {
-            Debug.Log("������������ �����!");
+            Debug.Log("Íåäîñòàòî÷íî ìîíåò!");
             StartCoroutine(ShowInsufficientFundsMessage());
         }
     }
@@ -117,7 +164,7 @@ public class ShopManager : MonoBehaviour
         }
 
         PlayerPrefs.SetInt(key + "_Selected", 1);
-        Debug.Log("������ �������: " + key);
+        Debug.Log("Âûáðàí ïðåäìåò: " + key);
     }
 
     void UpdateAllButtons()

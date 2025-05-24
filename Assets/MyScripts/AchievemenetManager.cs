@@ -51,51 +51,31 @@ public class AchievemenetManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ////REMEMBERTOREMOVE
-        //PlayerPrefs.DeleteKey("На свежем воздухе");
-        //PlayerPrefs.DeleteKey("Счастливое детство");
-
-        //PlayerPrefs.DeleteKey("Прыжок в небеса");
-        //PlayerPrefs.DeleteKey("Уклонение от пернатых");
-        //PlayerPrefs.DeleteKey("Кошачьи ловушки");
-        //PlayerPrefs.DeleteKey("На волоске от победы");
-        //PlayerPrefs.DeleteKey("Победитель птиц и кошек");
-
-        //PlayerPrefs.DeleteKey("Нашел друга");
-        //PlayerPrefs.DeleteKey("ProgressionНашел друга");
-        //PlayerPrefs.DeleteKey("MaxProgressionНашел друга");
-
-
-        //PlayerPrefs.DeleteKey("Нашел врага");
-        //PlayerPrefs.DeleteKey("ProgressionНашел врага");
-        //PlayerPrefs.DeleteKey("MaxProgressionНашел врага");
-
-
-        //PlayerPrefs.DeleteKey("Points");
         textPoints.text = "";
-
-        //PlayerPrefs.DeleteAll(); //ПОТОМ ЗАКОММЕНТИТЬ!!!!!!
-        PlayerPrefs.Save(); // Сохраняем изменения
-
 
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
 
-        CreateAchievement("general", "На свежем воздухе", "Прогулять питомца вдоволь", 15, 1, 0);
+        CreateAchievement("general", "На свежем воздухе", "Прогулять питомца вдоволь", 5, 1, 0);
         CreateAchievement("general", "Счастливое детство", "Достичь максимального счастья питомца", 15, 2, 0);
         CreateAchievement("general", "Все, кроме голодовки", "Накормить питомца", 10, 0, 1, 3, 5);
         CreateAchievement("general", "Делу - время", "Заняться дрессировкой", 10, 5, 1, 7, 20);
 
-        CreateAchievement("general", "Лучше 100 друзей", "Познакомиться с другом", 10, 4, 1, 5, 10);
-        CreateAchievement("general", "Лучше 0 врагов", "Облаять недруга", 10, 6, 1, 5, 10);
+        CreateAchievement("shop", "Шопинг - наше все", "Купить в магазине что-нибудь", 10, 7, 1, 8, 20);
+        CreateAchievement("shop", "Ммм... Вкуснятина", "Купить новый корм", 5, 8, 1, 2, 3);
+        CreateAchievement("shop", "Ура! У нас новая игрушка", "Купить новую игрушку", 5, 10, 1, 2, 3);
+        CreateAchievement("shop", "Тепло и уютно", "Купить что-то в дом", 5, 9, 1, 2, 3);
 
 
-        CreateAchievement("miniGames", "Прыжок в небеса", "Прошли первый уровень", 15, 3, 0);
-        CreateAchievement("miniGames", "Уклонение от пернатых", "Допрыгали второй", 15, 3, 0);
-        CreateAchievement("miniGames", "Кошачьи ловушки", "Преодолели три уровня", 15, 3, 0);
-        CreateAchievement("miniGames", "На волоске от победы", "Справились с четыремя", 15, 3, 0);
-        CreateAchievement("miniGames", "Победитель птиц и кошек", "Ура! Все пять уровней пройдены!", 15, 3, 0);
+        CreateAchievement("miniGames", "Прыжок в небеса", "Пройти первый уровень", 5, 3, 0);
+        CreateAchievement("miniGames", "Уклонение от пернатых", "Допрыгать второй", 10, 12, 0);
+        CreateAchievement("miniGames", "Кошачьи ловушки", "Преодолеть три уровня", 15, 13, 0);
+        CreateAchievement("miniGames", "На волоске от победы", "Справиться с четыремя", 20, 14, 0);
+        CreateAchievement("miniGames", "Победитель птиц и кошек", "Пройти все пять уровней", 25, 15, 0);
 
-        CreateAchievement("others", "Заботливый хозяин", "Зашел в игру дней подряд", 10, 0, 3, 5, 10);
+        //CreateAchievement("others", "Заботливый хозяин", "Зашел в игру дней подряд", 10, 0, 3, 5, 10);
+        CreateAchievement("others", "Лучше 100 друзей", "Познакомиться с другом", 10, 4, 1, 5, 10);
+        CreateAchievement("others", "Лучше 0 врагов", "Поругаться с кем-то", 10, 6, 1, 5, 10);
+        CreateAchievement("others", "Секретное достижение", "???", 99, 11, 0);
 
 
 
@@ -115,10 +95,7 @@ public class AchievemenetManager : MonoBehaviour
         {
             EarnAchievement("На свежем воздухе");
         }
-        //if (PlayerPrefs.GetFloat("Hunger") == 100f)
-        //{
-        //    EarnAchievement("Eating");
-        //}
+
         if (PlayerPrefs.GetFloat("Happiness") == 100f)
         {
             EarnAchievement("Счастливое детство");
@@ -217,17 +194,17 @@ public class AchievemenetManager : MonoBehaviour
         if (medalTransform!= null && achievements[title].BronzeProgression != 0)
         {
             Image medalImage = medalTransform.GetComponent<Image>();
-            if (achievements[title].CurrentProgression == achievements[title].GoldProgression)
+            if (achievements[title].CurrentProgression >= achievements[title].GoldProgression)
             {
                 medalImage.color = new Color(1, 1, 1, 1);
                 medalImage.sprite = goldMedal;
             }
-            else if (achievements[title].CurrentProgression == achievements[title].SilverProgression)
+            else if (achievements[title].CurrentProgression >= achievements[title].SilverProgression)
             {
                 medalImage.color = new Color(1, 1, 1, 1);
                 medalImage.sprite = silverMedal;
             }
-            else if (achievements[title].CurrentProgression == achievements[title].BronzeProgression)
+            else if (achievements[title].CurrentProgression >= achievements[title].BronzeProgression)
             {
                 medalImage.color = new Color(1, 1, 1, 1);
                 medalImage.sprite = bronzeMedal;

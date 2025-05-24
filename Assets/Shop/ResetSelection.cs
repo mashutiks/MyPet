@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -17,7 +17,7 @@ public class ResetSelection : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Кнопка 'Выбрать другую собаку' не назначена!");
+            Debug.LogWarning("ГЉГ­Г®ГЇГЄГ  'Г‚Г»ГЎГ°Г ГІГј Г¤Г°ГіГЈГіГѕ Г±Г®ГЎГ ГЄГі' Г­ГҐ Г­Г Г§Г­Г Г·ГҐГ­Г !");
         }
 
         if (insufficientFundsPanel != null)
@@ -32,7 +32,7 @@ public class ResetSelection : MonoBehaviour
 
         if (points < ResetCost)
         {
-            Debug.Log("Недостаточно монет для сброса выбора собаки!");
+            Debug.Log("ГЌГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® Г¬Г®Г­ГҐГІ Г¤Г«Гї Г±ГЎГ°Г®Г±Г  ГўГ»ГЎГ®Г°Г  Г±Г®ГЎГ ГЄГЁ!");
             if (insufficientFundsPanel != null)
                 StartCoroutine(ShowInsufficientFundsMessage());
             return;
@@ -41,12 +41,14 @@ public class ResetSelection : MonoBehaviour
         points -= ResetCost;
         PlayerPrefs.SetInt("Points", points);
 
+        AchievemenetManager.Instance.EarnAchievement("РЎРµРєСЂРµС‚РЅРѕРµ РґРѕСЃС‚РёР¶РµРЅРёРµ");
+
         PlayerPrefs.DeleteKey("DogSelected");
         PlayerPrefs.DeleteKey("SelectedDogID");
         PlayerPrefs.DeleteKey("SelectedDogName");
         PlayerPrefs.Save();
 
-        Debug.Log("Выбор собаки сброшен. 1000 монет снято.");
+        Debug.Log("Г‚Г»ГЎГ®Г° Г±Г®ГЎГ ГЄГЁ Г±ГЎГ°Г®ГёГҐГ­. 1000 Г¬Г®Г­ГҐГІ Г±Г­ГїГІГ®.");
         SceneManager.LoadScene("Pick_a_pet");
     }
 
