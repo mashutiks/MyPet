@@ -21,6 +21,7 @@ public class Walking : MonoBehaviour
     private GameObject npc;
     private int RandomAnimation;
     public AudioSource source;
+    public AudioClip bark;
 
     private bool achievementFriendEarned = false; // Для отслеживания достижения "нашел друга"
     private bool achievementEnemyEarned = false; // Для отслеживания достижения "нашел врага"
@@ -29,6 +30,7 @@ public class Walking : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>(); // получение компонента для перемещения
         animator = GetComponent<Animator>(); // получение компонента для управления анимациями
+        source = GetComponent<AudioSource>();
 
         animator.SetInteger("AnimationID", 0); // анимация дыхания (номер 0)
         IsMoving = false;
@@ -89,7 +91,12 @@ public class Walking : MonoBehaviour
                         if (RandomAnimation == 10)
                         {
                             animator.SetInteger("AnimationID", 6);
-                            source.Play();
+                            //source.PlayOneShot(bark);
+                            if (!source.isPlaying)
+                            {
+                                source.PlayOneShot(bark);
+                            }
+                            
                             if (!achievementEnemyEarned)
                             {
                                 AchievemenetManager.Instance.EarnAchievement("Лучше 0 врагов");

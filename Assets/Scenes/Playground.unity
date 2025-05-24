@@ -6547,6 +6547,7 @@ MonoBehaviour:
   RunningSpeed: 1
   radius: 1
   source: {fileID: 398073864}
+  bark: {fileID: 8300000, guid: 3cb63cfb630cec84fb142d0efa1c5b85, type: 3}
 --- !u!114 &398073860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8545,6 +8546,7 @@ MonoBehaviour:
   RunningSpeed: 1
   radius: 1
   source: {fileID: 571888440}
+  bark: {fileID: 8300000, guid: ea31e1e1ef9bcb44688230bf71eb42da, type: 3}
 --- !u!195 &571888437
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10821,6 +10823,7 @@ MonoBehaviour:
   RunningSpeed: 1
   radius: 1
   source: {fileID: 742477627}
+  bark: {fileID: 8300000, guid: e8846fd5a38f49a4f931c98855d3fdf8, type: 3}
 --- !u!195 &742477624
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -25468,6 +25471,7 @@ MonoBehaviour:
   RunningSpeed: 1
   radius: 1
   source: {fileID: 1715609902}
+  bark: {fileID: 8300000, guid: ea31e1e1ef9bcb44688230bf71eb42da, type: 3}
 --- !u!82 &1715609902
 AudioSource:
   m_ObjectHideFlags: 0
@@ -27727,6 +27731,7 @@ MonoBehaviour:
   RunningSpeed: 1
   radius: 1
   source: {fileID: 1888554378}
+  bark: {fileID: 8300000, guid: ea31e1e1ef9bcb44688230bf71eb42da, type: 3}
 --- !u!195 &1888554375
 NavMeshAgent:
   m_ObjectHideFlags: 0
