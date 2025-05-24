@@ -21,8 +21,11 @@ public class HungerManager : MonoBehaviour
 
     void Start()
     {
-
-        feedButton.onClick.AddListener(FeedPet);
+        if (feedButton != null)
+        {
+            feedButton.onClick.AddListener(FeedPet);
+        }
+        
 
     }
 
@@ -87,7 +90,11 @@ public class HungerManager : MonoBehaviour
                             PlayerPrefs.GetInt("Item_Food3_Selected", 0) == 0;
 
         hungerSlider.value = hunger;
-        feedButton.interactable = hunger <= 50f && !isFeeding && !allFlagsZero;
+        if (feedButton != null)
+        {
+            feedButton.interactable = hunger <= 50f && !isFeeding && !allFlagsZero;
+        }
+        
     }
 
 
