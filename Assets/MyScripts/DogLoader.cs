@@ -40,7 +40,7 @@ public class DogLoader : MonoBehaviour
         // Обновляем текст с именем собаки, если текстовое поле задано
         if (dogNameText != null)
         {
-            dogNameText.text = "Имя собаки: " + dogName;
+            dogNameText.text = "Меня зовут " + dogName;
         }
     }
 }

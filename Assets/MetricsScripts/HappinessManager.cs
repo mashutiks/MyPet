@@ -64,7 +64,7 @@ public class HappinessManager : MonoBehaviour
 
     void LoadHappiness()
     {
-        happiness = PlayerPrefs.GetFloat("Happiness", maxHappiness);
+        happiness = PlayerPrefs.GetFloat("Happiness", 0f);
         string lastTimeString = PlayerPrefs.GetString("LastHappinessCheckTime", "");
 
         if (!string.IsNullOrEmpty(lastTimeString))

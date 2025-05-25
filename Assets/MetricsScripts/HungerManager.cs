@@ -62,7 +62,7 @@ public class HungerManager : MonoBehaviour
 
     void LoadHunger()
     {
-        hunger = PlayerPrefs.GetFloat("Hunger", maxHunger);
+        hunger = PlayerPrefs.GetFloat("Hunger", 0f);
         string lastTimeString = PlayerPrefs.GetString("LastCheckTime", "");
 
         if (!string.IsNullOrEmpty(lastTimeString))

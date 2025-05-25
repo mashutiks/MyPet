@@ -63,11 +63,11 @@ public class ShopManager : MonoBehaviour
 
         if (!isBought)
         {
-            text.text = price > 0 ? "Êóïèòü" : "Ïîëó÷èòü";
+            text.text = price > 0 ? "Купить" : "Получить";
         }
         else
         {
-            text.text = isSelected ? "Âûáðàí" : "Âûáðàòü";
+            text.text = isSelected ? "Выбран" : "Выбрать";
         }
     }
 
@@ -151,7 +151,7 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Íåäîñòàòî÷íî ìîíåò!");
+            Debug.Log("Недостаточно монет!");
             StartCoroutine(ShowInsufficientFundsMessage());
         }
     }
@@ -164,20 +164,20 @@ public class ShopManager : MonoBehaviour
         }
 
         PlayerPrefs.SetInt(key + "_Selected", 1);
-        Debug.Log("Âûáðàí ïðåäìåò: " + key);
+        Debug.Log("Выбран предмет: " + key);
     }
 
     void UpdateAllButtons()
     {
-        SetupItem("Item_Food1", 5, food1Button, food1Text);
-        SetupItem("Item_Food2", 10, food2Button, food2Text);
-        SetupItem("Item_Food3", 15, food3Button, food3Text);
+        SetupItem("Item_Food1", 15, food1Button, food1Text);
+        SetupItem("Item_Food2", 20, food2Button, food2Text);
+        SetupItem("Item_Food3", 25, food3Button, food3Text);
         SetupItem("Item_Stick", 0, stickButton, stickText);
-        SetupItem("Item_Fish", 10, fishButton, fishText);
-        SetupItem("Item_Bone", 5, boneButton, boneText);
-        SetupItem("Item_Mat1", 20, mat1Button, mat1Text);
-        SetupItem("Item_Bed", 25, bedButton, bedText);
-        SetupItem("Item_Mat2", 20, mat2Button, mat2Text);
+        SetupItem("Item_Fish", 20, fishButton, fishText);
+        SetupItem("Item_Bone", 15, boneButton, boneText);
+        SetupItem("Item_Mat1", 30, mat1Button, mat1Text);
+        SetupItem("Item_Bed", 35, bedButton, bedText);
+        SetupItem("Item_Mat2", 30, mat2Button, mat2Text);
     }
 
     string GetCategoryFromKey(string key)
