@@ -1290,7 +1290,7 @@ MonoBehaviour:
     (\u043F\u0430\u043B\u043A\u0430, \u0440\u044B\u0431\u043A\u0430 \u0438\u043B\u0438
     \u043A\u043E\u0441\u0442\u043E\u0447\u043A\u0430). \u041F\u0435\u0440\u0435\u0439\u0434\u0438\u0442\u0435
     \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D, \u0447\u0442\u043E\u0431\u044B
-    \u043F\u0440\u0435\u043E\u0431\u0440\u0435\u0441\u0442\u0438 \u0438\u0445"
+    \u043F\u0440\u0438\u043E\u0431\u0440\u0435\u0441\u0442\u0438 \u0438\u0445"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f20bbdf7c6204ae43b4441c1141a8b16, type: 2}
   m_sharedMaterial: {fileID: -8174928791071486860, guid: f20bbdf7c6204ae43b4441c1141a8b16, type: 2}
@@ -1353,7 +1353,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -121.020035, y: -85.8904, z: -121.64939, w: -127.308914}
+  m_margin: {x: -106.58438, y: -110.4998, z: -109.220055, w: -140.88614}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -16826,7 +16826,7 @@ MonoBehaviour:
     (\u043F\u0430\u043B\u043A\u0430, \u0440\u044B\u0431\u043A\u0430 \u0438\u043B\u0438
     \u043A\u043E\u0441\u0442\u043E\u0447\u043A\u0430). \u041F\u0435\u0440\u0435\u0439\u0434\u0438\u0442\u0435
     \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D, \u0447\u0442\u043E\u0431\u044B
-    \u043F\u0440\u0435\u043E\u0431\u0440\u0435\u0441\u0442\u0438 \u0438\u0445"
+    \u043F\u0440\u0438\u043E\u0431\u0440\u0435\u0441\u0442\u0438 \u0438\u0445"
 --- !u!1 &1211894059
 GameObject:
   m_ObjectHideFlags: 0
@@ -20082,8 +20082,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -589, y: -217.689}
-  m_SizeDelta: {x: -1469.577, y: -505.541}
+  m_AnchoredPosition: {x: -543.242, y: -327.22}
+  m_SizeDelta: {x: -1492.944, y: -717.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1404158610
 MonoBehaviour:
