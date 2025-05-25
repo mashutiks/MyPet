@@ -9527,7 +9527,7 @@ MonoBehaviour:
   RunningSpeed: 1
   radius: 1
   source: {fileID: 234936866}
-  bark: {fileID: 0}
+  bark: {fileID: 8300000, guid: 3cb63cfb630cec84fb142d0efa1c5b85, type: 3}
 --- !u!4 &234936864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7929980497081295190, guid: 3e9ebf26f6c110142a94d7ad4f46b9f1, type: 3}
@@ -16698,7 +16698,7 @@ MonoBehaviour:
   RunningSpeed: 1
   radius: 1
   source: {fileID: 413568330}
-  bark: {fileID: 0}
+  bark: {fileID: 8300000, guid: e8846fd5a38f49a4f931c98855d3fdf8, type: 3}
 --- !u!195 &413568327
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -19299,7 +19299,7 @@ MonoBehaviour:
   RunningSpeed: 1
   radius: 1
   source: {fileID: 478634280}
-  bark: {fileID: 0}
+  bark: {fileID: 8300000, guid: e8846fd5a38f49a4f931c98855d3fdf8, type: 3}
 --- !u!195 &478634277
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -31708,7 +31708,7 @@ MonoBehaviour:
   RunningSpeed: 1
   radius: 1
   source: {fileID: 760545846}
-  bark: {fileID: 0}
+  bark: {fileID: 8300000, guid: e8846fd5a38f49a4f931c98855d3fdf8, type: 3}
 --- !u!195 &760545843
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -68197,7 +68197,7 @@ MonoBehaviour:
   RunningSpeed: 1
   radius: 1
   source: {fileID: 1758000323}
-  bark: {fileID: 0}
+  bark: {fileID: 8300000, guid: ea31e1e1ef9bcb44688230bf71eb42da, type: 3}
 --- !u!195 &1758000320
 NavMeshAgent:
   m_ObjectHideFlags: 0
