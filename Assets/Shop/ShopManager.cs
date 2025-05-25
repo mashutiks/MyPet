@@ -32,15 +32,15 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
-        SetupItem("Item_Food1", 5, food1Button, food1Text);
-        SetupItem("Item_Food2", 10, food2Button, food2Text);
-        SetupItem("Item_Food3", 15, food3Button, food3Text);
+        SetupItem("Item_Food1", 15, food1Button, food1Text);
+        SetupItem("Item_Food2", 20, food2Button, food2Text);
+        SetupItem("Item_Food3", 25, food3Button, food3Text);
         SetupItem("Item_Stick", 0, stickButton, stickText);
-        SetupItem("Item_Fish", 10, fishButton, fishText);
-        SetupItem("Item_Bone", 5, boneButton, boneText);
-        SetupItem("Item_Mat1", 20, mat1Button, mat1Text);
-        SetupItem("Item_Bed", 25, bedButton, bedText);
-        SetupItem("Item_Mat2", 20, mat2Button, mat2Text);
+        SetupItem("Item_Fish", 20, fishButton, fishText);
+        SetupItem("Item_Bone", 15, boneButton, boneText);
+        SetupItem("Item_Mat1", 30, mat1Button, mat1Text);
+        SetupItem("Item_Bed", 35, bedButton, bedText);
+        SetupItem("Item_Mat2", 30, mat2Button, mat2Text);
 
         food1Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food1", 15, food1Text));
         food2Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food2", 20, food2Text));
