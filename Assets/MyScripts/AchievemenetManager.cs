@@ -58,6 +58,7 @@ public class AchievemenetManager : MonoBehaviour
     {
         textPoints.text = "";
 
+
         activeButton = GameObject.Find("generalButton").GetComponent<AchievementCategoryButtons>();
 
         CreateAchievement("general", "На свежем воздухе", "Прогулять питомца вдоволь", 5, 1, 0);
@@ -77,10 +78,16 @@ public class AchievemenetManager : MonoBehaviour
         CreateAchievement("miniGames", "На волоске от победы", "Справиться с четыремя", 20, 14, 0);
         CreateAchievement("miniGames", "Победитель птиц и кошек", "Пройти все пять уровней", 25, 15, 0);
 
-        //CreateAchievement("others", "Заботливый хозяин", "Зашел в игру дней подряд", 10, 0, 3, 5, 10);
         CreateAchievement("others", "Лучше 100 друзей", "Познакомиться с другом", 10, 4, 1, 5, 10);
         CreateAchievement("others", "Лучше 0 врагов", "Поругаться с кем-то", 10, 6, 1, 5, 10);
         CreateAchievement("others", "Секретное достижение", "???", 99, 11, 0);
+
+        CreateAchievement("activity", "Заботливый хозяин", "Зайти в игру 2 дня подряд", 5, 16, 0);
+        CreateAchievement("activity", "Верный друг", "Зайти в игру 5 дней подряд", 10, 17, 0);
+        CreateAchievement("activity", "Собачий исследователь", "Зайти в игру 7 дней подряд", 15, 18, 0);
+        CreateAchievement("activity", "Настоящий питомцевод", "Зайти в игру 14 дней подряд", 30, 19, 0);
+        CreateAchievement("activity", "Лучший хозяин", "Зайти в игру 21 день подряд", 50, 20, 0);
+        CreateAchievement("activity", "Собачья легенда", "Зайти в игру 30 дней подряд", 99, 21, 0);
 
 
 
