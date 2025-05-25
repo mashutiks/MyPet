@@ -42,15 +42,15 @@ public class ShopManager : MonoBehaviour
         SetupItem("Item_Bed", 25, bedButton, bedText);
         SetupItem("Item_Mat2", 20, mat2Button, mat2Text);
 
-        food1Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food1", 5, food1Text));
-        food2Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food2", 10, food2Text));
-        food3Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food3", 15, food3Text));
+        food1Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food1", 15, food1Text));
+        food2Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food2", 20, food2Text));
+        food3Button.onClick.AddListener(() => BuyOrSelectItem("Item_Food3", 25, food3Text));
         stickButton.onClick.AddListener(() => BuyOrSelectItem("Item_Stick", 0, stickText));
-        fishButton.onClick.AddListener(() => BuyOrSelectItem("Item_Fish", 10, fishText));
-        boneButton.onClick.AddListener(() => BuyOrSelectItem("Item_Bone", 5, boneText));
-        mat1Button.onClick.AddListener(() => BuyOrSelectItem("Item_Mat1", 20, mat1Text));
-        bedButton.onClick.AddListener(() => BuyOrSelectItem("Item_Bed", 25, bedText));
-        mat2Button.onClick.AddListener(() => BuyOrSelectItem("Item_Mat2", 20, mat2Text));
+        fishButton.onClick.AddListener(() => BuyOrSelectItem("Item_Fish", 20, fishText));
+        boneButton.onClick.AddListener(() => BuyOrSelectItem("Item_Bone", 15, boneText));
+        mat1Button.onClick.AddListener(() => BuyOrSelectItem("Item_Mat1", 30, mat1Text));
+        bedButton.onClick.AddListener(() => BuyOrSelectItem("Item_Bed", 35, bedText));
+        mat2Button.onClick.AddListener(() => BuyOrSelectItem("Item_Mat2", 30, mat2Text));
 
     }
 
